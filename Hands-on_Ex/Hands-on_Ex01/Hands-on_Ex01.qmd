@@ -10,7 +10,10 @@ author: "Andre Ong Jia Kang"
 The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.
 
 ```{r}
-pacman::p_load(tidyverse)
+pacman::p_load(ggrepel, patchwork, 
+               ggthemes, hrbrthemes,
+               tidyverse, ggiraph, plotly, 
+               patchwork, DT, ggExtra) 
 ```
 
 ## Importing the data
@@ -27,75 +30,135 @@ ggplot(data = exam_data, aes(x = RACE)) +
   geom_bar()
 ```
 
+# 1.ggplot2 methods
+
+## 1.3.1 R Graphics VS ggplot
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
   geom_histogram(bins=10, boundary = 100, color="black", fill="grey") +
   ggtitle("Distribution of Maths scores")
 ```
+
+## 1.7.1 Geometric Objects: geom_bar
+
 ```{r}
 ggplot(data=exam_data, aes(x=RACE)) +
   geom_bar()
 ```
+
+## 1.7.2 Geometric Objects: geom_dotplot
+
 ```{r}
 ggplot(data=exam_data, aes(x=MATHS)) +
   geom_dotplot(binwidth=2.5, dotsize = 0.5) +
   scale_y_continuous(NULL, breaks = NULL)
 ```
+
+## 1.7.4 Modifying a geometric object by changing geom()
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, color="black", fill="light blue")
+```
+
+## 1.7.5 Modifying a geometric object by changing aes()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +
   geom_histogram(bins=20, color="grey30")
 ```
+
+## 1.7.6 Geometric Objects: geom-density()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, colour = GENDER)) +
   geom_density()
 ```
+
+## 1.7.7 Geometric Objects: geom_boxplot
+
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
   geom_boxplot(notch=TRUE)
 ```
+
+## 1.7.8 Geometric Objects: geom_violin
+
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
   geom_violin()
 ```
+
+## 1.7.9 Geometric Objects: geom_point()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, y = ENGLISH)) +
   geom_point()
 ```
+
+## 1.7.10 geom objects can be combined
+
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +                    
   geom_point(position="jitter", size = 0.5)        
 ```
+
+## 1.8.1 Working with stat()
+
+```{r}
+ggplot(data=exam_data, 
+       aes(y = MATHS, x= GENDER)) +
+  geom_boxplot()
+```
+
+## 1.8.3 Working with stat - the geom() method
+
 ```{r}
 ggplot(data=exam_data, 
        aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +
   geom_point(stat = "summary", fun = "mean", colour ="red", size=4)               
 ```
+
+## 1.8.4 Adding a best fit curve on a scatterplot
+
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, y=ENGLISH)) +
   geom_point() +
   geom_smooth(method=lm, linewidth=0.5)         
 ```
+
+## 1.9.1 Working with facet_wrap()
+
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS)) +
   geom_histogram(bins=20) +
     facet_wrap(~ CLASS)
 ```
+
+## 1.9.2 facet_grid() function
+
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS)) +
   geom_histogram(bins=20) +
     facet_grid(~ CLASS)
 ```
+
+## 1.10.1 Working with Coordinate
+
 ```{r}
 ggplot(data=exam_data, aes(x=RACE)) +
   geom_bar() +
-  coord_flip() +
-  theme_minimal()
+  coord_flip()
 ```
+
+## 1.10.2 Changing the y- and x-axis range
+
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS, y=ENGLISH)) +
@@ -104,4 +167,189 @@ ggplot(data=exam_data,
   coord_cartesian(xlim=c(0,100), ylim=c(0,100))
 ```
 
+## 1.11.1 Working with theme
 
+```{r}
+ggplot(data=exam_data, aes(x=RACE)) +
+  geom_bar() +
+  coord_flip() +
+  theme_minimal()
+```
+
+# 2.Beyond ggplot2 methods
+
+##2.3.1 Working with ggrepel
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS, 
+           y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  geom_label_repel(aes(label = ID), 
+                   fontface = "bold") +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## 2.4.1 Working with ggtheme package
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
+  ggtitle("Distribution of Maths scores") +
+  theme_economist()
+```
+
+## 2.4.2 Working with hrbthems package
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey90") +
+  ggtitle("Distribution of Maths scores") +
+  theme_ipsum()
+```
+
+## 2.5 Beyond Single Graph
+
+```{r}
+p1 <- ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") + 
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of Maths scores")
+
+p2 <- ggplot(data=exam_data, 
+             aes(x = ENGLISH)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of English scores")
+
+p3 <- ggplot(data=exam_data, 
+             aes(x= MATHS, 
+                 y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## 2.5.3 Combining three ggplot2 graphs
+
+```{r}
+(p1 / p2) | p3
+```
+
+## 2.5.5 Creating figure with insert
+
+```{r}
+p3 + inset_element(p2, 
+                   left = 0.02, 
+                   bottom = 0.7, 
+                   right = 0.5, 
+                   top = 1)
+```
+
+# 3 Programming Interactive Data Visualisation with R
+
+## 3.4.1 Tooltip effect with tooltip aesthetic
+
+```{r}
+p <- ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_dotplot_interactive(aes(tooltip = ID),
+    stackgroups = TRUE,  binwidth = 1, method = "histodot") +
+  scale_y_continuous(NULL, breaks = NULL)
+girafe(
+  ggobj = p, width_svg = 6,height_svg = 6*0.618
+)
+```
+
+## 3.5.1 Displaying multiple information on tooltip
+
+```{r}
+exam_data$tooltip <- c(paste0( "Name = ", exam_data$ID,"\n Class = ", exam_data$CLASS)) 
+
+p <- ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_dotplot_interactive(aes(tooltip = exam_data$tooltip), 
+    stackgroups = TRUE, binwidth = 1, method = "histodot") +
+  scale_y_continuous(NULL, breaks = NULL)
+girafe(
+  ggobj = p,width_svg = 8,height_svg = 8*0.618
+)
+```
+
+## 3.6.3 Hover effect with data_id aesthetic
+
+```{r}
+p <- ggplot(data=exam_data, 
+       aes(x = MATHS)) +
+  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = "histodot") +               
+  scale_y_continuous(NULL, breaks = NULL)
+girafe(                                  
+  ggobj = p, width_svg = 6, height_svg = 6*0.618                      
+)                                        
+```
+
+## 3.6.5 Combining tooltip and hover effect
+
+```{r}
+p <- ggplot(data=exam_data, 
+       aes(x = MATHS)) +
+  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = "histodot") +               
+  scale_y_continuous(NULL, breaks = NULL)
+girafe(                                  
+  ggobj = p,                             
+  width_svg = 6,                         
+  height_svg = 6*0.618,
+  options = list(                        
+    opts_hover(css = "fill: #202020;"),  
+    opts_hover_inv(css = "opacity:0.2;") 
+  )                                        
+)                                        
+```
+
+# 7 Scatterplot with Marginal Distribution
+
+```{r}
+o <- ggplot(data=exam_data, 
+            aes(x= MATHS, y=ENGLISH)) +
+  geom_point() +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+o
+
+```
+
+## 7.1.1 Plot Marginal Density Function
+
+```{r}
+ggMarginal(o, type = "histogram",
+           col = "grey45", 
+           fill = "grey90")
+```
+
+```{r}
+p4 <- ggplot(data=exam_data, 
+            aes(x= MATHS, 
+                y=ENGLISH, 
+                color=GENDER)) +
+  geom_point() +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100))
+p4
+```
+
+```{r}
+ggMarginal(p4, type = "boxplot",
+           groupColour = TRUE, 
+           groupFill = TRUE)
+```
