@@ -224,6 +224,20 @@
     "text": "(Alternate 5) Science and Gender Histogram\n\nggplot(data=exam_data, aes(x = SCIENCE, fill = GENDER)) +\n  geom_histogram(bins=15, color=\"grey30\")"
   },
   {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-6-density-plot-with-math",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-6-density-plot-with-math",
+    "title": "Hands-on Exercise 1",
+    "section": "(Alternate 6) Density plot with Math",
+    "text": "(Alternate 6) Density plot with Math\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_density(fill=\"#69b3a2\", color=\"#e9ecef\", alpha=0.8)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-7-scatterplot-of-science-maths-with-geom_rug",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-7-scatterplot-of-science-maths-with-geom_rug",
+    "title": "Hands-on Exercise 1",
+    "section": "(Alternate 7) Scatterplot of Science & Maths with geom_rug()",
+    "text": "(Alternate 7) Scatterplot of Science & Maths with geom_rug()\n\nggplot(data=exam_data, aes(x = MATHS, y = SCIENCE)) +\n  geom_point() +\n  geom_rug(col=\"steelblue\",alpha=0.1, size=1.5)"
+  },
+  {
     "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
     "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
     "title": "Hands-on_Ex03",

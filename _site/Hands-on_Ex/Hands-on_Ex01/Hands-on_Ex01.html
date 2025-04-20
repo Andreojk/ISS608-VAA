@@ -224,6 +224,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#alternate-3-science-and-race-boxplots" id="toc-alternate-3-science-and-race-boxplots" class="nav-link" data-scroll-target="#alternate-3-science-and-race-boxplots">(Alternate 3) Science and Race Boxplots</a></li>
   <li><a href="#alternate-4-science-and-gender-violin-plots" id="toc-alternate-4-science-and-gender-violin-plots" class="nav-link" data-scroll-target="#alternate-4-science-and-gender-violin-plots">(Alternate 4) Science and Gender Violin plots</a></li>
   <li><a href="#alternate-5-science-and-gender-histogram" id="toc-alternate-5-science-and-gender-histogram" class="nav-link" data-scroll-target="#alternate-5-science-and-gender-histogram">(Alternate 5) Science and Gender Histogram</a></li>
+  <li><a href="#alternate-6-density-plot-with-math" id="toc-alternate-6-density-plot-with-math" class="nav-link" data-scroll-target="#alternate-6-density-plot-with-math">(Alternate 6) Density plot with Math</a></li>
+  <li><a href="#alternate-7-scatterplot-of-science-maths-with-geom_rug" id="toc-alternate-7-scatterplot-of-science-maths-with-geom_rug" class="nav-link" data-scroll-target="#alternate-7-scatterplot-of-science-maths-with-geom_rug">(Alternate 7) Scatterplot of Science &amp; Maths with geom_rug()</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -708,7 +710,7 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> MATHS, <span class="at">x=</span> RACE)) <span class="sc">+</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">colour =</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">3</span>)               </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">stat =</span> <span class="st">"summary"</span>, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">colour =</span><span class="st">"red"</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -757,6 +759,35 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 <div>
 <figure class="figure">
 <p><img src="Hands-on_Ex01_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="alternate-6-density-plot-with-math" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-6-density-plot-with-math">(Alternate 6) Density plot with Math</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, <span class="fu">aes</span>(<span class="at">x =</span> MATHS)) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill=</span><span class="st">"#69b3a2"</span>, <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">alpha=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Hands-on_Ex01_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="alternate-7-scatterplot-of-science-maths-with-geom_rug" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-7-scatterplot-of-science-maths-with-geom_rug">(Alternate 7) Scatterplot of Science &amp; Maths with geom_rug()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, <span class="fu">aes</span>(<span class="at">x =</span> MATHS, <span class="at">y =</span> SCIENCE)) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_rug</span>(<span class="at">col=</span><span class="st">"steelblue"</span>,<span class="at">alpha=</span><span class="fl">0.1</span>, <span class="at">size=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Hands-on_Ex01_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
