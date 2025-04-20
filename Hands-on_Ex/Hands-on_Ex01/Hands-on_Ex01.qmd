@@ -12,8 +12,7 @@ The code chunk below uses p_load() of pacman package to check if tidyverse packa
 ```{r}
 pacman::p_load(ggrepel, patchwork, 
                ggthemes, hrbrthemes,
-               tidyverse, ggiraph, plotly, 
-               patchwork, DT, ggExtra) 
+               tidyverse, ggiraph, plotly, DT) 
 ```
 
 ## Importing the data
@@ -23,7 +22,7 @@ exam_data <- read_csv("data/Exam_data.csv")
 
 ```
 
-# Plotting a simple bar chart
+## Plotting a simple bar chart
 
 ```{r}
 ggplot(data = exam_data, aes(x = RACE)) +
@@ -32,7 +31,9 @@ ggplot(data = exam_data, aes(x = RACE)) +
 
 # 1.ggplot2 methods
 
-## 1.3.1 R Graphics VS ggplot
+## 1.3 Introducing ggplot
+
+### 1.3.1 R Graphics VS ggplot
 
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
@@ -40,80 +41,126 @@ ggplot(data=exam_data, aes(x = MATHS)) +
   ggtitle("Distribution of Maths scores")
 ```
 
-## 1.7.1 Geometric Objects: geom_bar
+## 1.4 Grammar of Graphics
 
+In the nutshell, Grammar of Graphics defines the rules of structuring mathematical and aesthetic elements into a meaningful graph.
+
+There are two principles in Grammar of Graphics, they are:
+
+-   Graphics = distinct layers of grammatical elements
+
+-   Meaningful plots through aesthetic mapping
+
+### 1.4.1 A Layered Grammaer of Graphics
+
+-   A short description of each building block are as follows:
+
+-   Data: The dataset being plotted.
+
+-   Aesthetics take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.
+
+-   Geometrics: The visual elements used for our data, such as point, bar or line.
+
+-   Facets split the data into subsets to create multiple variations of the same graph (paneling, multiple plots).
+
+-   Statistics, statiscal transformations that summarise data (e.g. mean, confidence intervals).
+
+-   Coordinate systems define the plane on which data are mapped on the graphic.
+
+-   Themes modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background.
+
+## 1.5 Essential Grammatical Elements in ggplot2: data
+```{r}
+ggplot(data=exam_data)
+```
+## 1.6 Essential Grammatical Elements in ggplot2: data
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS))
+```
+## 1.7 Essential Grammatical Elements in ggplot2: Aesthetic mappings
+
+### 1.7.1 Geometric Objects: geom_bar
 ```{r}
 ggplot(data=exam_data, aes(x=RACE)) +
   geom_bar()
 ```
 
-## 1.7.2 Geometric Objects: geom_dotplot
-
+### 1.7.2 Geometric Objects: geom_dotplot
 ```{r}
 ggplot(data=exam_data, aes(x=MATHS)) +
   geom_dotplot(binwidth=2.5, dotsize = 0.5) +
   scale_y_continuous(NULL, breaks = NULL)
 ```
 
-## 1.7.4 Modifying a geometric object by changing geom()
+### 1.7.3 Geometric Objects: geom_histogram()
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram()       
+```
 
+### 1.7.4 Modifying a geometric object by changing geom()
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
   geom_histogram(bins=20, color="black", fill="light blue")
 ```
 
-## 1.7.5 Modifying a geometric object by changing aes()
-
+### 1.7.5 Modifying a geometric object by changing aes()
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +
   geom_histogram(bins=20, color="grey30")
 ```
 
-## 1.7.6 Geometric Objects: geom-density()
-
+### 1.7.6 Geometric Objects: geom-density()
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, colour = GENDER)) +
   geom_density()
 ```
 
-## 1.7.7 Geometric Objects: geom_boxplot
-
+### 1.7.7 Geometric Objects: geom_boxplot
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
   geom_boxplot(notch=TRUE)
 ```
 
-## 1.7.8 Geometric Objects: geom_violin
+### 1.7.8 Geometric Objects: geom_violin
 
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
   geom_violin()
 ```
 
-## 1.7.9 Geometric Objects: geom_point()
+### 1.7.9 Geometric Objects: geom_point()
 
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, y = ENGLISH)) +
   geom_point()
 ```
 
-## 1.7.10 geom objects can be combined
+### 1.7.10 geom objects can be combined
 
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +                    
   geom_point(position="jitter", size = 0.5)        
 ```
-
-## 1.8.1 Working with stat()
+## 1.8 Essential Grammatical Elements in ggplot2: stat
+### 1.8.1 Working with stat()
 
 ```{r}
 ggplot(data=exam_data, 
        aes(y = MATHS, x= GENDER)) +
   geom_boxplot()
 ```
+### 1.8.2 Working with stat - the stat_summary() method
 
-## 1.8.3 Working with stat - the geom() method
+```{r}
+ggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +
+  geom_boxplot() +
+  stat_summary(geom = "point", fun = "mean",colour ="red", size=4)                        
+```
+
+### 1.8.3 Working with stat - the geom() method
 
 ```{r}
 ggplot(data=exam_data, 
@@ -122,7 +169,7 @@ ggplot(data=exam_data,
   geom_point(stat = "summary", fun = "mean", colour ="red", size=4)               
 ```
 
-## 1.8.4 Adding a best fit curve on a scatterplot
+### 1.8.4 Adding a best fit curve on a scatterplot
 
 ```{r}
 ggplot(data=exam_data, 
@@ -130,8 +177,8 @@ ggplot(data=exam_data,
   geom_point() +
   geom_smooth(method=lm, linewidth=0.5)         
 ```
-
-## 1.9.1 Working with facet_wrap()
+## 1.9 Essential Grammatical Elements in ggplot2: Facets
+### 1.9.1 Working with facet_wrap()
 
 ```{r}
 ggplot(data=exam_data, 
@@ -140,7 +187,7 @@ ggplot(data=exam_data,
     facet_wrap(~ CLASS)
 ```
 
-## 1.9.2 facet_grid() function
+### 1.9.2 facet_grid() function
 
 ```{r}
 ggplot(data=exam_data, 
@@ -149,7 +196,8 @@ ggplot(data=exam_data,
     facet_grid(~ CLASS)
 ```
 
-## 1.10.1 Working with Coordinate
+## 1.10 Essential Grammatical Elements in ggplot2: Coordinates
+### 1.10.1 Working with Coordinate
 
 ```{r}
 ggplot(data=exam_data, aes(x=RACE)) +
@@ -157,7 +205,7 @@ ggplot(data=exam_data, aes(x=RACE)) +
   coord_flip()
 ```
 
-## 1.10.2 Changing the y- and x-axis range
+### 1.10.2 Changing the y- and x-axis range
 
 ```{r}
 ggplot(data=exam_data, 
@@ -166,8 +214,8 @@ ggplot(data=exam_data,
   geom_smooth(method=lm, size=0.5) +
   coord_cartesian(xlim=c(0,100), ylim=c(0,100))
 ```
-
-## 1.11.1 Working with theme
+## 1.11 Essential Grammatical Elements in ggplot2: themes
+### 1.11.1 Working with theme
 
 ```{r}
 ggplot(data=exam_data, aes(x=RACE)) +
@@ -176,180 +224,43 @@ ggplot(data=exam_data, aes(x=RACE)) +
   theme_minimal()
 ```
 
-# 2.Beyond ggplot2 methods
+## (Alternate 1) English and Science Scatterplot with Best Fit curve
 
-##2.3.1 Working with ggrepel
 ```{r}
 ggplot(data=exam_data, 
-       aes(x= MATHS, 
-           y=ENGLISH)) +
+       aes(x= ENGLISH, y=SCIENCE)) +
   geom_point() +
-  geom_smooth(method=lm, 
-              size=0.5) +  
-  geom_label_repel(aes(label = ID), 
-                   fontface = "bold") +
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100)) +
-  ggtitle("English scores versus Maths scores for Primary 3")
+  geom_smooth(method=lm, linewidth=1)         
 ```
 
-## 2.4.1 Working with ggtheme package
+## (Alternate 2) Math and Race Boxplots
 
 ```{r}
-ggplot(data=exam_data, aes(x = MATHS)) +
-  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
-  ggtitle("Distribution of Maths scores") +
-  theme_economist()
+ggplot(data=exam_data, 
+       aes(y = MATHS, x= RACE)) +
+  geom_boxplot() +
+  geom_point(stat = "summary", fun = "mean", colour ="red", size=3)               
 ```
 
-## 2.4.2 Working with hrbthems package
+## (Alternate 3) Science and Race Boxplots
 
 ```{r}
-ggplot(data=exam_data, aes(x = MATHS)) +
-  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey90") +
-  ggtitle("Distribution of Maths scores") +
-  theme_ipsum()
+ggplot(data=exam_data, 
+       aes(y = SCIENCE, x= RACE)) +
+  geom_boxplot() +
+  geom_point(stat = "summary", fun = "mean", colour ="blue", size=3)               
 ```
 
-## 2.5 Beyond Single Graph
+## (Alternate 4) Science and Gender Violin plots
 
 ```{r}
-p1 <- ggplot(data=exam_data, 
-             aes(x = MATHS)) +
-  geom_histogram(bins=20, 
-                 boundary = 100,
-                 color="grey25", 
-                 fill="grey90") + 
-  coord_cartesian(xlim=c(0,100)) +
-  ggtitle("Distribution of Maths scores")
-
-p2 <- ggplot(data=exam_data, 
-             aes(x = ENGLISH)) +
-  geom_histogram(bins=20, 
-                 boundary = 100,
-                 color="grey25", 
-                 fill="grey90") +
-  coord_cartesian(xlim=c(0,100)) +
-  ggtitle("Distribution of English scores")
-
-p3 <- ggplot(data=exam_data, 
-             aes(x= MATHS, 
-                 y=ENGLISH)) +
-  geom_point() +
-  geom_smooth(method=lm, 
-              size=0.5) +  
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100)) +
-  ggtitle("English scores versus Maths scores for Primary 3")
+ggplot(data=exam_data, aes(y = SCIENCE, x = GENDER)) +
+  geom_violin()
 ```
 
-## 2.5.3 Combining three ggplot2 graphs
+## (Alternate 5) Science and Gender Histogram
 
 ```{r}
-(p1 / p2) | p3
-```
-
-## 2.5.5 Creating figure with insert
-
-```{r}
-p3 + inset_element(p2, 
-                   left = 0.02, 
-                   bottom = 0.7, 
-                   right = 0.5, 
-                   top = 1)
-```
-
-# 3 Programming Interactive Data Visualisation with R
-
-## 3.4.1 Tooltip effect with tooltip aesthetic
-
-```{r}
-p <- ggplot(data=exam_data, aes(x = MATHS)) +
-  geom_dotplot_interactive(aes(tooltip = ID),
-    stackgroups = TRUE,  binwidth = 1, method = "histodot") +
-  scale_y_continuous(NULL, breaks = NULL)
-girafe(
-  ggobj = p, width_svg = 6,height_svg = 6*0.618
-)
-```
-
-## 3.5.1 Displaying multiple information on tooltip
-
-```{r}
-exam_data$tooltip <- c(paste0( "Name = ", exam_data$ID,"\n Class = ", exam_data$CLASS)) 
-
-p <- ggplot(data=exam_data, aes(x = MATHS)) +
-  geom_dotplot_interactive(aes(tooltip = exam_data$tooltip), 
-    stackgroups = TRUE, binwidth = 1, method = "histodot") +
-  scale_y_continuous(NULL, breaks = NULL)
-girafe(
-  ggobj = p,width_svg = 8,height_svg = 8*0.618
-)
-```
-
-## 3.6.3 Hover effect with data_id aesthetic
-
-```{r}
-p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
-  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = "histodot") +               
-  scale_y_continuous(NULL, breaks = NULL)
-girafe(                                  
-  ggobj = p, width_svg = 6, height_svg = 6*0.618                      
-)                                        
-```
-
-## 3.6.5 Combining tooltip and hover effect
-
-```{r}
-p <- ggplot(data=exam_data, 
-       aes(x = MATHS)) +
-  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = "histodot") +               
-  scale_y_continuous(NULL, breaks = NULL)
-girafe(                                  
-  ggobj = p,                             
-  width_svg = 6,                         
-  height_svg = 6*0.618,
-  options = list(                        
-    opts_hover(css = "fill: #202020;"),  
-    opts_hover_inv(css = "opacity:0.2;") 
-  )                                        
-)                                        
-```
-
-# 7 Scatterplot with Marginal Distribution
-
-```{r}
-o <- ggplot(data=exam_data, 
-            aes(x= MATHS, y=ENGLISH)) +
-  geom_point() +
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100))
-o
-
-```
-
-## 7.1.1 Plot Marginal Density Function
-
-```{r}
-ggMarginal(o, type = "histogram",
-           col = "grey45", 
-           fill = "grey90")
-```
-
-```{r}
-p4 <- ggplot(data=exam_data, 
-            aes(x= MATHS, 
-                y=ENGLISH, 
-                color=GENDER)) +
-  geom_point() +
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100))
-p4
-```
-
-```{r}
-ggMarginal(p4, type = "boxplot",
-           groupColour = TRUE, 
-           groupFill = TRUE)
+ggplot(data=exam_data, aes(x = SCIENCE, fill = GENDER)) +
+  geom_histogram(bins=15, color="grey30")
 ```

@@ -7,25 +7,109 @@
     "text": "Welcome to ISSS608 Visual Analytics and Applications. In this website, you will find my coursework prepared for this course."
   },
   {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "pacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, DT) \n\n\n\n\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey90\") +\n  theme_gray() +\n  ggtitle(\"Distribution of Maths scores\") \n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey80\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum()\n\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\n\n\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\n\n\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\n\n\n\n\n\n\n\n\n\n\n\n\n\n\np1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")\n\np2 &lt;- ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of English scores\")\n\np3 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n\n\n\np1 + p2\n\n\n\n\n\n\n\n\n\n\n\n\n(p1 / p2) | p3\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'I')\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, \n       aes(x= SCIENCE, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 321 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, aes(x = SCIENCE)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey80\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n\n\n\n\n\n\n\np4 &lt;- ggplot(data=exam_data, \n             aes(x = SCIENCE)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Science scores\")\n\np1 + p2 + p4\n\n\n\n\n\n\n\n\n\n\n\n\np5 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=SCIENCE)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"Science scores versus Maths scores for Primary 3\")\n\n(p1 / p4) | p5\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\np5 + inset_element(p4, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\npatchwork &lt;- (p1 / p4) | p5\npatchwork & theme_economist()\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#install-and-launching-r-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#install-and-launching-r-packages",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "pacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, DT)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-the-data",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-the-data",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "exam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-annotation-ggrepel-2.3.1-working-with-ggrepel",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-annotation-ggrepel-2.3.1-working-with-ggrepel",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "ggplot(data=exam_data, \n       aes(x= MATHS, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 317 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-themes",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-ggplot2-themes",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey90\") +\n  theme_gray() +\n  ggtitle(\"Distribution of Maths scores\") \n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey80\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()\n\n\n\n\n\n\n\n\n\n\n\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum()\n\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\n\n\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\n\n\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-single-graph",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#beyond-single-graph",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "p1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")\n\np2 &lt;- ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of English scores\")\n\np3 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n\n\n\np1 + p2\n\n\n\n\n\n\n\n\n\n\n\n\n(p1 / p2) | p3\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\n((p1 / p2) | p3) + \n  plot_annotation(tag_levels = 'I')\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\n\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-1-science-vs-english-scores-with-annotation",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-1-science-vs-english-scores-with-annotation",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "ggplot(data=exam_data, \n       aes(x= SCIENCE, \n           y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  geom_label_repel(aes(label = ID), \n                   fontface = \"bold\") +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: ggrepel: 321 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-2-science-histogram-with-theme",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-2-science-histogram-with-theme",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "ggplot(data=exam_data, aes(x = SCIENCE)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey80\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "p4 &lt;- ggplot(data=exam_data, \n             aes(x = SCIENCE)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Science scores\")\n\np1 + p2 + p4"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-4-science-and-math-distribution-and-comparison",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-4-science-and-math-distribution-and-comparison",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "p5 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=SCIENCE)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"Science scores versus Maths scores for Primary 3\")\n\n(p1 / p4) | p5\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-5-science-vs-math-scatter-figure-with-science-insert",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-5-science-vs-math-scatter-figure-with-science-insert",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "p5 + inset_element(p4, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme",
+    "title": "Hands-on_Ex02",
+    "section": "",
+    "text": "patchwork &lt;- (p1 / p4) | p5\npatchwork & theme_economist()\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "About this site\nThis site is created by a current part-time Masters of IT in Business (Data Science and Analytics) student who is also a full-time Process Development Engineer at HP Inc. Singapore."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
     "title": "Hands-on Exercise 1",
     "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, \n               patchwork, DT, ggExtra) \n\n\n\n\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, DT) \n\n\n\n\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n\n\nggplot(data = exam_data, aes(x = RACE)) +\n  geom_bar()"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#install-and-launching-r-packages",
     "title": "Hands-on Exercise 1",
     "section": "",
-    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, \n               patchwork, DT, ggExtra)"
+    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, DT)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
@@ -35,199 +119,157 @@
     "text": "exam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#r-graphics-vs-ggplot",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#r-graphics-vs-ggplot",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-simple-bar-chart",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-simple-bar-chart",
     "title": "Hands-on Exercise 1",
-    "section": "1.3.1 R Graphics VS ggplot",
-    "text": "1.3.1 R Graphics VS ggplot\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=10, boundary = 100, color=\"black\", fill=\"grey\") +\n  ggtitle(\"Distribution of Maths scores\")"
+    "section": "",
+    "text": "ggplot(data = exam_data, aes(x = RACE)) +\n  geom_bar()"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_bar",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_bar",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#introducing-ggplot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#introducing-ggplot",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.1 Geometric Objects: geom_bar",
-    "text": "1.7.1 Geometric Objects: geom_bar\n\nggplot(data=exam_data, aes(x=RACE)) +\n  geom_bar()"
+    "section": "1.3 Introducing ggplot",
+    "text": "1.3 Introducing ggplot\n\n1.3.1 R Graphics VS ggplot\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=10, boundary = 100, color=\"black\", fill=\"grey\") +\n  ggtitle(\"Distribution of Maths scores\")"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_dotplot",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_dotplot",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#grammar-of-graphics",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#grammar-of-graphics",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.2 Geometric Objects: geom_dotplot",
-    "text": "1.7.2 Geometric Objects: geom_dotplot\n\nggplot(data=exam_data, aes(x=MATHS)) +\n  geom_dotplot(binwidth=2.5, dotsize = 0.5) +\n  scale_y_continuous(NULL, breaks = NULL)"
+    "section": "1.4 Grammar of Graphics",
+    "text": "1.4 Grammar of Graphics\nIn the nutshell, Grammar of Graphics defines the rules of structuring mathematical and aesthetic elements into a meaningful graph.\nThere are two principles in Grammar of Graphics, they are:\n\nGraphics = distinct layers of grammatical elements\nMeaningful plots through aesthetic mapping\n\n\n1.4.1 A Layered Grammaer of Graphics\n\nA short description of each building block are as follows:\nData: The dataset being plotted.\nAesthetics take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.\nGeometrics: The visual elements used for our data, such as point, bar or line.\nFacets split the data into subsets to create multiple variations of the same graph (paneling, multiple plots).\nStatistics, statiscal transformations that summarise data (e.g. mean, confidence intervals).\nCoordinate systems define the plane on which data are mapped on the graphic.\nThemes modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background."
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#modifying-a-geometric-object-by-changing-geom",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#modifying-a-geometric-object-by-changing-geom",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-data",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-data",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.4 Modifying a geometric object by changing geom()",
-    "text": "1.7.4 Modifying a geometric object by changing geom()\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")"
+    "section": "1.5 Essential Grammatical Elements in ggplot2: data",
+    "text": "1.5 Essential Grammatical Elements in ggplot2: data\n\nggplot(data=exam_data)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#modifying-a-geometric-object-by-changing-aes",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#modifying-a-geometric-object-by-changing-aes",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-data-1",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-data-1",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.5 Modifying a geometric object by changing aes()",
-    "text": "1.7.5 Modifying a geometric object by changing aes()\n\nggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +\n  geom_histogram(bins=20, color=\"grey30\")"
+    "section": "1.6 Essential Grammatical Elements in ggplot2: data",
+    "text": "1.6 Essential Grammatical Elements in ggplot2: data\n\nggplot(data=exam_data, \n       aes(x= MATHS))"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom-density",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom-density",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-aesthetic-mappings",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-aesthetic-mappings",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.6 Geometric Objects: geom-density()",
-    "text": "1.7.6 Geometric Objects: geom-density()\n\nggplot(data=exam_data, aes(x = MATHS, colour = GENDER)) +\n  geom_density()"
+    "section": "1.7 Essential Grammatical Elements in ggplot2: Aesthetic mappings",
+    "text": "1.7 Essential Grammatical Elements in ggplot2: Aesthetic mappings\n\n1.7.1 Geometric Objects: geom_bar\n\nggplot(data=exam_data, aes(x=RACE)) +\n  geom_bar()\n\n\n\n\n\n\n\n\n\n\n1.7.2 Geometric Objects: geom_dotplot\n\nggplot(data=exam_data, aes(x=MATHS)) +\n  geom_dotplot(binwidth=2.5, dotsize = 0.5) +\n  scale_y_continuous(NULL, breaks = NULL)\n\n\n\n\n\n\n\n\n\n\n1.7.3 Geometric Objects: geom_histogram()\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram()       \n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\n\n\n1.7.4 Modifying a geometric object by changing geom()\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, color=\"black\", fill=\"light blue\")\n\n\n\n\n\n\n\n\n\n\n1.7.5 Modifying a geometric object by changing aes()\n\nggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +\n  geom_histogram(bins=20, color=\"grey30\")\n\n\n\n\n\n\n\n\n\n\n1.7.6 Geometric Objects: geom-density()\n\nggplot(data=exam_data, aes(x = MATHS, colour = GENDER)) +\n  geom_density()\n\n\n\n\n\n\n\n\n\n\n1.7.7 Geometric Objects: geom_boxplot\n\nggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +\n  geom_boxplot(notch=TRUE)\n\n\n\n\n\n\n\n\n\n\n1.7.8 Geometric Objects: geom_violin\n\nggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +\n  geom_violin()\n\n\n\n\n\n\n\n\n\n\n1.7.9 Geometric Objects: geom_point()\n\nggplot(data=exam_data, aes(x = MATHS, y = ENGLISH)) +\n  geom_point()\n\n\n\n\n\n\n\n\n\n\n1.7.10 geom objects can be combined\n\nggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +                    \n  geom_point(position=\"jitter\", size = 0.5)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_boxplot",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_boxplot",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-stat",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-stat",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.7 Geometric Objects: geom_boxplot",
-    "text": "1.7.7 Geometric Objects: geom_boxplot\n\nggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +\n  geom_boxplot(notch=TRUE)"
+    "section": "1.8 Essential Grammatical Elements in ggplot2: stat",
+    "text": "1.8 Essential Grammatical Elements in ggplot2: stat\n\n1.8.1 Working with stat()\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot()\n\n\n\n\n\n\n\n\n\n\n1.8.2 Working with stat - the stat_summary() method\n\nggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +\n  stat_summary(geom = \"point\", fun = \"mean\",colour =\"red\", size=4)                        \n\n\n\n\n\n\n\n\n\n\n1.8.3 Working with stat - the geom() method\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +\n  geom_point(stat = \"summary\", fun = \"mean\", colour =\"red\", size=4)               \n\n\n\n\n\n\n\n\n\n\n1.8.4 Adding a best fit curve on a scatterplot\n\nggplot(data=exam_data, \n       aes(x= MATHS, y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, linewidth=0.5)         \n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_violin",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_violin",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-facets",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-facets",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.8 Geometric Objects: geom_violin",
-    "text": "1.7.8 Geometric Objects: geom_violin\n\nggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +\n  geom_violin()"
+    "section": "1.9 Essential Grammatical Elements in ggplot2: Facets",
+    "text": "1.9 Essential Grammatical Elements in ggplot2: Facets\n\n1.9.1 Working with facet_wrap()\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20) +\n    facet_wrap(~ CLASS)\n\n\n\n\n\n\n\n\n\n\n1.9.2 facet_grid() function\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20) +\n    facet_grid(~ CLASS)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_point",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geometric-objects-geom_point",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-coordinates",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-coordinates",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.9 Geometric Objects: geom_point()",
-    "text": "1.7.9 Geometric Objects: geom_point()\n\nggplot(data=exam_data, aes(x = MATHS, y = ENGLISH)) +\n  geom_point()"
+    "section": "1.10 Essential Grammatical Elements in ggplot2: Coordinates",
+    "text": "1.10 Essential Grammatical Elements in ggplot2: Coordinates\n\n1.10.1 Working with Coordinate\n\nggplot(data=exam_data, aes(x=RACE)) +\n  geom_bar() +\n  coord_flip()\n\n\n\n\n\n\n\n\n\n\n1.10.2 Changing the y- and x-axis range\n\nggplot(data=exam_data, \n       aes(x= MATHS, y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, size=0.5) +\n  coord_cartesian(xlim=c(0,100), ylim=c(0,100))\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geom-objects-can-be-combined",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#geom-objects-can-be-combined",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-themes",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#essential-grammatical-elements-in-ggplot2-themes",
     "title": "Hands-on Exercise 1",
-    "section": "1.7.10 geom objects can be combined",
-    "text": "1.7.10 geom objects can be combined\n\nggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +                    \n  geom_point(position=\"jitter\", size = 0.5)"
+    "section": "1.11 Essential Grammatical Elements in ggplot2: themes",
+    "text": "1.11 Essential Grammatical Elements in ggplot2: themes\n\n1.11.1 Working with theme\n\nggplot(data=exam_data, aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_minimal()"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-1-english-and-science-scatterplot-with-best-fit-curve",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-1-english-and-science-scatterplot-with-best-fit-curve",
     "title": "Hands-on Exercise 1",
-    "section": "1.8.1 Working with stat()",
-    "text": "1.8.1 Working with stat()\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot()"
+    "section": "(Alternate 1) English and Science Scatterplot with Best Fit curve",
+    "text": "(Alternate 1) English and Science Scatterplot with Best Fit curve\n\nggplot(data=exam_data, \n       aes(x= ENGLISH, y=SCIENCE)) +\n  geom_point() +\n  geom_smooth(method=lm, linewidth=1)         \n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-2-math-and-race-boxplots",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-2-math-and-race-boxplots",
     "title": "Hands-on Exercise 1",
-    "section": "1.8.3 Working with stat - the geom() method",
-    "text": "1.8.3 Working with stat - the geom() method\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= GENDER)) +\n  geom_boxplot() +\n  geom_point(stat = \"summary\", fun = \"mean\", colour =\"red\", size=4)"
+    "section": "(Alternate 2) Math and Race Boxplots",
+    "text": "(Alternate 2) Math and Race Boxplots\n\nggplot(data=exam_data, \n       aes(y = MATHS, x= RACE)) +\n  geom_boxplot() +\n  geom_point(stat = \"summary\", fun = \"mean\", colour =\"red\", size=3)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatterplot",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatterplot",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-3-science-and-race-boxplots",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-3-science-and-race-boxplots",
     "title": "Hands-on Exercise 1",
-    "section": "1.8.4 Adding a best fit curve on a scatterplot",
-    "text": "1.8.4 Adding a best fit curve on a scatterplot\n\nggplot(data=exam_data, \n       aes(x= MATHS, y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, linewidth=0.5)         \n\n`geom_smooth()` using formula = 'y ~ x'"
+    "section": "(Alternate 3) Science and Race Boxplots",
+    "text": "(Alternate 3) Science and Race Boxplots\n\nggplot(data=exam_data, \n       aes(y = SCIENCE, x= RACE)) +\n  geom_boxplot() +\n  geom_point(stat = \"summary\", fun = \"mean\", colour =\"blue\", size=3)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-4-science-and-gender-violin-plots",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-4-science-and-gender-violin-plots",
     "title": "Hands-on Exercise 1",
-    "section": "1.9.1 Working with facet_wrap()",
-    "text": "1.9.1 Working with facet_wrap()\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20) +\n    facet_wrap(~ CLASS)"
+    "section": "(Alternate 4) Science and Gender Violin plots",
+    "text": "(Alternate 4) Science and Gender Violin plots\n\nggplot(data=exam_data, aes(y = SCIENCE, x = GENDER)) +\n  geom_violin()"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#facet_grid-function",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#facet_grid-function",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-5-science-and-gender-histogram",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#alternate-5-science-and-gender-histogram",
     "title": "Hands-on Exercise 1",
-    "section": "1.9.2 facet_grid() function",
-    "text": "1.9.2 facet_grid() function\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20) +\n    facet_grid(~ CLASS)"
+    "section": "(Alternate 5) Science and Gender Histogram",
+    "text": "(Alternate 5) Science and Gender Histogram\n\nggplot(data=exam_data, aes(x = SCIENCE, fill = GENDER)) +\n  geom_histogram(bins=15, color=\"grey30\")"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-coordinate",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-coordinate",
-    "title": "Hands-on Exercise 1",
-    "section": "1.10.1 Working with Coordinate",
-    "text": "1.10.1 Working with Coordinate\n\nggplot(data=exam_data, aes(x=RACE)) +\n  geom_bar() +\n  coord_flip()"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, \n               patchwork, DT) \n\n\n\n\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n\n\n\n\np &lt;- ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_dotplot_interactive(aes(tooltip = ID),\n    stackgroups = TRUE,  binwidth = 1, method = \"histodot\") +\n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p, width_svg = 6,height_svg = 6*0.618\n)\n\n\n\n\n\n\n\n\n\n\n\n\nexam_data$tooltip &lt;- c(paste0( \"Name = \", exam_data$ID,\"\\n Class = \", exam_data$CLASS)) \n\np &lt;- ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_dotplot_interactive(aes(tooltip = exam_data$tooltip), \n    stackgroups = TRUE, binwidth = 1, method = \"histodot\") +\n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,width_svg = 8,height_svg = 8*0.618\n)\n\n\n\n\n\n\n\n\n\n\n\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = \"histodot\") +               \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(                                  \n  ggobj = p, width_svg = 6, height_svg = 6*0.618                      \n)                                        \n\n\n\n\n\n\n\n\n\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = \"histodot\") +               \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(                        \n    opts_hover(css = \"fill: #202020;\"),  \n    opts_hover_inv(css = \"opacity:0.2;\") \n  )                                        \n)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-y--and-x-axis-range",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-y--and-x-axis-range",
-    "title": "Hands-on Exercise 1",
-    "section": "1.10.2 Changing the y- and x-axis range",
-    "text": "1.10.2 Changing the y- and x-axis range\n\nggplot(data=exam_data, \n       aes(x= MATHS, y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, size=0.5) +\n  coord_cartesian(xlim=c(0,100), ylim=c(0,100))\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\n\n\n`geom_smooth()` using formula = 'y ~ x'"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#install-and-launching-r-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#install-and-launching-r-packages",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "The code chunk below uses p_load() of pacman package to check if tidyverse packages are installed in the computer. If they are, then they will be launched into R.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse, ggiraph, plotly, \n               patchwork, DT)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-theme",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-theme",
-    "title": "Hands-on Exercise 1",
-    "section": "1.11.1 Working with theme",
-    "text": "1.11.1 Working with theme\n\nggplot(data=exam_data, aes(x=RACE)) +\n  geom_bar() +\n  coord_flip() +\n  theme_minimal()"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#importing-the-data",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#importing-the-data",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "exam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-ggtheme-package",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-ggtheme-package",
-    "title": "Hands-on Exercise 1",
-    "section": "2.4.1 Working with ggtheme package",
-    "text": "2.4.1 Working with ggtheme package\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey80\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_economist()"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactive-data-visualisation---ggiraph-methods",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactive-data-visualisation---ggiraph-methods",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "p &lt;- ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_dotplot_interactive(aes(tooltip = ID),\n    stackgroups = TRUE,  binwidth = 1, method = \"histodot\") +\n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p, width_svg = 6,height_svg = 6*0.618\n)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-hrbthems-package",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-hrbthems-package",
-    "title": "Hands-on Exercise 1",
-    "section": "2.4.2 Working with hrbthems package",
-    "text": "2.4.2 Working with hrbthems package\n\nggplot(data=exam_data, aes(x = MATHS)) +\n  geom_histogram(bins=20, boundary = 100, color=\"grey25\", fill=\"grey90\") +\n  ggtitle(\"Distribution of Maths scores\") +\n  theme_ipsum()\n\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\nWarning in grid.Call(C_stringMetric, as.graphicsAnnot(x$label)): font family\nnot found in Windows font database\n\n\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\nWarning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font\nfamily not found in Windows font database\n\n\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database\nWarning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :\nfont family not found in Windows font database"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "exam_data$tooltip &lt;- c(paste0( \"Name = \", exam_data$ID,\"\\n Class = \", exam_data$CLASS)) \n\np &lt;- ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_dotplot_interactive(aes(tooltip = exam_data$tooltip), \n    stackgroups = TRUE, binwidth = 1, method = \"histodot\") +\n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,width_svg = 8,height_svg = 8*0.618\n)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#beyond-single-graph",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#beyond-single-graph",
-    "title": "Hands-on Exercise 1",
-    "section": "2.5 Beyond Single Graph",
-    "text": "2.5 Beyond Single Graph\n\np1 &lt;- ggplot(data=exam_data, \n             aes(x = MATHS)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") + \n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of Maths scores\")\n\np2 &lt;- ggplot(data=exam_data, \n             aes(x = ENGLISH)) +\n  geom_histogram(bins=20, \n                 boundary = 100,\n                 color=\"grey25\", \n                 fill=\"grey90\") +\n  coord_cartesian(xlim=c(0,100)) +\n  ggtitle(\"Distribution of English scores\")\n\np3 &lt;- ggplot(data=exam_data, \n             aes(x= MATHS, \n                 y=ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm, \n              size=0.5) +  \n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100)) +\n  ggtitle(\"English scores versus Maths scores for Primary 3\")"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity-1",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity-1",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "p &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = \"histodot\") +               \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(                                  \n  ggobj = p, width_svg = 6, height_svg = 6*0.618                      \n)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-three-ggplot2-graphs",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-three-ggplot2-graphs",
-    "title": "Hands-on Exercise 1",
-    "section": "2.5.3 Combining three ggplot2 graphs",
-    "text": "2.5.3 Combining three ggplot2 graphs\n\n(p1 / p2) | p3\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#creating-figure-with-insert",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#creating-figure-with-insert",
-    "title": "Hands-on Exercise 1",
-    "section": "2.5.5 Creating figure with insert",
-    "text": "2.5.5 Creating figure with insert\n\np3 + inset_element(p2, \n                   left = 0.02, \n                   bottom = 0.7, \n                   right = 0.5, \n                   top = 1)\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#tooltip-effect-with-tooltip-aesthetic",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#tooltip-effect-with-tooltip-aesthetic",
-    "title": "Hands-on Exercise 1",
-    "section": "3.4.1 Tooltip effect with tooltip aesthetic",
-    "text": "3.4.1 Tooltip effect with tooltip aesthetic\n\np &lt;- ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_dotplot_interactive(aes(tooltip = ID),\n    stackgroups = TRUE,  binwidth = 1, method = \"histodot\") +\n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p, width_svg = 6,height_svg = 6*0.618\n)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#displaying-multiple-information-on-tooltip",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#displaying-multiple-information-on-tooltip",
-    "title": "Hands-on Exercise 1",
-    "section": "3.5.1 Displaying multiple information on tooltip",
-    "text": "3.5.1 Displaying multiple information on tooltip\n\nexam_data$tooltip &lt;- c(paste0( \"Name = \", exam_data$ID,\"\\n Class = \", exam_data$CLASS)) \n\np &lt;- ggplot(data=exam_data, aes(x = MATHS)) +\n  geom_dotplot_interactive(aes(tooltip = exam_data$tooltip), \n    stackgroups = TRUE, binwidth = 1, method = \"histodot\") +\n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,width_svg = 8,height_svg = 8*0.618\n)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#hover-effect-with-data_id-aesthetic",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#hover-effect-with-data_id-aesthetic",
-    "title": "Hands-on Exercise 1",
-    "section": "3.6.3 Hover effect with data_id aesthetic",
-    "text": "3.6.3 Hover effect with data_id aesthetic\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = \"histodot\") +               \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(                                  \n  ggobj = p, width_svg = 6, height_svg = 6*0.618                      \n)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-tooltip-and-hover-effect",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-tooltip-and-hover-effect",
-    "title": "Hands-on Exercise 1",
-    "section": "3.6.5 Combining tooltip and hover effect",
-    "text": "3.6.5 Combining tooltip and hover effect\n\np &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = \"histodot\") +               \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(                        \n    opts_hover(css = \"fill: #202020;\"),  \n    opts_hover_inv(css = \"opacity:0.2;\") \n  )                                        \n)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plot-marginal-density-function",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plot-marginal-density-function",
-    "title": "Hands-on Exercise 1",
-    "section": "7.1.1 Plot Marginal Density Function",
-    "text": "7.1.1 Plot Marginal Density Function\n\nggMarginal(o, type = \"histogram\",\n           col = \"grey45\", \n           fill = \"grey90\")\n\n\n\n\n\n\n\n\n\np4 &lt;- ggplot(data=exam_data, \n            aes(x= MATHS, \n                y=ENGLISH, \n                color=GENDER)) +\n  geom_point() +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\np4\n\n\n\n\n\n\n\n\n\nggMarginal(p4, type = \"boxplot\",\n           groupColour = TRUE, \n           groupFill = TRUE)"
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#combining-tooltip-and-hover-effect",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#combining-tooltip-and-hover-effect",
+    "title": "Hands-on_Ex03",
+    "section": "",
+    "text": "p &lt;- ggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot_interactive(  aes(data_id = CLASS),  stackgroups = TRUE, binwidth = 1, method = \"histodot\") +               \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(                                  \n  ggobj = p,                             \n  width_svg = 6,                         \n  height_svg = 6*0.618,\n  options = list(                        \n    opts_hover(css = \"fill: #202020;\"),  \n    opts_hover_inv(css = \"opacity:0.2;\") \n  )                                        \n)"
   }
 ]

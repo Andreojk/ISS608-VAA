@@ -1,0 +1,198 @@
+---
+title: "Hands-on_Ex02"
+author: "Andre Ong Jia Kang"
+---
+
+# 2.Beyond ggplot2 Fundamentals
+
+## Install and launching R packages
+
+```{r}
+pacman::p_load(ggrepel, patchwork, 
+               ggthemes, hrbrthemes,
+               tidyverse, ggiraph, plotly, DT) 
+```
+
+## Importing the data
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+
+```
+
+## 2.3 Beyond ggplot2 Annotation: ggrepel 2.3.1 Working with ggrepel
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS, 
+           y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  geom_label_repel(aes(label = ID), 
+                   fontface = "bold") +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## 2.4 Beyond ggplot2 Themes
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey90") +
+  theme_gray() +
+  ggtitle("Distribution of Maths scores") 
+```
+
+### 2.4.1 Working with ggtheme package
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
+  ggtitle("Distribution of Maths scores") +
+  theme_economist()
+```
+
+### 2.4.2 Working with hrbthemes package
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey90") +
+  ggtitle("Distribution of Maths scores") +
+  theme_ipsum()
+```
+
+## 2.5 Beyond Single Graph
+
+```{r}
+p1 <- ggplot(data=exam_data, 
+             aes(x = MATHS)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") + 
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of Maths scores")
+
+p2 <- ggplot(data=exam_data, 
+             aes(x = ENGLISH)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of English scores")
+
+p3 <- ggplot(data=exam_data, 
+             aes(x= MATHS, 
+                 y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+### 2.5.2 Combining two ggplot2 graphs
+
+```{r}
+p1 + p2
+```
+
+### 2.5.3 Combining three ggplot2 graphs
+
+```{r}
+(p1 / p2) | p3
+```
+
+### 2.5.4 Creating a composite figure with tag
+
+```{r}
+((p1 / p2) | p3) + 
+  plot_annotation(tag_levels = 'I')
+```
+
+### 2.5.5 Creating figure with insert
+
+```{r}
+p3 + inset_element(p2, 
+                   left = 0.02, 
+                   bottom = 0.7, 
+                   right = 0.5, 
+                   top = 1)
+```
+
+## (Alternate 1) Science vs English Scores with annotation
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= SCIENCE, 
+           y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  geom_label_repel(aes(label = ID), 
+                   fontface = "bold") +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## (Alternate 2) Science Histogram with theme
+
+```{r}
+ggplot(data=exam_data, aes(x = SCIENCE)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
+  ggtitle("Distribution of Maths scores") +
+  theme_economist()
+```
+
+## (Alternate 3) Combining 3 histogram graphs of english, math and science scores
+
+```{r}
+p4 <- ggplot(data=exam_data, 
+             aes(x = SCIENCE)) +
+  geom_histogram(bins=20, 
+                 boundary = 100,
+                 color="grey25", 
+                 fill="grey90") +
+  coord_cartesian(xlim=c(0,100)) +
+  ggtitle("Distribution of Science scores")
+
+p1 + p2 + p4
+```
+
+## (Alternate 4) Science and Math distribution and comparison
+
+```{r}
+p5 <- ggplot(data=exam_data, 
+             aes(x= MATHS, 
+                 y=SCIENCE)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("Science scores versus Maths scores for Primary 3")
+
+(p1 / p4) | p5
+```
+
+## (Alternate 5) Science vs Math Scatter figure with Science insert
+
+```{r}
+p5 + inset_element(p4, 
+                   left = 0.02, 
+                   bottom = 0.7, 
+                   right = 0.5, 
+                   top = 1)
+```
+
+## (Alternate 6) Creating a composite figure by using patchwork and ggtheme
+
+```{r}
+patchwork <- (p1 / p4) | p5
+patchwork & theme_economist()
+```

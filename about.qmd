@@ -4,6 +4,5 @@ title: "About"
 
 About this site
 
-```{r}
-1 + 1
-```
+This site is created by a current part-time Masters of IT in Business (Data Science and Analytics) student who is also a full-time Process Development Engineer at HP Inc. Singapore.
+
