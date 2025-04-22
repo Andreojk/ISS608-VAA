@@ -4,5 +4,7 @@ title: "About"
 
 About this site
 
-This site is created by a current part-time Masters of IT in Business (Data Science and Analytics) student who is also a full-time Process Development Engineer at HP Inc. Singapore.
+Hi there!
+I am Andre Ong, this site is created by me as a part-time Masters of IT in Business (Data Science and Analytics) student at SMU. 
 
+I will be showcasing some hands-on exercises on this website to practice the visualisation code and models.

@@ -110,6 +110,12 @@ ggplot(data=exam_data, aes(x = MATHS)) +
 ggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +
   geom_histogram(bins=20, color="grey30")
 ```
+## (Alternate 1) Science and Gender Histogram
+
+```{r}
+ggplot(data=exam_data, aes(x = SCIENCE, fill = GENDER)) +
+  geom_histogram(bins=15, color="grey30")
+```
 
 ### 1.7.6 Geometric Objects: geom-density()
 ```{r}
@@ -127,6 +133,12 @@ ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
 
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
+  geom_violin()
+```
+## (Alternate 2) Science and Gender Violin plots
+
+```{r}
+ggplot(data=exam_data, aes(y = SCIENCE, x = GENDER)) +
   geom_violin()
 ```
 
@@ -159,6 +171,22 @@ ggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +
   stat_summary(geom = "point", fun = "mean",colour ="red", size=4)                        
 ```
+## (Alternate 3) Math and Race Boxplots
+
+```{r}
+ggplot(data=exam_data, 
+       aes(y = MATHS, x= RACE)) +
+  geom_boxplot() +
+  geom_point(stat = "summary", fun = "mean", colour ="red", size=3)
+```
+## (Alternate 4) Science and Race Boxplots
+
+```{r}
+ggplot(data=exam_data, 
+       aes(y = SCIENCE, x= RACE)) +
+  geom_boxplot() +
+  geom_point(stat = "summary", fun = "mean", colour ="blue", size=3)               
+```
 
 ### 1.8.3 Working with stat - the geom() method
 
@@ -167,6 +195,14 @@ ggplot(data=exam_data,
        aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +
   geom_point(stat = "summary", fun = "mean", colour ="red", size=4)               
+```
+## (Alternate 5) English and Science Scatterplot with Best Fit curve
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= ENGLISH, y=SCIENCE)) +
+  geom_point() +
+  geom_smooth(method=lm, linewidth=1)         
 ```
 
 ### 1.8.4 Adding a best fit curve on a scatterplot
@@ -224,46 +260,7 @@ ggplot(data=exam_data, aes(x=RACE)) +
   theme_minimal()
 ```
 
-## (Alternate 1) English and Science Scatterplot with Best Fit curve
 
-```{r}
-ggplot(data=exam_data, 
-       aes(x= ENGLISH, y=SCIENCE)) +
-  geom_point() +
-  geom_smooth(method=lm, linewidth=1)         
-```
-
-## (Alternate 2) Math and Race Boxplots
-
-```{r}
-ggplot(data=exam_data, 
-       aes(y = MATHS, x= RACE)) +
-  geom_boxplot() +
-  geom_point(stat = "summary", fun = "mean", colour ="red", size=3)
-```
-
-## (Alternate 3) Science and Race Boxplots
-
-```{r}
-ggplot(data=exam_data, 
-       aes(y = SCIENCE, x= RACE)) +
-  geom_boxplot() +
-  geom_point(stat = "summary", fun = "mean", colour ="blue", size=3)               
-```
-
-## (Alternate 4) Science and Gender Violin plots
-
-```{r}
-ggplot(data=exam_data, aes(y = SCIENCE, x = GENDER)) +
-  geom_violin()
-```
-
-## (Alternate 5) Science and Gender Histogram
-
-```{r}
-ggplot(data=exam_data, aes(x = SCIENCE, fill = GENDER)) +
-  geom_histogram(bins=15, color="grey30")
-```
 ## (Alternate 6) Density plot with Math
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +

@@ -35,6 +35,21 @@ ggplot(data=exam_data,
                   ylim=c(0,100)) +
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
+## (Alternate 1) Science vs English Scores with annotation
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= SCIENCE, 
+           y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+              size=0.5) +  
+  geom_label_repel(aes(label = ID), 
+                   fontface = "bold") +
+  coord_cartesian(xlim=c(0,100),
+                  ylim=c(0,100)) +
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
 
 ## 2.4 Beyond ggplot2 Themes
 
@@ -49,6 +64,14 @@ ggplot(data=exam_data, aes(x = MATHS)) +
 
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
+  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
+  ggtitle("Distribution of Maths scores") +
+  theme_economist()
+```
+## (Alternate 2) Science Histogram with theme
+
+```{r}
+ggplot(data=exam_data, aes(x = SCIENCE)) +
   geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
   ggtitle("Distribution of Maths scores") +
   theme_economist()
@@ -124,30 +147,6 @@ p3 + inset_element(p2,
                    top = 1)
 ```
 
-## (Alternate 1) Science vs English Scores with annotation
-
-```{r}
-ggplot(data=exam_data, 
-       aes(x= SCIENCE, 
-           y=ENGLISH)) +
-  geom_point() +
-  geom_smooth(method=lm, 
-              size=0.5) +  
-  geom_label_repel(aes(label = ID), 
-                   fontface = "bold") +
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100)) +
-  ggtitle("English scores versus Maths scores for Primary 3")
-```
-
-## (Alternate 2) Science Histogram with theme
-
-```{r}
-ggplot(data=exam_data, aes(x = SCIENCE)) +
-  geom_histogram(bins=20, boundary = 100, color="grey25", fill="grey80") +
-  ggtitle("Distribution of Maths scores") +
-  theme_economist()
-```
 
 ## (Alternate 3) Combining 3 histogram graphs of english, math and science scores
 

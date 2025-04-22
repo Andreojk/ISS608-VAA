@@ -11,8 +11,7 @@ website:
           href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
         - text: "Hands-on Exercise 2"
           href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
-        - text: "Hands-on Exercise 3"
-          href: "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html"
+
     right:
       - href: index.qmd
         text: Home
@@ -23,7 +22,7 @@ format:
   html:
     theme: zephyr
     css: styles.css
-    fontsize: 1.5em
+    fontsize: 1.2em
     toc: true
     toc-location: left
 
