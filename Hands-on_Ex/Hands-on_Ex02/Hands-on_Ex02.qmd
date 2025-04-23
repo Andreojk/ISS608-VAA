@@ -4,7 +4,9 @@ author: "Andre Ong Jia Kang"
 ---
 
 # 2.Beyond ggplot2 Fundamentals
-
+```{r}
+library(extrafont)
+```
 ## Install and launching R packages
 
 ```{r}
