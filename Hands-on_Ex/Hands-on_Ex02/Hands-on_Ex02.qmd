@@ -38,7 +38,7 @@ ggplot(data=exam_data,
                   ylim=c(0,100)) +
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
-## (Alternate 1) Science vs English Scores with annotation
+### (Explore 1) Science vs English Scores with annotation
 
 ```{r}
 ggplot(data=exam_data, 
@@ -71,7 +71,7 @@ ggplot(data=exam_data, aes(x = MATHS)) +
   ggtitle("Distribution of Maths scores") +
   theme_economist()
 ```
-## (Alternate 2) Science Histogram with theme
+### (Explore 2) Science Histogram with theme
 
 ```{r}
 ggplot(data=exam_data, aes(x = SCIENCE)) +
@@ -126,32 +126,7 @@ p3 <- ggplot(data=exam_data,
 ```{r}
 p1 + p2
 ```
-
-### 2.5.3 Combining three ggplot2 graphs
-
-```{r}
-(p1 / p2) | p3
-```
-
-### 2.5.4 Creating a composite figure with tag
-
-```{r}
-((p1 / p2) | p3) + 
-  plot_annotation(tag_levels = 'I')
-```
-
-### 2.5.5 Creating figure with insert
-
-```{r}
-p3 + inset_element(p2, 
-                   left = 0.02, 
-                   bottom = 0.7, 
-                   right = 0.5, 
-                   top = 1)
-```
-
-
-## (Alternate 3) Combining 3 histogram graphs of english, math and science scores
+### (Explore 3) Combining 3 histogram graphs of english, math and science scores
 
 ```{r}
 p4 <- ggplot(data=exam_data, 
@@ -166,7 +141,12 @@ p4 <- ggplot(data=exam_data,
 p1 + p2 + p4
 ```
 
-## (Alternate 4) Science and Math distribution and comparison
+### 2.5.3 Combining three ggplot2 graphs
+
+```{r}
+(p1 / p2) | p3
+```
+## (Alternate 1) Science and Math distribution, comparison with changes to size and cartesian coords
 
 ```{r}
 p5 <- ggplot(data=exam_data, 
@@ -174,27 +154,47 @@ p5 <- ggplot(data=exam_data,
                  y=SCIENCE)) +
   geom_point() +
   geom_smooth(method=lm, 
-              size=0.5) +  
-  coord_cartesian(xlim=c(0,100),
-                  ylim=c(0,100)) +
+              size=1.5) +  
+  coord_cartesian(xlim=c(5,105),
+                  ylim=c(5,105)) +
   ggtitle("Science scores versus Maths scores for Primary 3")
 
 (p1 / p4) | p5
 ```
 
-## (Alternate 5) Science vs Math Scatter figure with Science insert
+### 2.5.4 Creating a composite figure with tag
 
 ```{r}
-p5 + inset_element(p4, 
+((p1 / p2) | p3) + 
+  plot_annotation(tag_levels = 'I')
+```
+## (Alternate 2) Creating a composite figure by using patchwork and ggtheme
+
+```{r}
+patchwork <- (p1 / p4) | p5
+patchwork & theme_economist()
+```
+## (Alternate 3) Exploring tufte theme with patchwork
+```{r}
+patchwork <- (p1 / p2) | p3   
+patchwork & theme_tufte()
+```
+
+### 2.5.5 Creating figure with insert
+
+```{r}
+p3 + inset_element(p2, 
                    left = 0.02, 
                    bottom = 0.7, 
                    right = 0.5, 
                    top = 1)
 ```
 
-## (Alternate 6) Creating a composite figure by using patchwork and ggtheme
-
+## (Alternate 4) Science vs Math Scatter figure with Science insert, changing theme and coords
 ```{r}
-patchwork <- (p1 / p4) | p5
-patchwork & theme_economist()
+p5 + inset_element(p4, 
+                   left = 0.01, 
+                   bottom = 0.65, 
+                   right = 0.5, 
+                   top = 1)  + theme_stata()
 ```

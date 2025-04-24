@@ -168,27 +168,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#install-and-launching-r-packages" id="toc-install-and-launching-r-packages" class="nav-link" data-scroll-target="#install-and-launching-r-packages">Install and launching R packages</a></li>
   <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data">Importing the data</a></li>
-  <li><a href="#beyond-ggplot2-annotation-ggrepel" id="toc-beyond-ggplot2-annotation-ggrepel" class="nav-link" data-scroll-target="#beyond-ggplot2-annotation-ggrepel">2.3 Beyond ggplot2 Annotation: ggrepel</a></li>
-  <li><a href="#alternate-1-science-vs-english-scores-with-annotation" id="toc-alternate-1-science-vs-english-scores-with-annotation" class="nav-link" data-scroll-target="#alternate-1-science-vs-english-scores-with-annotation">(Alternate 1) Science vs English Scores with annotation</a></li>
+  <li><a href="#beyond-ggplot2-annotation-ggrepel" id="toc-beyond-ggplot2-annotation-ggrepel" class="nav-link" data-scroll-target="#beyond-ggplot2-annotation-ggrepel">2.3 Beyond ggplot2 Annotation: ggrepel</a>
+  <ul class="collapse">
+  <li><a href="#explore-1-science-vs-english-scores-with-annotation" id="toc-explore-1-science-vs-english-scores-with-annotation" class="nav-link" data-scroll-target="#explore-1-science-vs-english-scores-with-annotation">(Explore 1) Science vs English Scores with annotation</a></li>
+  </ul></li>
   <li><a href="#beyond-ggplot2-themes" id="toc-beyond-ggplot2-themes" class="nav-link" data-scroll-target="#beyond-ggplot2-themes">2.4 Beyond ggplot2 Themes</a>
   <ul class="collapse">
   <li><a href="#working-with-ggtheme-package" id="toc-working-with-ggtheme-package" class="nav-link" data-scroll-target="#working-with-ggtheme-package">2.4.1 Working with ggtheme package</a></li>
-  </ul></li>
-  <li><a href="#alternate-2-science-histogram-with-theme" id="toc-alternate-2-science-histogram-with-theme" class="nav-link" data-scroll-target="#alternate-2-science-histogram-with-theme">(Alternate 2) Science Histogram with theme</a>
-  <ul class="collapse">
+  <li><a href="#explore-2-science-histogram-with-theme" id="toc-explore-2-science-histogram-with-theme" class="nav-link" data-scroll-target="#explore-2-science-histogram-with-theme">(Explore 2) Science Histogram with theme</a></li>
   <li><a href="#working-with-hrbthemes-package" id="toc-working-with-hrbthemes-package" class="nav-link" data-scroll-target="#working-with-hrbthemes-package">2.4.2 Working with hrbthemes package</a></li>
   </ul></li>
   <li><a href="#beyond-single-graph" id="toc-beyond-single-graph" class="nav-link" data-scroll-target="#beyond-single-graph">2.5 Beyond Single Graph</a>
   <ul class="collapse">
   <li><a href="#combining-two-ggplot2-graphs" id="toc-combining-two-ggplot2-graphs" class="nav-link" data-scroll-target="#combining-two-ggplot2-graphs">2.5.2 Combining two ggplot2 graphs</a></li>
+  <li><a href="#explore-3-combining-3-histogram-graphs-of-english-math-and-science-scores" id="toc-explore-3-combining-3-histogram-graphs-of-english-math-and-science-scores" class="nav-link" data-scroll-target="#explore-3-combining-3-histogram-graphs-of-english-math-and-science-scores">(Explore 3) Combining 3 histogram graphs of english, math and science scores</a></li>
   <li><a href="#combining-three-ggplot2-graphs" id="toc-combining-three-ggplot2-graphs" class="nav-link" data-scroll-target="#combining-three-ggplot2-graphs">2.5.3 Combining three ggplot2 graphs</a></li>
+  </ul></li>
+  <li><a href="#alternate-1-science-and-math-distribution-comparison-with-changes-to-size-and-cartesian-coords" id="toc-alternate-1-science-and-math-distribution-comparison-with-changes-to-size-and-cartesian-coords" class="nav-link" data-scroll-target="#alternate-1-science-and-math-distribution-comparison-with-changes-to-size-and-cartesian-coords">(Alternate 1) Science and Math distribution, comparison with changes to size and cartesian coords</a>
+  <ul class="collapse">
   <li><a href="#creating-a-composite-figure-with-tag" id="toc-creating-a-composite-figure-with-tag" class="nav-link" data-scroll-target="#creating-a-composite-figure-with-tag">2.5.4 Creating a composite figure with tag</a></li>
+  </ul></li>
+  <li><a href="#alternate-2-creating-a-composite-figure-by-using-patchwork-and-ggtheme" id="toc-alternate-2-creating-a-composite-figure-by-using-patchwork-and-ggtheme" class="nav-link" data-scroll-target="#alternate-2-creating-a-composite-figure-by-using-patchwork-and-ggtheme">(Alternate 2) Creating a composite figure by using patchwork and ggtheme</a></li>
+  <li><a href="#alternate-3-exploring-tufte-theme-with-patchwork" id="toc-alternate-3-exploring-tufte-theme-with-patchwork" class="nav-link" data-scroll-target="#alternate-3-exploring-tufte-theme-with-patchwork">(Alternate 3) Exploring tufte theme with patchwork</a>
+  <ul class="collapse">
   <li><a href="#creating-figure-with-insert" id="toc-creating-figure-with-insert" class="nav-link" data-scroll-target="#creating-figure-with-insert">2.5.5 Creating figure with insert</a></li>
   </ul></li>
-  <li><a href="#alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores" id="toc-alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores" class="nav-link" data-scroll-target="#alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores">(Alternate 3) Combining 3 histogram graphs of english, math and science scores</a></li>
-  <li><a href="#alternate-4-science-and-math-distribution-and-comparison" id="toc-alternate-4-science-and-math-distribution-and-comparison" class="nav-link" data-scroll-target="#alternate-4-science-and-math-distribution-and-comparison">(Alternate 4) Science and Math distribution and comparison</a></li>
-  <li><a href="#alternate-5-science-vs-math-scatter-figure-with-science-insert" id="toc-alternate-5-science-vs-math-scatter-figure-with-science-insert" class="nav-link" data-scroll-target="#alternate-5-science-vs-math-scatter-figure-with-science-insert">(Alternate 5) Science vs Math Scatter figure with Science insert</a></li>
-  <li><a href="#alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme" id="toc-alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme" class="nav-link" data-scroll-target="#alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme">(Alternate 6) Creating a composite figure by using patchwork and ggtheme</a></li>
+  <li><a href="#alternate-4-science-vs-math-scatter-figure-with-science-insert-changing-theme-and-coords" id="toc-alternate-4-science-vs-math-scatter-figure-with-science-insert-changing-theme-and-coords" class="nav-link" data-scroll-target="#alternate-4-science-vs-math-scatter-figure-with-science-insert-changing-theme-and-coords">(Alternate 4) Science vs Math Scatter figure with Science insert, changing theme and coords</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -303,9 +308,8 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="alternate-1-science-vs-english-scores-with-annotation" class="level2">
-<h2 class="anchored" data-anchor-id="alternate-1-science-vs-english-scores-with-annotation">(Alternate 1) Science vs English Scores with annotation</h2>
+<section id="explore-1-science-vs-english-scores-with-annotation" class="level3">
+<h3 class="anchored" data-anchor-id="explore-1-science-vs-english-scores-with-annotation">(Explore 1) Science vs English Scores with annotation</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span> SCIENCE, </span>
@@ -333,6 +337,7 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="beyond-ggplot2-themes" class="level2">
 <h2 class="anchored" data-anchor-id="beyond-ggplot2-themes">2.4 Beyond ggplot2 Themes</h2>
@@ -365,9 +370,8 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </section>
-</section>
-<section id="alternate-2-science-histogram-with-theme" class="level2">
-<h2 class="anchored" data-anchor-id="alternate-2-science-histogram-with-theme">(Alternate 2) Science Histogram with theme</h2>
+<section id="explore-2-science-histogram-with-theme" class="level3">
+<h3 class="anchored" data-anchor-id="explore-2-science-histogram-with-theme">(Explore 2) Science Histogram with theme</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, <span class="fu">aes</span>(<span class="at">x =</span> SCIENCE)) <span class="sc">+</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, <span class="at">boundary =</span> <span class="dv">100</span>, <span class="at">color=</span><span class="st">"grey25"</span>, <span class="at">fill=</span><span class="st">"grey80"</span>) <span class="sc">+</span></span>
@@ -381,6 +385,7 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </div>
+</section>
 <section id="working-with-hrbthemes-package" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-hrbthemes-package">2.4.2 Working with hrbthemes package</h3>
 <div class="cell">
@@ -442,13 +447,19 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </section>
-<section id="combining-three-ggplot2-graphs" class="level3">
-<h3 class="anchored" data-anchor-id="combining-three-ggplot2-graphs">2.5.3 Combining three ggplot2 graphs</h3>
+<section id="explore-3-combining-3-histogram-graphs-of-english-math-and-science-scores" class="level3">
+<h3 class="anchored" data-anchor-id="explore-3-combining-3-histogram-graphs-of-english-math-and-science-scores">(Explore 3) Combining 3 histogram graphs of english, math and science scores</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> SCIENCE)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">boundary =</span> <span class="dv">100</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"grey25"</span>, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"grey90"</span>) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of Science scores"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -458,11 +469,10 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </section>
-<section id="creating-a-composite-figure-with-tag" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-composite-figure-with-tag">2.5.4 Creating a composite figure with tag</h3>
+<section id="combining-three-ggplot2-graphs" class="level3">
+<h3 class="anchored" data-anchor-id="combining-three-ggplot2-graphs">2.5.3 Combining three ggplot2 graphs</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>((p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3) <span class="sc">+</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">'I'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -475,14 +485,21 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </section>
-<section id="creating-figure-with-insert" class="level3">
-<h3 class="anchored" data-anchor-id="creating-figure-with-insert">2.5.5 Creating figure with insert</h3>
+</section>
+<section id="alternate-1-science-and-math-distribution-comparison-with-changes-to-size-and-cartesian-coords" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-1-science-and-math-distribution-comparison-with-changes-to-size-and-cartesian-coords">(Alternate 1) Science and Math distribution, comparison with changes to size and cartesian coords</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="sc">+</span> <span class="fu">inset_element</span>(p2, </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">left =</span> <span class="fl">0.02</span>, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bottom =</span> <span class="fl">0.7</span>, </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">right =</span> <span class="fl">0.5</span>, </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">top =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> MATHS, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y=</span>SCIENCE)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">size=</span><span class="fl">1.5</span>) <span class="sc">+</span>  </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">105</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">105</span>)) <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Science scores versus Maths scores for Primary 3"</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">/</span> p4) <span class="sc">|</span> p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -494,21 +511,14 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores" class="level2">
-<h2 class="anchored" data-anchor-id="alternate-3-combining-3-histogram-graphs-of-english-math-and-science-scores">(Alternate 3) Combining 3 histogram graphs of english, math and science scores</h2>
+<section id="creating-a-composite-figure-with-tag" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-composite-figure-with-tag">2.5.4 Creating a composite figure with tag</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x =</span> SCIENCE)) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">20</span>, </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">boundary =</span> <span class="dv">100</span>,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">"grey25"</span>, </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">"grey90"</span>) <span class="sc">+</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>)) <span class="sc">+</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Distribution of Science scores"</span>)</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2 <span class="sc">+</span> p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>((p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3) <span class="sc">+</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">'I'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -518,20 +528,12 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </section>
-<section id="alternate-4-science-and-math-distribution-and-comparison" class="level2">
-<h2 class="anchored" data-anchor-id="alternate-4-science-and-math-distribution-and-comparison">(Alternate 4) Science and Math distribution and comparison</h2>
+</section>
+<section id="alternate-2-creating-a-composite-figure-by-using-patchwork-and-ggtheme" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-2-creating-a-composite-figure-by-using-patchwork-and-ggtheme">(Alternate 2) Creating a composite figure by using patchwork and ggtheme</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">x=</span> MATHS, </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y=</span>SCIENCE)) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span>  </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>),</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>)) <span class="sc">+</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Science scores versus Maths scores for Primary 3"</span>)</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">/</span> p4) <span class="sc">|</span> p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>patchwork <span class="ot">&lt;-</span> (p1 <span class="sc">/</span> p4) <span class="sc">|</span> p5</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>patchwork <span class="sc">&amp;</span> <span class="fu">theme_economist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -544,14 +546,11 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </section>
-<section id="alternate-5-science-vs-math-scatter-figure-with-science-insert" class="level2">
-<h2 class="anchored" data-anchor-id="alternate-5-science-vs-math-scatter-figure-with-science-insert">(Alternate 5) Science vs Math Scatter figure with Science insert</h2>
+<section id="alternate-3-exploring-tufte-theme-with-patchwork" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-3-exploring-tufte-theme-with-patchwork">(Alternate 3) Exploring tufte theme with patchwork</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="sc">+</span> <span class="fu">inset_element</span>(p4, </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">left =</span> <span class="fl">0.02</span>, </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bottom =</span> <span class="fl">0.7</span>, </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">right =</span> <span class="fl">0.5</span>, </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">top =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>patchwork <span class="ot">&lt;-</span> (p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3   </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>patchwork <span class="sc">&amp;</span> <span class="fu">theme_tufte</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -563,12 +562,14 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme" class="level2">
-<h2 class="anchored" data-anchor-id="alternate-6-creating-a-composite-figure-by-using-patchwork-and-ggtheme">(Alternate 6) Creating a composite figure by using patchwork and ggtheme</h2>
+<section id="creating-figure-with-insert" class="level3">
+<h3 class="anchored" data-anchor-id="creating-figure-with-insert">2.5.5 Creating figure with insert</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>patchwork <span class="ot">&lt;-</span> (p1 <span class="sc">/</span> p4) <span class="sc">|</span> p5</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>patchwork <span class="sc">&amp;</span> <span class="fu">theme_economist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="sc">+</span> <span class="fu">inset_element</span>(p2, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">left =</span> <span class="fl">0.02</span>, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bottom =</span> <span class="fl">0.7</span>, </span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">right =</span> <span class="fl">0.5</span>, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">top =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -576,6 +577,27 @@ increasing max.overlaps</code></pre>
 <div>
 <figure class="figure">
 <p><img src="Hands-on_Ex02_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="alternate-4-science-vs-math-scatter-figure-with-science-insert-changing-theme-and-coords" class="level2">
+<h2 class="anchored" data-anchor-id="alternate-4-science-vs-math-scatter-figure-with-science-insert-changing-theme-and-coords">(Alternate 4) Science vs Math Scatter figure with Science insert, changing theme and coords</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="sc">+</span> <span class="fu">inset_element</span>(p4, </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">left =</span> <span class="fl">0.01</span>, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">bottom =</span> <span class="fl">0.65</span>, </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">right =</span> <span class="fl">0.5</span>, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">top =</span> <span class="dv">1</span>)  <span class="sc">+</span> <span class="fu">theme_stata</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Hands-on_Ex02_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
