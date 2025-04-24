@@ -22,7 +22,8 @@ exam_data <- read_csv("data/Exam_data.csv")
 
 ```
 
-## 2.3 Beyond ggplot2 Annotation: ggrepel 2.3.1 Working with ggrepel
+## 2.3 Beyond ggplot2 Annotation: ggrepel 
+###2.3.1 Working with ggrepel
 
 ```{r}
 ggplot(data=exam_data, 

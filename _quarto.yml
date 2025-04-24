@@ -17,6 +17,9 @@ website:
         text: Home
       - href: about.qmd
         text: About
+        
+date: "April 24, 2024"
+date-modified: "last-modified"
 
 format:
   html:
