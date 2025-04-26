@@ -1,6 +1,12 @@
 ---
 title: "Hands-on Exercise 1"
 author: "Andre Ong Jia Kang"
+date: "April 18, 2024"
+date-modified: "last-modified"
+format:
+  html:
+    code-fold: true
+    code-summary: "Code"
 ---
 
 # Getting Started

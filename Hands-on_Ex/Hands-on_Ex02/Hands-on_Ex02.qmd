@@ -1,6 +1,12 @@
 ---
 title: "Hands-on_Ex02"
 author: "Andre Ong Jia Kang"
+date: "April 19, 2024"
+date-modified: "last-modified"
+format:
+  html:
+    code-fold: true
+    code-summary: "Code"
 ---
 
 # 2.Beyond ggplot2 Fundamentals
@@ -192,6 +198,9 @@ p3 + inset_element(p2,
 
 ## (Alternate 4) Science vs Math Scatter figure with Science insert, changing theme and coords
 ```{r}
+#| fig-width: 12
+#| fig-height: 7
+
 p5 + inset_element(p4, 
                    left = 0.01, 
                    bottom = 0.65, 
