@@ -1,7 +1,7 @@
 ---
 title: "Hands-on_Ex02"
 author: "Andre Ong Jia Kang"
-date: "April 19, 2024"
+date: "April 19, 2025"
 date-modified: "last-modified"
 format:
   html:
@@ -10,9 +10,11 @@ format:
 ---
 
 # 2.Beyond ggplot2 Fundamentals
+
 ```{r}
 library(extrafont)
 ```
+
 ## Install and launching R packages
 
 ```{r}
@@ -28,7 +30,8 @@ exam_data <- read_csv("data/Exam_data.csv")
 
 ```
 
-## 2.3 Beyond ggplot2 Annotation: ggrepel 
+## 2.3 Beyond ggplot2 Annotation: ggrepel
+
 ###2.3.1 Working with ggrepel
 
 ```{r}
@@ -44,6 +47,7 @@ ggplot(data=exam_data,
                   ylim=c(0,100)) +
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
+
 ### (Explore 1) Science vs English Scores with annotation
 
 ```{r}
@@ -77,6 +81,7 @@ ggplot(data=exam_data, aes(x = MATHS)) +
   ggtitle("Distribution of Maths scores") +
   theme_economist()
 ```
+
 ### (Explore 2) Science Histogram with theme
 
 ```{r}
@@ -132,6 +137,7 @@ p3 <- ggplot(data=exam_data,
 ```{r}
 p1 + p2
 ```
+
 ### (Explore 3) Combining 3 histogram graphs of english, math and science scores
 
 ```{r}
@@ -152,6 +158,7 @@ p1 + p2 + p4
 ```{r}
 (p1 / p2) | p3
 ```
+
 ## (Alternate 1) Science and Math distribution, comparison with changes to size and cartesian coords
 
 ```{r}
@@ -174,13 +181,16 @@ p5 <- ggplot(data=exam_data,
 ((p1 / p2) | p3) + 
   plot_annotation(tag_levels = 'I')
 ```
+
 ## (Alternate 2) Creating a composite figure by using patchwork and ggtheme
 
 ```{r}
 patchwork <- (p1 / p4) | p5
 patchwork & theme_economist()
 ```
+
 ## (Alternate 3) Exploring tufte theme with patchwork
+
 ```{r}
 patchwork <- (p1 / p2) | p3   
 patchwork & theme_tufte()
@@ -197,6 +207,7 @@ p3 + inset_element(p2,
 ```
 
 ## (Alternate 4) Science vs Math Scatter figure with Science insert, changing theme and coords
+
 ```{r}
 #| fig-width: 12
 #| fig-height: 7

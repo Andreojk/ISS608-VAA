@@ -13,6 +13,10 @@ website:
           href: "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html"
         - text: "Hands-on Exercise 3"
           href: "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html"
+    - text: "Take-Home Exercises"
+      menu:
+        - text: "Take-Home Exercise 1"
+          href: ""
 
     right:
       - href: index.qmd
@@ -20,7 +24,7 @@ website:
       - href: about.qmd
         text: About
         
-date: "April 24, 2024"
+date: "April 24, 2025"
 date-modified: "last-modified"
 
 format:

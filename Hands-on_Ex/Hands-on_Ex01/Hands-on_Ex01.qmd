@@ -1,7 +1,7 @@
 ---
 title: "Hands-on Exercise 1"
 author: "Andre Ong Jia Kang"
-date: "April 18, 2024"
+date: "April 18, 2025"
 date-modified: "last-modified"
 format:
   html:
@@ -76,23 +76,29 @@ There are two principles in Grammar of Graphics, they are:
 -   Themes modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background.
 
 ## 1.5 Essential Grammatical Elements in ggplot2: data
+
 ```{r}
 ggplot(data=exam_data)
 ```
+
 ## 1.6 Essential Grammatical Elements in ggplot2: data
+
 ```{r}
 ggplot(data=exam_data, 
        aes(x= MATHS))
 ```
+
 ## 1.7 Essential Grammatical Elements in ggplot2: Aesthetic mappings
 
 ### 1.7.1 Geometric Objects: geom_bar
+
 ```{r}
 ggplot(data=exam_data, aes(x=RACE)) +
   geom_bar()
 ```
 
 ### 1.7.2 Geometric Objects: geom_dotplot
+
 ```{r}
 ggplot(data=exam_data, aes(x=MATHS)) +
   geom_dotplot(binwidth=2.5, dotsize = 0.5) +
@@ -100,22 +106,26 @@ ggplot(data=exam_data, aes(x=MATHS)) +
 ```
 
 ### 1.7.3 Geometric Objects: geom_histogram()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
   geom_histogram()       
 ```
 
 ### 1.7.4 Modifying a geometric object by changing geom()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
   geom_histogram(bins=20, color="black", fill="light blue")
 ```
 
 ### 1.7.5 Modifying a geometric object by changing aes()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +
   geom_histogram(bins=20, color="grey30")
 ```
+
 ## (Alternate 1) Science and Gender Histogram
 
 ```{r}
@@ -124,12 +134,14 @@ ggplot(data=exam_data, aes(x = SCIENCE, fill = GENDER)) +
 ```
 
 ### 1.7.6 Geometric Objects: geom-density()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, colour = GENDER)) +
   geom_density()
 ```
 
 ### 1.7.7 Geometric Objects: geom_boxplot
+
 ```{r}
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
   geom_boxplot(notch=TRUE)
@@ -141,6 +153,7 @@ ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
 ggplot(data=exam_data, aes(y = MATHS, x = GENDER)) +
   geom_violin()
 ```
+
 ## (Alternate 2) Science and Gender Violin plots
 
 ```{r}
@@ -162,7 +175,9 @@ ggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +                    
   geom_point(position="jitter", size = 0.5)        
 ```
+
 ## 1.8 Essential Grammatical Elements in ggplot2: stat
+
 ### 1.8.1 Working with stat()
 
 ```{r}
@@ -170,6 +185,7 @@ ggplot(data=exam_data,
        aes(y = MATHS, x= GENDER)) +
   geom_boxplot()
 ```
+
 ### 1.8.2 Working with stat - the stat_summary() method
 
 ```{r}
@@ -177,6 +193,7 @@ ggplot(data=exam_data, aes(y = MATHS, x= GENDER)) +
   geom_boxplot() +
   stat_summary(geom = "point", fun = "mean",colour ="red", size=4)                        
 ```
+
 ## (Alternate 3) Math and Race Boxplots
 
 ```{r}
@@ -185,6 +202,7 @@ ggplot(data=exam_data,
   geom_boxplot() +
   geom_point(stat = "summary", fun = "mean", colour ="red", size=3)
 ```
+
 ## (Alternate 4) Science and Race Boxplots
 
 ```{r}
@@ -202,6 +220,7 @@ ggplot(data=exam_data,
   geom_boxplot() +
   geom_point(stat = "summary", fun = "mean", colour ="red", size=4)               
 ```
+
 ## (Alternate 5) English and Science Scatterplot with Best Fit curve
 
 ```{r}
@@ -219,7 +238,9 @@ ggplot(data=exam_data,
   geom_point() +
   geom_smooth(method=lm, linewidth=0.5)         
 ```
+
 ## 1.9 Essential Grammatical Elements in ggplot2: Facets
+
 ### 1.9.1 Working with facet_wrap()
 
 ```{r}
@@ -239,6 +260,7 @@ ggplot(data=exam_data,
 ```
 
 ## 1.10 Essential Grammatical Elements in ggplot2: Coordinates
+
 ### 1.10.1 Working with Coordinate
 
 ```{r}
@@ -256,7 +278,9 @@ ggplot(data=exam_data,
   geom_smooth(method=lm, size=0.5) +
   coord_cartesian(xlim=c(0,100), ylim=c(0,100))
 ```
+
 ## 1.11 Essential Grammatical Elements in ggplot2: themes
+
 ### 1.11.1 Working with theme
 
 ```{r}
@@ -266,13 +290,15 @@ ggplot(data=exam_data, aes(x=RACE)) +
   theme_minimal()
 ```
 
-
 ## (Alternate 6) Density plot with Math
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS)) +
   geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)
 ```
+
 ## (Alternate 7) Scatterplot of Science & Maths with geom_rug()
+
 ```{r}
 ggplot(data=exam_data, aes(x = MATHS, y = SCIENCE)) +
   geom_point() +
