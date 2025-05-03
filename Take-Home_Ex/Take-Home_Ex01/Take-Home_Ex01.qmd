@@ -11,65 +11,147 @@ format:
 
 ## Launching R packages
 
+Launching R packages and libraries required.
+
 ```{r}
 pacman::p_load(ggrepel, patchwork, 
                ggthemes, hrbrthemes,
                tidyverse, ggiraph, plotly, 
-               patchwork, DT) 
-
-library(scales)
-library(forcats)
+               patchwork, DT, dplyr, scales, forcats, dplyr, grid) 
 ```
+
+The dataset "Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024" was obtained from Department of Statistics, Singapore.
 
 ```{r}
 df <- read_csv("data/respopagesex2024.csv")
 ```
+
+Before I analyse the data, I will have a preview of the dataset to find out the number of columns ad character type of it.
+
 ```{r}
 glimpse(df)
 ```
 
-::::: spgoals
-::: spgoals-header
-Observations
-:::
+**Observations**
 
-::: spgoals-container
 -   Based on the variable and data type. The dataset consists of 6 columns and 60,424 rows. 4 Columns are Character class and 2 are Number class.
+-   For Age column, it is in Character class. I will keep it in this state first. In the plots that require transforming of the age data points, I will change it to Number class.
 -   PA - Planning Area, SZ - Subzone, Age - Single Year of Age, Sex - Male/Female, Pop - Resident Count, Time - Time/Period
-:::
-:::::
 
+Before using the data, I want to check if there is any missing values present.
 
-Before using the data, I want to check if there is any missing values or 
 ```{r}
 which(is.na(df))
 sum(is.na(df))
 ```
+Based on the result, there is no missing values or "NA" values. The dataset is ready for analysis.
 
+## Adding a column called "Region" to group the PA into the 5 Singapore Regions
 
-## Top 10 Planning Areas by Total Population
-
-We want to find out the top 10 planning areas which the most population.
-
-1. Summarise total Pop by PA, arrange descending, and slice top 5.
-
-2. Filter original data to those top 5 PAs and group by Sex to get sex‐specific totals.
-
-3. geom_col() to build stacked bars, ordered by total population.
-
-4. coord_flip() for horizontal labels and theme_minimal() for clarity.
+I want to further visualise the PA easier into the 5 Regions in Singapore. Using dplyr’s mutate() + case_when(), I will map each Planning Area (PA) into one of the five regions North, South, East, West and North-East using the following source website. (https://www.newlaunchesreview.com/regions-of-singapore/)
 
 ```{r}
-# identify top 10 PAs
-top5_pa <- df %>%
+# 3. Define the mapping and create the new column
+df <- df %>%
+  mutate(
+    Region = case_when(
+      # Central Region (Core + Rest)
+      PA %in% c(
+        "Downtown Core", "Outram", "Sentosa", "Rochor", "Orchard", "Newton",
+        "River Valley", "Bukit Timah", "Holland Road", "Tanglin", "Novena",
+        "Thomson", "Marina East", "Marina South", "Museum", "Singapore River",
+        "Bishan", "Bukit Merah", "Geylang", "Kallang", "Marine Parade",
+        "Queenstown", "Southern Islands", "Toa Payoh", "Straits View"
+      ) ~ "Central",                                                          # :contentReference[oaicite:0]{index=0}
+
+      # North Region
+      PA %in% c(
+        "Central Water Catchment", "Lim Chu Kang", "Mandai", "Sembawang",
+        "Simpang", "Sungei Kadut", "Woodlands", "Yishun"
+      ) ~ "North",                                                            # :contentReference[oaicite:1]{index=1}
+
+      # North-East Region
+      PA %in% c(
+        "Ang Mo Kio", "Hougang", "North-Eastern Islands", "Punggol",
+        "Seletar", "Sengkang", "Serangoon"
+      ) ~ "North-East",                                                       # :contentReference[oaicite:2]{index=2}
+
+      # East Region
+      PA %in% c("Bedok", "Changi", "Changi Bay", "Paya Lebar", "Pasir Ris", "Tampines"
+      ) ~ "East",                                                             # :contentReference[oaicite:3]{index=3}
+
+      # West Region
+      PA %in% c(
+        "Bukit Batok", "Bukit Panjang", "Boon Lay", "Pioneer", "Choa Chu Kang",
+        "Clementi", "Jurong East", "Jurong West", "Tengah", "Tuas",
+        "Western Islands", "Western Water Catchment", "Benoi", "Ghim Moh",
+        "Gul", "Pandan Gardens", "Jurong Island", "Kent Ridge", "Nanyang",
+        "Teban Gardens", "Toh Tuck", "Tuas South", "West Coast"
+      ) ~ "West",                                                             # :contentReference[oaicite:4]{index=4}
+
+      # Catch-all for any PAs that didn’t match
+      TRUE ~ NA_character_
+    )
+  )
+
+# 4. Inspect
+head(df)
+
+```
+
+I would like to check the if there are any "NA" values in the Region column.
+```{r}
+df %>%
+  summarise(na_count = sum(is.na(Region)))
+```
+With no "NA" values present, I will proceed with check the Population count on how many "0" values present for the Sum and the respective Planning Areas.
+
+```{r}
+zero_pop_pas <- df %>%
+  group_by(PA) %>%
+  summarise(TotalPop = sum(Pop, na.rm = TRUE), .groups = "drop") %>%
+  filter(TotalPop == 0)
+
+# View the PAs
+print(zero_pop_pas)
+
+# If you just want a character vector of the names:
+zero_pa_names <- zero_pop_pas %>% pull(PA)
+print(zero_pa_names)
+```
+## Cleaning of dataset by removing Population Sum = 0
+There are 13 Planning Areas with Population Sum = 0 is not useful for visualization. I will remove these 13 PA's from the dataset and call the new dataset as df2.
+
+```{r}
+df2 <- df %>%
+  group_by(PA) %>%
+  filter(sum(Pop, na.rm = TRUE) > 0) %>%
+  ungroup()
+```
+
+## 1) Top 5 Planning Areas by Total Population
+
+We want to find out the top 5 planning areas which the most population.
+
+1.  Summarise total Pop by PA, arrange descending, and slice top 5.
+
+2.  Filter original data to those top 5 PAs and group by Sex to get sex‐specific totals.
+
+3.  geom_col() to build stacked bars, ordered by total population.
+
+4.  coord_flip() for horizontal labels and theme_minimal() for clarity.
+
+```{r}
+# identify top 5 PAs
+top5_pa <- df2 %>%
   group_by(PA) %>%
   summarise(TotalPop = sum(Pop), .groups = "drop") %>%
   arrange(desc(TotalPop)) %>%
-  slice_head(n = 10) %>%
+  slice_head(n = 5) %>%
   pull(PA)
 
 # prepare stacked bars by sex
-p1_data <- df %>%
+p1_data <- df2 %>%
   filter(PA %in% top5_pa) %>%
   group_by(PA, Sex) %>%
   summarise(Pop = sum(Pop), .groups = "drop")
@@ -79,41 +161,117 @@ p1 <- ggplot(p1_data, aes(x = fct_reorder(PA, Pop), y = Pop, fill = Sex)) +
   coord_flip() +
   scale_y_continuous(labels = comma) +
   labs(
-    title = "Top 10 Planning Areas by Population (2024)",
+    title = "Top 5 Planning Areas by Population (2024)",
     x     = "Planning Area",
     y     = "Population",
     fill  = ""
   ) +
   theme_minimal() +
-  theme(legend.position = "bottom")
-p1
+  theme(legend.position = "bottom") +
+  theme(
+    plot.margin     = margin(5, 5, 5, 5),       
+    legend.key.size = unit(0.4, "cm"),          
+    legend.text     = element_text(size = 8),    
+    plot.title = element_text(size = 10),
+    axis.title.x = element_text(size = 8),
+    axis.title.y = element_text(size = 8)
+  )
+
+## identify bottom 5 PAs
+bottom10_pa <- df2 %>%
+  group_by(PA) %>%
+  summarise(TotalPop = sum(Pop), .groups = "drop") %>%
+  arrange(TotalPop) %>%
+  slice_head(n = 5) %>%
+  pull(PA)
+
+# 2. prepare stacked bars by sex
+p2_data <- df2 %>%
+  filter(PA %in% bottom10_pa) %>%
+  group_by(PA, Sex) %>%
+  summarise(Pop = sum(Pop), .groups = "drop")
+
+# 3. plot
+p2 <- ggplot(p2_data, aes(x = fct_reorder(PA, Pop), y = Pop, fill = Sex)) +
+  geom_col() +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(
+    title = "Bottom 5 Planning Areas by Population (2024)",
+    x     = "Planning Area",
+    y     = "Population",
+    fill  = ""
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  theme(
+    plot.margin     = margin(5, 5, 5, 5),
+    legend.key.size = unit(0.4, "cm"),
+    legend.text     = element_text(size = 8),
+    plot.title = element_text(size = 10),
+    axis.title.x = element_text(size = 8),
+    axis.title.y = element_text(size = 8)
+  )
+
+# 3a. Pie chart of Region shares
+p3_data <- df2 %>% 
+  group_by(Region) %>% 
+  summarise(TotalPop = sum(Pop, na.rm = TRUE), .groups = "drop") %>% 
+  mutate(Percent = TotalPop / sum(TotalPop) * 100)
+
+# 2) Draw pie chart
+p3 <- ggplot(p3_data, aes(x = "", y = TotalPop, fill = Region)) +
+  geom_col(width = 1, color = "white") +
+  coord_polar(theta = "y") +
+  geom_text(aes(label = paste0(round(Percent, 1), "%")),
+            position = position_stack(vjust = 0.5), size = 2) +
+  labs(title = "Population Percentage by Region",
+       x = NULL, y = NULL, fill = NULL) +
+  theme_void() +
+  theme(
+      plot.title        = element_text(size = 10, margin = margin(b = 5), vjust = -25),
+      legend.position   = "right",
+      legend.key.size   = unit(0.4, "cm"),
+      legend.text       = element_text(size = 6),
+      legend.title      = element_blank(),
+      plot.margin       = margin(t = 5, r = 5, b = 5, l = 5)
+    )
+
+
+combined <- (p1 / p2) | p3 +
+  plot_layout(widths = c(2, 1.4)) +
+  # --- ADJUSTMENT for overall ---
+  plot_annotation(theme = theme(
+    plot.margin = margin(10, 10, 10, 10)
+  ))
+
+print(combined)
 
 ```
+
 Discussion:
 
 These five Planning Areas collectively house the highest resident counts. Jurong West leads, followed by Yishun, Ang Mo Kio, Woodlands, and Sengkang. In each, the male/female split is roughly even, though Jurong West and Yishun show a slight male majority—again reflecting migrant worker clusters. The differences in bar lengths emphasize varying suburban densities. Planners and infrastructure teams can use this view to prioritize resource allocation (schools, clinics) where populations are largest.
 
-
-
-## Population of male/female across the ages
+## 2) Population of male/female across the ages
 
 We want to find compare the population of sex(male/female) across the age groups.
 
-1. Change the Age column from Character type to Numeric Type for the steps below.
+1.  Change the Age column from Character type to Numeric Type for the steps below.
 
-2. Bin ages into 10-year bands (0–9, 10–19 etc.) using mutate(Age...)
+2.  Bin ages into 10-year bands (0–9, 10–19 etc.) using mutate(Age...)
 
-3. Ensure Ages "90 and above" does not become "NA".
+3.  Ensure Ages "90 and above" does not become "NA".
 
-4. Group total population by age groups and sex via group_by(AgeGroup, Sex) + summarise(Pop=sum(Pop))
+4.  Group total population by age groups and sex via group_by(AgeGroup, Sex) + summarise(Pop=sum(Pop))
 
-5. Using geom_col(position="dodge"), we will plot "side-by-side bars" for males vs. females in each age group
+5.  Using geom_col(position="dodge"), we will plot "side-by-side bars" for males vs. females in each age group
 
-6. Scale_y_continuous(labels=comma) ensures human-readable axis and hrbrthemes’ theme_ipsum() and tilted x-labels for clarity.
+6.  Scale_y_continuous(labels=comma) ensures human-readable axis and hrbrthemes’ theme_ipsum() and tilted x-labels for clarity.
 
 ```{r}
 
-df2 <- df %>%
+df3 <- df2 %>%
   # ensure Age is numeric
   mutate(Age = as.numeric(Age)) %>%
   # now bin into 10-year groups
@@ -128,12 +286,12 @@ df2 <- df %>%
   group_by(AgeGroup, Sex) %>%
   summarise(Pop = sum(Pop), .groups = "drop")
 
-df2 <- df2 %>%
+df3 <- df3 %>%
   mutate(
     AgeGroup = fct_explicit_na(AgeGroup, na_level = "90 and above")
   )
 
-p2 <- ggplot(df2, aes(x = AgeGroup, y = Pop, fill = Sex)) +
+p4 <- ggplot(df3, aes(x = AgeGroup, y = Pop, fill = Sex)) +
   geom_col(position = "dodge") +
   scale_y_continuous(labels = comma) +
   labs(
@@ -148,54 +306,50 @@ p2 <- ggplot(df2, aes(x = AgeGroup, y = Pop, fill = Sex)) +
     legend.position = "top"
   )
 
-p2
+p4
 
 ```
 
-## Top 5 subzones with highest population with boxplots of the age distribution
+## 3) Top 5 subzones with highest population with boxplots of the age distribution
 
-1. Summarise df to find the five SZ with highest total Pop.
+1.  Summarise df to find the five SZ with highest total Pop.
 
-2. Create bar_data for a simple horizontal bar chart of those totals.
+2.  Create bar_data for a simple horizontal bar chart of those totals.
 
-3. “Uncount” df into box_data so that each unit of population becomes one row with its Age, suitable for geom_boxplot().
+3.  “Uncount” df into box_data so that each unit of population becomes one row with its Age, suitable for geom_boxplot().
 
-4. Plot the bar chart (p_bar) and boxplots (p_box) with coord_flip() for readability.
+4.  Plot the bar chart (p_bar) and boxplots (p_box) with coord_flip() for readability.
 
-5. Stack them with patchwork using / to get one above the other, and add a shared title.
+5.  Stack them with patchwork using / to get one above the other, and add a shared title.
 
 ```{r}
-library(tidyverse)
-library(hrbrthemes)
-library(scales)
-library(patchwork)
-
-# 1) Find & alphabetize your top 5 subzones
-top5_sz <- df %>% 
+# 1) Find & alphabetize your top 4 subzones
+top4_sz <- df2 %>%
+  filter(PA == "Tampines") %>%
   group_by(SZ) %>% 
   summarise(TotalPop = sum(Pop), .groups = "drop") %>% 
-  slice_max(TotalPop, n = 5) %>% 
+  slice_max(TotalPop, n = 4) %>% 
   pull(SZ)
 
-alpha_levels <- sort(top5_sz)
+alpha_levels <- sort(top4_sz)
 
 # 2) Bar‐chart data (with ordered factor)
-bar_data <- df %>% 
-  filter(SZ %in% top5_sz) %>% 
+bar_data <- df2 %>% 
+  filter(SZ %in% top4_sz) %>% 
   group_by(SZ) %>% 
   summarise(TotalPop = sum(Pop), .groups = "drop") %>%
   mutate(SZ = factor(SZ, levels = alpha_levels))
 
 p_bar <- ggplot(bar_data, aes(x = SZ, y = TotalPop)) +
-  geom_col(fill = "steelblue") +
+  geom_col(fill = "darkorange") +
   coord_flip() +
   scale_y_continuous(labels = comma) +
-  labs(subtitle = "Total Population – Top 5 Subzones", x = NULL, y = "Population") +
+  labs(subtitle = "Total Population – Top 4 Subzones", x = NULL, y = "Population") +
   theme_ipsum(plot_margin = margin(8, 8, 8, 8))
 
 # 3) Boxplot data (with same ordered factor)
-box_data <- df %>% 
-  filter(SZ %in% top5_sz) %>% 
+box_data <- df2 %>% 
+  filter(SZ %in% top4_sz) %>% 
   mutate(
     Age = as.numeric(Age),
     SZ  = factor(SZ, levels = alpha_levels)
@@ -212,11 +366,10 @@ p_box <- ggplot(box_data, aes(x = SZ, y = Age, fill = SZ)) +
 # 4) Combine
 (p_bar / p_box) +
   plot_annotation(
-    title   = "Population Size & Age Distributions in Top 5 Subzones (A–Z)",
+    title   = "Population Size & Age Distributions in Top 4 Subzones (A–Z)",
     caption = "Bars = total pop; Boxes = age spread"
   )
 
 ```
 
-Discussion
-The upper panel highlights which subzones house the most people. The lower panel’s boxplots show each subzone’s age‐structure: the median (thick line), interquartile range (box), and whiskers reveal whether a subzone skews younger (tight IQR at lower ages) or older (longer tails toward high ages). For example, if Jurong East Central has a lower median and narrower box, it’s younger and more homogeneous; whereas Bishan East might show a higher median and longer whiskers, signaling more seniors. This combined view helps target age‐specific services in the busiest subzones.
+Discussion The upper panel highlights which subzones house the most people. The lower panel’s boxplots show each subzone’s age‐structure: the median (thick line), interquartile range (box), and whiskers reveal whether a subzone skews younger (tight IQR at lower ages) or older (longer tails toward high ages). For example, if Jurong East Central has a lower median and narrower box, it’s younger and more homogeneous; whereas Bishan East might show a higher median and longer whiskers, signaling more seniors. This combined view helps target age‐specific services in the busiest subzones.
