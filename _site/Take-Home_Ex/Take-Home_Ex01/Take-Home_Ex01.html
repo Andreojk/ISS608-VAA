@@ -179,12 +179,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#launching-r-packages" id="toc-launching-r-packages" class="nav-link active" data-scroll-target="#launching-r-packages">Launching R packages</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">Data Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#launching-r-packages" id="toc-launching-r-packages" class="nav-link" data-scroll-target="#launching-r-packages">Launching R packages</a></li>
   <li><a href="#adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions" id="toc-adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions" class="nav-link" data-scroll-target="#adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions">Adding a column called “Region” to group the PA into the 5 Singapore Regions</a></li>
   <li><a href="#cleaning-of-dataset-by-removing-population-sum-0" id="toc-cleaning-of-dataset-by-removing-population-sum-0" class="nav-link" data-scroll-target="#cleaning-of-dataset-by-removing-population-sum-0">Cleaning of dataset by removing Population Sum = 0</a></li>
+  </ul></li>
   <li><a href="#top-5-planning-areas-by-total-population" id="toc-top-5-planning-areas-by-total-population" class="nav-link" data-scroll-target="#top-5-planning-areas-by-total-population">1) Top 5 Planning Areas by Total Population</a></li>
   <li><a href="#population-of-malefemale-across-the-ages" id="toc-population-of-malefemale-across-the-ages" class="nav-link" data-scroll-target="#population-of-malefemale-across-the-ages">2) Population of male/female across the ages</a></li>
-  <li><a href="#top-5-subzones-with-highest-population-with-boxplots-of-the-age-distribution" id="toc-top-5-subzones-with-highest-population-with-boxplots-of-the-age-distribution" class="nav-link" data-scroll-target="#top-5-subzones-with-highest-population-with-boxplots-of-the-age-distribution">3) Top 5 subzones with highest population with boxplots of the age distribution</a></li>
+  <li><a href="#top-4-subzones-with-highest-population-with-boxplots-of-the-age-distribution" id="toc-top-4-subzones-with-highest-population-with-boxplots-of-the-age-distribution" class="nav-link" data-scroll-target="#top-4-subzones-with-highest-population-with-boxplots-of-the-age-distribution">3) Top 4 subzones with highest population with boxplots of the age distribution</a></li>
   </ul>
 </nav>
 </nav>
@@ -232,8 +236,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="launching-r-packages" class="level2">
-<h2 class="anchored" data-anchor-id="launching-r-packages">Launching R packages</h2>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This study is obtained from a local Singapore dataset to reveal how Singapore’s resident population is distributed by age and sex across its various planning areas and subzones as of June 2024. It helps to map age cohorts geographically, examine sex-ratio, key-demographic locations and population density.</p>
+<p>I will be taking a look at the dataset to provide some key insights of the following stated below:</p>
+<ol type="1">
+<li><p>Regional breakdown for policy makers allocating services such as transport based on geographic distributions.</p></li>
+<li><p>Target professionals providing community healthcare or age-targeted programs for the population.</p></li>
+</ol>
+</section>
+<section id="data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning">Data Cleaning</h2>
+<section id="launching-r-packages" class="level3">
+<h3 class="anchored" data-anchor-id="launching-r-packages">Launching R packages</h3>
 <p>Launching R packages and libraries required.</p>
 <div class="cell">
 <details class="code-fold">
@@ -293,8 +308,8 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 </div>
 <p>Based on the result, there is no missing values or “NA” values. The dataset is ready for analysis.</p>
 </section>
-<section id="adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions" class="level2">
-<h2 class="anchored" data-anchor-id="adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions">Adding a column called “Region” to group the PA into the 5 Singapore Regions</h2>
+<section id="adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions" class="level3">
+<h3 class="anchored" data-anchor-id="adding-a-column-called-region-to-group-the-pa-into-the-5-singapore-regions">Adding a column called “Region” to group the PA into the 5 Singapore Regions</h3>
 <p>I want to further visualise the PA easier into the 5 Regions in Singapore. Using dplyr’s mutate() + case_when(), I will map each Planning Area (PA) into one of the five regions North, South, East, West and North-East using the following source website. (https://www.newlaunchesreview.com/regions-of-singapore/)</p>
 <div class="cell">
 <details class="code-fold">
@@ -418,8 +433,8 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 </div>
 </div>
 </section>
-<section id="cleaning-of-dataset-by-removing-population-sum-0" class="level2">
-<h2 class="anchored" data-anchor-id="cleaning-of-dataset-by-removing-population-sum-0">Cleaning of dataset by removing Population Sum = 0</h2>
+<section id="cleaning-of-dataset-by-removing-population-sum-0" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-of-dataset-by-removing-population-sum-0">Cleaning of dataset by removing Population Sum = 0</h3>
 <p>There are 13 Planning Areas with Population Sum = 0 is not useful for visualization. I will remove these 13 PA’s from the dataset and call the new dataset as df2.</p>
 <div class="cell">
 <details class="code-fold">
@@ -430,16 +445,12 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>With this, I will start the visualization graphs below.</p>
+</section>
 </section>
 <section id="top-5-planning-areas-by-total-population" class="level2">
 <h2 class="anchored" data-anchor-id="top-5-planning-areas-by-total-population">1) Top 5 Planning Areas by Total Population</h2>
-<p>We want to find out the top 5 planning areas which the most population.</p>
-<ol type="1">
-<li><p>Summarise total Pop by PA, arrange descending, and slice top 5.</p></li>
-<li><p>Filter original data to those top 5 PAs and group by Sex to get sex‐specific totals.</p></li>
-<li><p>geom_col() to build stacked bars, ordered by total population.</p></li>
-<li><p>coord_flip() for horizontal labels and theme_minimal() for clarity.</p></li>
-</ol>
+<p>I would want a piechart plot showing the percentage spread of the population in the 5 regions. This will show where majority of the people in the transformed dataset is living at. On top of this, 2 more barchart plots to show the “Top 5” and “Bottom 5” most populated Planning Areas are in Singapore.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -530,7 +541,7 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 <span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
 <span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
 <span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title        =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">25</span>),</span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.title        =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">28</span>),</span>
 <span id="cb18-89"><a href="#cb18-89" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position   =</span> <span class="st">"right"</span>,</span>
 <span id="cb18-90"><a href="#cb18-90" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.key.size   =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>, <span class="st">"cm"</span>),</span>
 <span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.text       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>),</span>
@@ -540,7 +551,7 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 <span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> (p1 <span class="sc">/</span> p2) <span class="sc">|</span> p3 <span class="sc">+</span></span>
-<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.4</span>)) <span class="sc">+</span></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">1.5</span>)) <span class="sc">+</span></span>
 <span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- ADJUSTMENT for overall ---</span></span>
 <span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">theme =</span> <span class="fu">theme</span>(</span>
 <span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
@@ -556,20 +567,17 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 </div>
 </div>
 </div>
-<p>Discussion:</p>
-<p>These five Planning Areas collectively house the highest resident counts. Jurong West leads, followed by Yishun, Ang Mo Kio, Woodlands, and Sengkang. In each, the male/female split is roughly even, though Jurong West and Yishun show a slight male majority—again reflecting migrant worker clusters. The differences in bar lengths emphasize varying suburban densities. Planners and infrastructure teams can use this view to prioritize resource allocation (schools, clinics) where populations are largest.</p>
+<p><strong>Discussion:</strong></p>
+<ul>
+<li>Highest population were from Central, West and North-East Regions based on the Pie Chart.</li>
+<li>The top 5 Planning Areas collectively houses the highest resident counts above 200,000 where Tampines leads the distribution. For the bottom 5, the resident counts are below 1000 with Seletar being the lowest.</li>
+<li>In each, the male/female split is roughly even with no majority of sex in a particular area. Though the bottom 5 areas has a slight female majority for some, it does not accurate reflect the cluster due to its low resident count.</li>
+<li>The differences in bar lengths emphasize varying suburban densities. This can be a good insight for Planners and infrastructure teams to prioritize resource allocation (schools, clinics) where populations are largest.</li>
+</ul>
 </section>
 <section id="population-of-malefemale-across-the-ages" class="level2">
 <h2 class="anchored" data-anchor-id="population-of-malefemale-across-the-ages">2) Population of male/female across the ages</h2>
-<p>We want to find compare the population of sex(male/female) across the age groups.</p>
-<ol type="1">
-<li><p>Change the Age column from Character type to Numeric Type for the steps below.</p></li>
-<li><p>Bin ages into 10-year bands (0–9, 10–19 etc.) using mutate(Age…)</p></li>
-<li><p>Ensure Ages “90 and above” does not become “NA”.</p></li>
-<li><p>Group total population by age groups and sex via group_by(AgeGroup, Sex) + summarise(Pop=sum(Pop))</p></li>
-<li><p>Using geom_col(position=“dodge”), we will plot “side-by-side bars” for males vs.&nbsp;females in each age group</p></li>
-<li><p>Scale_y_continuous(labels=comma) ensures human-readable axis and hrbrthemes’ theme_ipsum() and tilted x-labels for clarity.</p></li>
-</ol>
+<p>Based on the initial view, I would like to check the spread of ages across the population in the dataset. To visualize the distribution for male and female, we will plot a bar chart with Age as the X-axis, Population as the Y-axis and bar graphs representing the sex. For the age, I will bin them in 10-year bands for better aesthetic purposes.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -618,16 +626,15 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 </div>
 </div>
 </div>
+<p><strong>Discussion:</strong></p>
+<ul>
+<li><p>The age distribution has a positive skew with most of the population in the middle age ranges.</p></li>
+<li><p>Females do appear slightly higher than males from 30 years old onwards which might reflect women having longer lifespan.However, the disparity isn’t very obvious and it is well balanced distribution.</p></li>
+</ul>
 </section>
-<section id="top-5-subzones-with-highest-population-with-boxplots-of-the-age-distribution" class="level2">
-<h2 class="anchored" data-anchor-id="top-5-subzones-with-highest-population-with-boxplots-of-the-age-distribution">3) Top 5 subzones with highest population with boxplots of the age distribution</h2>
-<ol type="1">
-<li><p>Summarise df to find the five SZ with highest total Pop.</p></li>
-<li><p>Create bar_data for a simple horizontal bar chart of those totals.</p></li>
-<li><p>“Uncount” df into box_data so that each unit of population becomes one row with its Age, suitable for geom_boxplot().</p></li>
-<li><p>Plot the bar chart (p_bar) and boxplots (p_box) with coord_flip() for readability.</p></li>
-<li><p>Stack them with patchwork using / to get one above the other, and add a shared title.</p></li>
-</ol>
+<section id="top-4-subzones-with-highest-population-with-boxplots-of-the-age-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="top-4-subzones-with-highest-population-with-boxplots-of-the-age-distribution">3) Top 4 subzones with highest population with boxplots of the age distribution</h2>
+<p>I would like to find out the highest 4 subzones in Tampines based on the population graph. To see which subzones contributed to it and what is the age group living there. I will first plot a barchart and also boxplot to visualize these properly.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -686,7 +693,11 @@ $ Time &lt;dbl&gt; 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2024, 2
 </div>
 </div>
 </div>
-<p>Discussion The upper panel highlights which subzones house the most people. The lower panel’s boxplots show each subzone’s age‐structure: the median (thick line), interquartile range (box), and whiskers reveal whether a subzone skews younger (tight IQR at lower ages) or older (longer tails toward high ages). For example, if Jurong East Central has a lower median and narrower box, it’s younger and more homogeneous; whereas Bishan East might show a higher median and longer whiskers, signaling more seniors. This combined view helps target age‐specific services in the busiest subzones.</p>
+<p><strong>Discussion:</strong> - There is a obvious majority of the population in Tampines staying in Tampines West &amp; East.</p>
+<ul>
+<li><p>Based on the boxplot, the IQR (Lower, Median, Upper Quantile) is between 25 to 60 years old. Only residents at Tampines North is lower between 10 to 35 years old. This could be due to newer house such as BTO at Tampines North areas.</p></li>
+<li><p>This trend can inform on transport services focusing in the busiest areas at Tampines West &amp; East as the population is significantly larger as compared to Tampines North &amp; Simei.</p></li>
+</ul>
 
 
 </section>

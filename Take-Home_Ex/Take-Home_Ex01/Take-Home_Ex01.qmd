@@ -9,7 +9,19 @@ format:
     code-summary: "Code"
 ---
 
-## Launching R packages
+## Overview
+
+This study is obtained from a local Singapore dataset to reveal how Singapore’s resident population is distributed by age and sex across its various planning areas and subzones as of June 2024. It helps to map age cohorts geographically, examine sex-ratio, key-demographic locations and population density.
+
+I will be taking a look at the dataset to provide some key insights of the following stated below:
+
+1.  Regional breakdown for policy makers allocating services such as transport based on geographic distributions.
+
+2.  Target professionals providing community healthcare or age-targeted programs for the population.
+
+## Data Cleaning
+
+### Launching R packages
 
 Launching R packages and libraries required.
 
@@ -44,9 +56,10 @@ Before using the data, I want to check if there is any missing values present.
 which(is.na(df))
 sum(is.na(df))
 ```
+
 Based on the result, there is no missing values or "NA" values. The dataset is ready for analysis.
 
-## Adding a column called "Region" to group the PA into the 5 Singapore Regions
+### Adding a column called "Region" to group the PA into the 5 Singapore Regions
 
 I want to further visualise the PA easier into the 5 Regions in Singapore. Using dplyr’s mutate() + case_when(), I will map each Planning Area (PA) into one of the five regions North, South, East, West and North-East using the following source website. (https://www.newlaunchesreview.com/regions-of-singapore/)
 
@@ -100,10 +113,12 @@ head(df)
 ```
 
 I would like to check the if there are any "NA" values in the Region column.
+
 ```{r}
 df %>%
   summarise(na_count = sum(is.na(Region)))
 ```
+
 With no "NA" values present, I will proceed with check the Population count on how many "0" values present for the Sum and the respective Planning Areas.
 
 ```{r}
@@ -119,7 +134,9 @@ print(zero_pop_pas)
 zero_pa_names <- zero_pop_pas %>% pull(PA)
 print(zero_pa_names)
 ```
-## Cleaning of dataset by removing Population Sum = 0
+
+### Cleaning of dataset by removing Population Sum = 0
+
 There are 13 Planning Areas with Population Sum = 0 is not useful for visualization. I will remove these 13 PA's from the dataset and call the new dataset as df2.
 
 ```{r}
@@ -129,17 +146,11 @@ df2 <- df %>%
   ungroup()
 ```
 
+With this, I will start the visualization graphs below.
+
 ## 1) Top 5 Planning Areas by Total Population
 
-We want to find out the top 5 planning areas which the most population.
-
-1.  Summarise total Pop by PA, arrange descending, and slice top 5.
-
-2.  Filter original data to those top 5 PAs and group by Sex to get sex‐specific totals.
-
-3.  geom_col() to build stacked bars, ordered by total population.
-
-4.  coord_flip() for horizontal labels and theme_minimal() for clarity.
+I would want a piechart plot showing the percentage spread of the population in the 5 regions. This will show where majority of the people in the transformed dataset is living at. On top of this, 2 more barchart plots to show the "Top 5" and "Bottom 5" most populated Planning Areas are in Singapore.
 
 ```{r}
 # identify top 5 PAs
@@ -229,7 +240,7 @@ p3 <- ggplot(p3_data, aes(x = "", y = TotalPop, fill = Region)) +
        x = NULL, y = NULL, fill = NULL) +
   theme_void() +
   theme(
-      plot.title        = element_text(size = 10, margin = margin(b = 5), vjust = -25),
+      plot.title        = element_text(size = 10, margin = margin(b = 5), vjust = -28),
       legend.position   = "right",
       legend.key.size   = unit(0.4, "cm"),
       legend.text       = element_text(size = 6),
@@ -239,7 +250,7 @@ p3 <- ggplot(p3_data, aes(x = "", y = TotalPop, fill = Region)) +
 
 
 combined <- (p1 / p2) | p3 +
-  plot_layout(widths = c(2, 1.4)) +
+  plot_layout(widths = c(2, 1.5)) +
   # --- ADJUSTMENT for overall ---
   plot_annotation(theme = theme(
     plot.margin = margin(10, 10, 10, 10)
@@ -249,25 +260,16 @@ print(combined)
 
 ```
 
-Discussion:
+**Discussion:**
 
-These five Planning Areas collectively house the highest resident counts. Jurong West leads, followed by Yishun, Ang Mo Kio, Woodlands, and Sengkang. In each, the male/female split is roughly even, though Jurong West and Yishun show a slight male majority—again reflecting migrant worker clusters. The differences in bar lengths emphasize varying suburban densities. Planners and infrastructure teams can use this view to prioritize resource allocation (schools, clinics) where populations are largest.
+-   Highest population were from Central, West and North-East Regions based on the Pie Chart.
+-   The top 5 Planning Areas collectively houses the highest resident counts above 200,000 where Tampines leads the distribution. For the bottom 5, the resident counts are below 1000 with Seletar being the lowest.
+-   In each, the male/female split is roughly even with no majority of sex in a particular area. Though the bottom 5 areas has a slight female majority for some, it does not accurate reflect the cluster due to its low resident count.
+-   The differences in bar lengths emphasize varying suburban densities. This can be a good insight for Planners and infrastructure teams to prioritize resource allocation (schools, clinics) where populations are largest.
 
 ## 2) Population of male/female across the ages
 
-We want to find compare the population of sex(male/female) across the age groups.
-
-1.  Change the Age column from Character type to Numeric Type for the steps below.
-
-2.  Bin ages into 10-year bands (0–9, 10–19 etc.) using mutate(Age...)
-
-3.  Ensure Ages "90 and above" does not become "NA".
-
-4.  Group total population by age groups and sex via group_by(AgeGroup, Sex) + summarise(Pop=sum(Pop))
-
-5.  Using geom_col(position="dodge"), we will plot "side-by-side bars" for males vs. females in each age group
-
-6.  Scale_y_continuous(labels=comma) ensures human-readable axis and hrbrthemes’ theme_ipsum() and tilted x-labels for clarity.
+Based on the initial view, I would like to check the spread of ages across the population in the dataset. To visualize the distribution for male and female, we will plot a bar chart with Age as the X-axis, Population as the Y-axis and bar graphs representing the sex. For the age, I will bin them in 10-year bands for better aesthetic purposes.
 
 ```{r}
 
@@ -310,17 +312,15 @@ p4
 
 ```
 
-## 3) Top 5 subzones with highest population with boxplots of the age distribution
+**Discussion:**
 
-1.  Summarise df to find the five SZ with highest total Pop.
+-   The age distribution has a positive skew with most of the population in the middle age ranges.
 
-2.  Create bar_data for a simple horizontal bar chart of those totals.
+-   Females do appear slightly higher than males from 30 years old onwards which might reflect women having longer lifespan.However, the disparity isn't very obvious and it is well balanced distribution.
 
-3.  “Uncount” df into box_data so that each unit of population becomes one row with its Age, suitable for geom_boxplot().
+## 3) Top 4 subzones with highest population with boxplots of the age distribution
 
-4.  Plot the bar chart (p_bar) and boxplots (p_box) with coord_flip() for readability.
-
-5.  Stack them with patchwork using / to get one above the other, and add a shared title.
+I would like to find out the highest 4 subzones in Tampines based on the population graph. To see which subzones contributed to it and what is the age group living there. I will first plot a barchart and also boxplot to visualize these properly.
 
 ```{r}
 # 1) Find & alphabetize your top 4 subzones
@@ -372,4 +372,8 @@ p_box <- ggplot(box_data, aes(x = SZ, y = Age, fill = SZ)) +
 
 ```
 
-Discussion The upper panel highlights which subzones house the most people. The lower panel’s boxplots show each subzone’s age‐structure: the median (thick line), interquartile range (box), and whiskers reveal whether a subzone skews younger (tight IQR at lower ages) or older (longer tails toward high ages). For example, if Jurong East Central has a lower median and narrower box, it’s younger and more homogeneous; whereas Bishan East might show a higher median and longer whiskers, signaling more seniors. This combined view helps target age‐specific services in the busiest subzones.
+**Discussion:** - There is a obvious majority of the population in Tampines staying in Tampines West & East.
+
+-   Based on the boxplot, the IQR (Lower, Median, Upper Quantile) is between 25 to 60 years old. Only residents at Tampines North is lower between 10 to 35 years old. This could be due to newer house such as BTO at Tampines North areas.
+
+-   This trend can inform on transport services focusing in the busiest areas at Tampines West & East as the population is significantly larger as compared to Tampines North & Simei.
