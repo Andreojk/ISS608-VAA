@@ -1,5 +1,11 @@
 ---
-title: "About"
+title: "About Me"
+about:
+  template: trestles
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/andre-ong-5903b5215/
 ---
 
 About this site
@@ -7,4 +13,10 @@ About this site
 Hi there!
 I am Andre Ong, this site is created by me as a part-time Masters of IT in Business (Data Science and Analytics) student at SMU. 
 
-I will be showcasing some hands-on exercises on this website to practice the visualisation code and models.
+I will be showcasing some hands-on exercises on this website to practice the visualisation codes and models.
+
+
+## Experience
+Career wise, I have worked across project & engineering roles in the private sector for both start-ups and MNCs.
+
+I enjoy working with data and solve business problems with it. Do feel free to connect with me as I would love to hear about your experiences!

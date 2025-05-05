@@ -2,4 +2,9 @@
 title: "ISS608-VAA"
 ---
 
-Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you will find my coursework prepared for this course.
+Welcome to Andre's **ISSS608 Visual Analytics and Applications** coursework website.
+You will find the exercises, assignments and projects published during the course.
+
+Do feel free to connect with me to discuss questions and insights about analytics!
+
+![](images/chad.webp){fig-align="center"}
