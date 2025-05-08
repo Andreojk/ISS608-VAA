@@ -975,13 +975,29 @@ I will attempt to makeover the plot from the previous slide by showing 95% and 9
 
 ```{r}
 exam %>%
-  ggplot(aes(x = RACE, 
-             y = MATHS)) +
+ggplot(aes(x = RACE, y = MATHS)) +
   stat_pointinterval(
-    show.legend = FALSE) +   
+    show.legend = FALSE,
+    .width = c(0.95, 0.99),
+    aes(interval_color = stat(level)),
+    point_fill = "grey",
+    point_colour = "grey",
+    point_size = 5
+  ) +
+  #Define colors of the intervals
+  scale_color_manual(
+    values = c("steelblue", "pink"),
+    aesthetics = "interval_color"
+  ) +
   labs(
-    title = "Visualising confidence intervals of mean math score",
-    subtitle = "Mean Point + Multiple-interval plot")
+    title = "Visualising Confidence Intervals of Mean Scores for MATHS by RACE",
+    subtitle = "Mean point + multiple-interval plot"
+  ) +
+  theme(
+    panel.background = element_rect(fill = "transparent", color = NA),
+    plot.background = element_rect(fill = "transparent", color = NA),
+    legend.background = element_rect(fill = "transparent", color = NA)
+  )
 ```
 
 ### 11.4.3 Visualizing the uncertainty of point estimates: ggdist methods
