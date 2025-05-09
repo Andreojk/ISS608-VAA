@@ -7,4 +7,4 @@ You will find the exercises, assignments and projects published during the cours
 
 Do feel free to connect with me to discuss questions and insights about analytics!
 
-![](images/chad.webp){fig-align="center"}
+![](images/Chibi-guy.png){fig-align="center"}

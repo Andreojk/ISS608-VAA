@@ -8,12 +8,15 @@ format:
     code-fold: true
     code-summary: "Code"
 ---
+
 # 1) Fundamentals of Visual Analytics
 
 ## 9.1 Visualising Distribution
+
 In this chapter, I will be using two relatively new statistical graphic methods for visualising distribution, namely ridgeline plot and raincloud plot by using ggplot2 and its extensions.
 
 Loading Packages:
+
 ```{r}
 pacman::p_load(ggrepel, patchwork, 
                ggthemes, hrbrthemes,
@@ -23,22 +26,22 @@ pacman::p_load(ggrepel, patchwork,
 ```
 
 Loading dataset
+
 ```{r}
 exam <- read_csv("data/Exam_data.csv")
 ```
 
 ## 9.3 Visualising Distribution with Ridgeline Plot
+
 Ridgeline plot (sometimes called Joyplot) is a data visualisation technique for revealing the distribution of a numeric value for several groups. Distribution can be represented using histograms or density plots, all aligned to the same horizontal scale and presented with a slight overlap.
 
 Figure below is a ridgelines plot showing the distribution of English score by class.
 
-![](images/ridgeline.png){fig-align="center"}
-**Note:**
+![](images/ridgeline.png){fig-align="center"} **Note:**
 
 -   Ridgeline plots make sense when the number of group to represent is `medium to high`, and thus a classic window separation would take to much space. Indeed, the fact that groups overlap each other allows to use space more efficiently. If there is less than \~6 groups, dealing with other [distribution plots](http://www.data-to-viz.com/#portfolio) is probably better.
 
 -   It works well when there is a clear pattern in the result, like if there is an obvious ranking in groups. Otherwise group will tend to overlap each other, leading to a messy plot not providing any insight.
-
 
 ### 9.3.1 Plotting ridgeline graph: ggridges method
 
@@ -48,9 +51,9 @@ ggridges package provides two main geom to plot gridgeline plots, they are: geom
 
 The ridgeline plot below is plotted by using geom_density_ridges().
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 
@@ -73,6 +76,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -99,13 +103,13 @@ ggplot(exam,
 
 ### 9.3.2 Varying fill colors along the x axis
 
-Sometimes we would like to have the area under a ridgeline not filled with a single solid color but rather with colors that vary in some form along the x axis. This effect can be achieved by using either geom_ridgeline_gradient() or geom_density_ridges_gradient(). 
+Sometimes we would like to have the area under a ridgeline not filled with a single solid color but rather with colors that vary in some form along the x axis. This effect can be achieved by using either geom_ridgeline_gradient() or geom_density_ridges_gradient().
 
 Both geoms work just like geom_ridgeline() and geom_density_ridges(), except that they allow for varying fill colors. However, they do not allow for alpha transparency in the fill. For technical reasons, we can have changing fill colors or transparency but not both.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 
@@ -127,6 +131,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -156,9 +161,9 @@ Beside providing additional geom objects to support the need to plot ridgeline p
 
 Figure below is plotted by mapping the probabilities calculated by using stat(ecdf) which represent the empirical cumulative density function for the distribution of English score.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 
@@ -174,6 +179,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -191,16 +197,15 @@ ggplot(exam,
 ```
 :::
 
-**Note**
-It is important include the argument calc_ecdf = TRUE in stat_density_ridges().
+**Note** It is important include the argument calc_ecdf = TRUE in stat_density_ridges().
 
 ### 9.3.4 Ridgeline plots with quantile lines
 
 By using geom_density_ridges_gradient(), we can colour the ridgeline plot by quantile, via the calculated stat(quantile) aesthetic as shown in the figure below.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 
@@ -219,6 +224,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 ggplot(exam,
        aes(x = ENGLISH, 
@@ -237,9 +243,9 @@ ggplot(exam,
 
 Instead of using number to define the quantiles, we can also specify quantiles by cut points such as 2.5% and 97.5% tails to colour the ridgeline plot as shown in the figure below.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 
@@ -262,6 +268,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -297,9 +304,9 @@ First, we will plot a Half-Eye graph by using stat_halfeye() of ggdist package.
 
 This produces a Half Eye visualization, which is contains a half-density and a slab-interval.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(exam, 
@@ -312,6 +319,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -328,15 +336,15 @@ ggplot(exam,
 
 **Note**
 
-- We remove the slab interval by setting .width = 0 and point_colour = NA.
+-   We remove the slab interval by setting .width = 0 and point_colour = NA.
 
 ### 9.4.2 Adding the boxplot with geom_boxplot()
 
-::: {.panel-tabset}
-
+::: panel-tabset
 Next, we will add the second geometry layer using geom_boxplot() of ggplot2. This produces a narrow boxplot. We reduce the width and adjust the opacity.
 
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(exam, 
@@ -351,6 +359,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -371,9 +380,9 @@ ggplot(exam,
 
 Next, we will add the second geometry layer using geom_boxplot() of ggplot2. This produces a narrow boxplot. We reduce the width and adjust the opacity.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(exam, 
@@ -388,6 +397,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -408,9 +418,9 @@ ggplot(exam,
 
 Next, we will add the third geometry layer using stat_dots() of ggdist package. This produces a half-dotplot, which is similar to a histogram that indicates the number of samples (number of dots) in each bin. We select side = “left” to indicate we want it on the left-hand side.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(exam, 
@@ -429,6 +439,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -453,9 +464,9 @@ ggplot(exam,
 
 Lastly, coord_flip() of ggplot2 package will be used to flip the raincloud chart horizontally to give it the raincloud appearance. At the same time, theme_economist() of ggthemes package is used to give the raincloud chart a professional publishing standard look.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(exam, 
@@ -476,6 +487,7 @@ ggplot(exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -502,13 +514,14 @@ ggplot(exam,
 
 I will be using the following packages in this exercise. Dataset will be the same Exam.csv.
 
-- ggstatsplot package to create visual graphics with rich statistical information,
+-   ggstatsplot package to create visual graphics with rich statistical information,
 
-- performance package to visualise model diagnostics, and
+-   performance package to visualise model diagnostics, and
 
-- parameters package to visualise model parameters
+-   parameters package to visualise model parameters
 
 Loading Packages:
+
 ```{r}
 pacman::p_load(ggstatsplot)
 ```
@@ -528,23 +541,23 @@ gghistostats(
   xlab = "English scores"
 )
 ```
-Default information: 
 
-- statistical details 
-- Bayes Factor 
-- sample sizes 
-- distribution summary
+Default information:
+
+-   statistical details
+-   Bayes Factor
+-   sample sizes
+-   distribution summary
 
 ### 10.3.4 Unpacking the Bayes Factor
 
-- A Bayes factor is the ratio of the likelihood of one particular hypothesis to the likelihood of another. It can be interpreted as a measure of the strength of evidence in favor of one theory among two competing theories.
+-   A Bayes factor is the ratio of the likelihood of one particular hypothesis to the likelihood of another. It can be interpreted as a measure of the strength of evidence in favor of one theory among two competing theories.
 
-- That’s because the Bayes factor gives us a way to evaluate the data in favor of a null hypothesis, and to use external information to do so. It tells us what the weight of the evidence is in favor of a given hypothesis.
+-   That’s because the Bayes factor gives us a way to evaluate the data in favor of a null hypothesis, and to use external information to do so. It tells us what the weight of the evidence is in favor of a given hypothesis.
 
-- When we are comparing two hypotheses, H1 (the alternate hypothesis) and H0 (the null hypothesis), the Bayes Factor is often written as B10. It can be defined mathematically as
+-   When we are comparing two hypotheses, H1 (the alternate hypothesis) and H0 (the null hypothesis), the Bayes Factor is often written as B10. It can be defined mathematically as
 
-![](images/schwarz.jpg){fig-align="center"}
-- The Schwarz criterion is one of the easiest ways to calculate rough approximation of the Bayes Factor.
+![](images/schwarz.jpg){fig-align="center"} - The Schwarz criterion is one of the easiest ways to calculate rough approximation of the Bayes Factor.
 
 ### 10.3.5 How to interpret Bayes Factor
 
@@ -555,6 +568,7 @@ A Bayes Factor can be any positive number. One of the most common interpretation
 ### 10.3.6 Two-sample mean test: ggbetweenstats() method
 
 In the code chunk below, ggbetweenstats() is used to build a visual for two-sample mean test of Maths scores by gender.
+
 ```{r}
 ggbetweenstats(
   data = exam,
@@ -564,16 +578,18 @@ ggbetweenstats(
   messages = FALSE
 )
 ```
-Default information: 
 
-- statistical details 
-- Bayes Factor 
-- sample sizes 
-- distribution summary
+Default information:
+
+-   statistical details
+-   Bayes Factor
+-   sample sizes
+-   distribution summary
 
 ### 10.3.7 Oneway ANOVA Test: ggbetweenstats() method
 
 In the code chunk below, ggbetweenstats() is used to build a visual for One-way ANOVA test on English score by race.
+
 ```{r}
 ggbetweenstats(
   data = exam,
@@ -587,9 +603,10 @@ ggbetweenstats(
   messages = FALSE
 )
 ```
-- “ns” → only non-significant
-- “s” → only significant
-- “all” → everything
+
+-   “ns” → only non-significant
+-   “s” → only significant
+-   “all” → everything
 
 ### 10.3.7.1 ggbetweenstats - Summary of tests
 
@@ -602,6 +619,7 @@ ggbetweenstats(
 ### 10.3.8 Significant Test of Correlation: ggscatterstats()
 
 In the code chunk below, ggscatterstats() is used to build a visual for Significant Test of Correlation between Maths scores and English scores.
+
 ```{r}
 ggscatterstats(
   data = exam,
@@ -615,9 +633,9 @@ ggscatterstats(
 
 In the code chunk below, the Maths scores is binned into a 4-class variable by using cut().
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 exam1 <- exam %>% 
@@ -632,6 +650,7 @@ ggbarstats(exam1,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -651,14 +670,16 @@ ggbarstats(exam1,
 # 3) Visualising Uncertainty
 
 ## 11.1 Overview
-Visualising uncertainty is relatively new in statistical graphics. In this chapter, I will be creating statistical graphics for visualising uncertainty using the same exam.csv. Below is the overview of plots: 
 
-- plot statistics error bars by using ggplot2,
-- plot interactive error bars by combining ggplot2, plotly and DT,
-- create advanced by using ggdist, and
-- create hypothetical outcome plots (HOPs) by using ungeviz package.
+Visualising uncertainty is relatively new in statistical graphics. In this chapter, I will be creating statistical graphics for visualising uncertainty using the same exam.csv. Below is the overview of plots:
 
-Loading Packages: 
+-   plot statistics error bars by using ggplot2,
+-   plot interactive error bars by combining ggplot2, plotly and DT,
+-   create advanced by using ggdist, and
+-   create hypothetical outcome plots (HOPs) by using ungeviz package.
+
+Loading Packages:
+
 ```{r}
 pacman::p_load(crosstalk, gganimate)
 ```
@@ -667,7 +688,7 @@ pacman::p_load(crosstalk, gganimate)
 
 A point estimate is a single number, such as a mean. Uncertainty, on the other hand, is expressed as standard error, confidence interval, or credible interval.
 
-- Don’t confuse the uncertainty of a point estimate with the variation in the sample
+-   Don’t confuse the uncertainty of a point estimate with the variation in the sample
 
 In this section, I will plot error bars of maths scores by race by using data provided in exam tibble data frame.
 
@@ -686,15 +707,16 @@ my_sum <- exam %>%
 
 Next, the code chunk below will be used to display my_sum tibble data frame in an html table format.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Table
+
 ```{r}
 #| echo: false
 knitr::kable(head(my_sum), format = 'html')
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -707,9 +729,9 @@ knitr::kable(head(my_sum), format = 'html')
 
 Now we are ready to plot the standard error bars of mean maths score by race as shown below.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(my_sum) +
@@ -732,6 +754,7 @@ ggplot(my_sum) +
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -756,17 +779,17 @@ ggplot(my_sum) +
 ```
 :::
 
-- The error bars are computed by using the formula mean+/-se.
+-   The error bars are computed by using the formula mean+/-se.
 
-- For geom_point(), it is important to indicate stat=“identity”.
+-   For geom_point(), it is important to indicate stat=“identity”.
 
 ### 11.3.2 Plotting confidence interval of point estimates
 
 Instead of plotting the standard error bar of point estimates, we can also plot the confidence intervals of mean maths score by race.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(my_sum) +
@@ -790,6 +813,7 @@ ggplot(my_sum) +
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -814,19 +838,20 @@ ggplot(my_sum) +
        title = "95% confidence interval of mean maths score by race")
 ```
 :::
-- The confidence intervals are computed by using the formula mean+/-1.96*se.
 
-- The error bars is sorted by using the average maths scores.
+-   The confidence intervals are computed by using the formula mean+/-1.96\*se.
 
-- labs() argument of ggplot2 is used to change the x-axis label.
+-   The error bars is sorted by using the average maths scores.
+
+-   labs() argument of ggplot2 is used to change the x-axis label.
 
 ### 11.3.3 Visualizing the uncertainty of point estimates with interactive error bars
 
 In this section, you will learn how to plot interactive error bars for the 99% confidence interval of mean maths score by race as shown in the figure below.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 shared_df = SharedData$new(my_sum)
@@ -876,6 +901,7 @@ bscols(widths = c(4,8),
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -929,11 +955,12 @@ bscols(widths = c(4,8),
 
 ## 11.4 Visualising Uncertainty: ggdist package
 
-- ggdist is an R package that provides a flexible set of ggplot2 geoms and stats designed especially for visualising distributions and uncertainty.
+-   ggdist is an R package that provides a flexible set of ggplot2 geoms and stats designed especially for visualising distributions and uncertainty.
 
-- It is designed for both frequentist and Bayesian uncertainty visualization, taking the view that uncertainty visualization can be unified through the perspective of distribution visualization:
-    1. For frequentist models, one visualises confidence distributions or bootstrap distributions (see vignette(“freq-uncertainty-vis”));
-    2. For Bayesian models, one visualises probability distributions (see the tidybayes package, which builds on top of ggdist).
+-   It is designed for both frequentist and Bayesian uncertainty visualization, taking the view that uncertainty visualization can be unified through the perspective of distribution visualization:
+
+    1.  For frequentist models, one visualises confidence distributions or bootstrap distributions (see vignette(“freq-uncertainty-vis”));
+    2.  For Bayesian models, one visualises probability distributions (see the tidybayes package, which builds on top of ggdist).
 
 ![](images/ggdist.png){fig-align="center"}
 
@@ -950,13 +977,12 @@ exam %>%
     title = "Visualising confidence intervals of mean math score",
     subtitle = "Mean Point + Multiple-interval plot")
 ```
-- This function comes with many arguments, students are advised to read the syntax reference for more detail.
+
+-   This function comes with many arguments, students are advised to read the syntax reference for more detail.
 
 For example, in the code chunk below the following arguments are used:
 
-.width = 0.95
-.point = median
-.interval = qi
+.width = 0.95 .point = median .interval = qi
 
 ```{r}
 exam %>%
@@ -1029,9 +1055,9 @@ library(ungeviz)
 
 Next, the code chunk below will be used to build the HOPs.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 ggplot(data = exam, 
@@ -1052,6 +1078,7 @@ ggplot(data = exam,
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -1080,21 +1107,22 @@ ggplot(data = exam,
 
 Funnel plot is a specially designed data visualisation for conducting unbiased comparison between outlets, stores or business entities. I will be doing the following plots:
 
-- plotting funnel plots by using funnelPlotR package,
-- plotting static funnel plot by using ggplot2 package, and
-- plotting interactive funnel plot by using both plotly R and ggplot2 packages.
+-   plotting funnel plots by using funnelPlotR package,
+-   plotting static funnel plot by using ggplot2 package, and
+-   plotting interactive funnel plot by using both plotly R and ggplot2 packages.
 
 Downloading Packages:
+
 ```{r}
 pacman::p_load(FunnelPlotR, knitr)
 ```
-
 
 In this section, COVID-19_DKI_Jakarta will be used. The data was downloaded from Open Data Covid-19 Provinsi DKI Jakarta portal. For this hands-on exercise, we are going to compare the cumulative COVID-19 cases and death by sub-district (i.e. kelurahan) as at 31st July 2021, DKI Jakarta.
 
 The code chunk below imports the data into R and save it into a tibble data frame object called covid19.
 
 Loading New Dataset:
+
 ```{r}
 covid19 <- read_csv("data/COVID-19_DKI_Jakarta.csv") %>%
   mutate_if(is.character, as.factor)
@@ -1104,12 +1132,12 @@ covid19 <- read_csv("data/COVID-19_DKI_Jakarta.csv") %>%
 
 FunnelPlotR package uses ggplot to generate funnel plots. It requires a numerator (events of interest), denominator (population to be considered) and group. The key arguments selected for customisation are:
 
-- limit: plot limits (95 or 99).
-- label_outliers: to label outliers (true or false).
-- Poisson_limits: to add Poisson limits to the plot.
-- OD_adjust: to add overdispersed limits to the plot.
-- xrange and yrange: to specify the range to display for axes, acts like a zoom function.
-- Other aesthetic components such as graph title, axis labels etc.
+-   limit: plot limits (95 or 99).
+-   label_outliers: to label outliers (true or false).
+-   Poisson_limits: to add Poisson limits to the plot.
+-   OD_adjust: to add overdispersed limits to the plot.
+-   xrange and yrange: to specify the range to display for axes, acts like a zoom function.
+-   Other aesthetic components such as graph title, axis labels etc.
 
 ### 8.4.1 FunnelPlotR methods: The basic plot
 
@@ -1124,17 +1152,17 @@ funnel_plot(
 
 Things to learn from the code chunk above.
 
-- group in this function is different from the scatterplot. Here, it defines the level of the points to be plotted i.e. Sub-district, District or City. If Cityc is chosen, there are only six data points.
-- By default, data_typeargument is “SR”.
-- limit: Plot limits, accepted values are: 95 or 99, corresponding to 95% or 99.8% quantiles of the distribution.
+-   group in this function is different from the scatterplot. Here, it defines the level of the points to be plotted i.e. Sub-district, District or City. If Cityc is chosen, there are only six data points.
+-   By default, data_typeargument is “SR”.
+-   limit: Plot limits, accepted values are: 95 or 99, corresponding to 95% or 99.8% quantiles of the distribution.
 
 ### 8.4.2 FunnelPlotR methods: Makeover 1
 
 The code chunk below plots a funnel plot
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 funnel_plot(
@@ -1149,6 +1177,7 @@ funnel_plot(
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -1171,9 +1200,9 @@ Things to learn from the code chunk above. + data_type argument is used to chang
 
 The code chunk below plots a funnel plot.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 funnel_plot(
@@ -1192,6 +1221,7 @@ funnel_plot(
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -1214,17 +1244,18 @@ funnel_plot(
 
 Things to learn from the code chunk above.
 
-- label = NA argument is to removed the default label outliers feature.
-- title argument is used to add plot title.
-- x_label and y_label arguments are used to add/edit x-axis and y-axis titles.
+-   label = NA argument is to removed the default label outliers feature.
+-   title argument is used to add plot title.
+-   x_label and y_label arguments are used to add/edit x-axis and y-axis titles.
 
 ## 8.5 Funnel Plot for Fair Visual Comparison: ggplot2 methods
 
-In this section, I will be building funnel plots step-by-step by using ggplot2. 
+In this section, I will be building funnel plots step-by-step by using ggplot2.
 
 ### 8.5.1 Computing the basic derived fields
 
 To plot the funnel plot from scratch, we need to derive cumulative death rate and standard error of cumulative death rate.
+
 ```{r}
 df <- covid19 %>%
   mutate(rate = Death / Positive) %>%
@@ -1247,11 +1278,12 @@ dfCI <- data.frame(number.ll95, number.ul95, number.ll999,
 ```
 
 ### 8.5.3 Plotting a static funnel plot
+
 In the code chunk below, ggplot2 functions are used to plot a static funnel plot.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 p <- ggplot(df, aes(x = Positive, y = rate)) +
@@ -1300,6 +1332,7 @@ p
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -1354,9 +1387,9 @@ p
 
 The funnel plot created using ggplot2 functions can be made interactive with ggplotly() of plotly r package.
 
-::: {.panel-tabset}
-
+::: panel-tabset
 #### Plot
+
 ```{r}
 #| echo: false
 fp_ggplotly <- ggplotly(p,
@@ -1367,6 +1400,7 @@ fp_ggplotly
 ```
 
 #### Code
+
 ```{r}
 #| code-fold: false
 #| code-summary: "Code"
@@ -1378,3 +1412,13 @@ fp_ggplotly <- ggplotly(p,
 fp_ggplotly
 ```
 :::
+
+## 8.6 References
+
+-   [funnelPlotR package](https://nhs-r-community.github.io/FunnelPlotR/index.html)
+
+-   [Funnel Plots for Indirectly-standardised ratios](https://nhs-r-community.github.io/FunnelPlotR/articles/funnel_plots.html)
+
+-   [Changing funnel plot options](https://nhs-r-community.github.io/FunnelPlotR/articles/changing_funnel_plot_options.html)
+
+-   [ggplot2 package](https://ggplot2.tidyverse.org/)
