@@ -187,26 +187,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#intro" id="toc-intro" class="nav-link active" data-scroll-target="#intro">Intro</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a>
   <ul class="collapse">
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#framework-to-critic-visualisations-classmates-links" id="toc-framework-to-critic-visualisations-classmates-links" class="nav-link" data-scroll-target="#framework-to-critic-visualisations-classmates-links">Framework to Critic Visualisations &amp; Classmates links</a>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">1.1 Background</a></li>
+  <li><a href="#framework-to-critic-visualizations-classmates-links" id="toc-framework-to-critic-visualizations-classmates-links" class="nav-link" data-scroll-target="#framework-to-critic-visualizations-classmates-links">1.2 Framework to Critic Visualizations &amp; Classmates links</a>
   <ul class="collapse">
-  <li><a href="#quadrants" id="toc-quadrants" class="nav-link" data-scroll-target="#quadrants">4 Quadrants</a></li>
-  <li><a href="#classmate-links" id="toc-classmate-links" class="nav-link" data-scroll-target="#classmate-links">Classmate Links</a></li>
+  <li><a href="#the-4-quadrants" id="toc-the-4-quadrants" class="nav-link" data-scroll-target="#the-4-quadrants">1.2.1 The 4 Quadrants</a></li>
+  </ul></li>
+  <li><a href="#classmate-links" id="toc-classmate-links" class="nav-link" data-scroll-target="#classmate-links">1.3 Classmate Links</a></li>
+  </ul></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">2. Getting Started</a>
+  <ul class="collapse">
+  <li><a href="#loading-of-libraries-and-dataset" id="toc-loading-of-libraries-and-dataset" class="nav-link" data-scroll-target="#loading-of-libraries-and-dataset">2.1 Loading of libraries and dataset</a></li>
+  <li><a href="#loading-original-skeleton-and-codes" id="toc-loading-original-skeleton-and-codes" class="nav-link" data-scroll-target="#loading-original-skeleton-and-codes">2.2 Loading original skeleton and codes</a></li>
+  </ul></li>
+  <li><a href="#original-plot-population-structure-by-age-gender" id="toc-original-plot-population-structure-by-age-gender" class="nav-link" data-scroll-target="#original-plot-population-structure-by-age-gender">3. Original Plot: Population Structure by Age / Gender</a>
+  <ul class="collapse">
+  <li><a href="#orginal-plot" id="toc-orginal-plot" class="nav-link" data-scroll-target="#orginal-plot">3.1 Orginal Plot</a>
+  <ul class="collapse">
+  <li><a href="#good-design-principles" id="toc-good-design-principles" class="nav-link" data-scroll-target="#good-design-principles"><strong>3.1.1 Good Design Principles</strong></a></li>
+  <li><a href="#areas-of-improvements" id="toc-areas-of-improvements" class="nav-link" data-scroll-target="#areas-of-improvements"><strong>3.1.2 Areas of Improvements</strong></a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#critic" id="toc-critic" class="nav-link" data-scroll-target="#critic">Critic</a>
+  <li><a href="#rework-improvements-to-the-plot" id="toc-rework-improvements-to-the-plot" class="nav-link" data-scroll-target="#rework-improvements-to-the-plot">4 Rework: Improvements to the Plot</a>
   <ul class="collapse">
-  <li><a href="#loading-of-libraries-and-dataset" id="toc-loading-of-libraries-and-dataset" class="nav-link" data-scroll-target="#loading-of-libraries-and-dataset">Loading of libraries and dataset</a></li>
+  <li><a href="#additional-code-chunks-to-the-plot" id="toc-additional-code-chunks-to-the-plot" class="nav-link" data-scroll-target="#additional-code-chunks-to-the-plot">4.1 Additional Code Chunks to the plot</a>
+  <ul class="collapse">
+  <li><a href="#editing-the-age-column-and-binning" id="toc-editing-the-age-column-and-binning" class="nav-link" data-scroll-target="#editing-the-age-column-and-binning">4.1.1 Editing the Age column and Binning</a></li>
   </ul></li>
-  <li><a href="#plot-improvement-population-structure-by-age-gender" id="toc-plot-improvement-population-structure-by-age-gender" class="nav-link" data-scroll-target="#plot-improvement-population-structure-by-age-gender">Plot Improvement: Population Structure by Age / Gender</a>
-  <ul class="collapse">
-  <li><a href="#orginal-plot" id="toc-orginal-plot" class="nav-link" data-scroll-target="#orginal-plot">Orginal Plot</a></li>
-  <li><a href="#improvements-to-plot" id="toc-improvements-to-plot" class="nav-link" data-scroll-target="#improvements-to-plot">Improvements to Plot</a>
-  <ul class="collapse">
-  <li><a href="#editing-the-age-column-and-binning" id="toc-editing-the-age-column-and-binning" class="nav-link" data-scroll-target="#editing-the-age-column-and-binning">Editing the Age column and Binning</a></li>
-  </ul></li>
+  <li><a href="#reworking-the-actual-plot" id="toc-reworking-the-actual-plot" class="nav-link" data-scroll-target="#reworking-the-actual-plot">4.2 Reworking the Actual Plot</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -244,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">May 10, 2025</p>
+      <p class="date-modified">May 11, 2025</p>
     </div>
   </div>
     
@@ -255,19 +264,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="intro" class="level1">
-<h1>Intro</h1>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<section id="overview" class="level1">
+<h1>1. Overview</h1>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">1.1 Background</h2>
 <p><em>We are tasked with the below instructions for ‘Take-Home_Ex01_Part2’:</em></p>
-<p>Phase 2: Selecting one submission provided by your classmate, critic three good design principles and three areas for further improvement. With reference to the comment, prepare the makeover version of the data visualisation.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Part 2 Instructions">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 2 Instructions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Part 2: Selecting one submission provided by your classmate, critic three good design principles and three areas for further improvement. With reference to the comment, prepare the makeover version of the data visualization.</p>
+</div>
+</div>
 </section>
-<section id="framework-to-critic-visualisations-classmates-links" class="level2">
-<h2 class="anchored" data-anchor-id="framework-to-critic-visualisations-classmates-links">Framework to Critic Visualisations &amp; Classmates links</h2>
-<p>During lecture, an article published by <a href="https://dataremixed.com/2012/05/data-visualization-clarity-or-aesthetics/">Ben Jones</a> was shared as a framework to judge data visualisation plots. I will be using this as a baseline to praise or critic the plots.</p>
-<section id="quadrants" class="level3">
-<h3 class="anchored" data-anchor-id="quadrants">4 Quadrants</h3>
-<p><img src="images/quadrant.webp" class="img-fluid quarto-figure quarto-figure-center"> <em>The Four Quadrants:</em></p>
+<section id="framework-to-critic-visualizations-classmates-links" class="level2">
+<h2 class="anchored" data-anchor-id="framework-to-critic-visualizations-classmates-links">1.2 Framework to Critic Visualizations &amp; Classmates links</h2>
+<p>During lecture, an article published by <a href="https://dataremixed.com/2012/05/data-visualization-clarity-or-aesthetics/">Ben Jones</a> was shared as a framework to judge data visualization plots. I will be using this as a baseline to praise or critic the plots in this exercise.</p>
+<section id="the-4-quadrants" class="level3">
+<h3 class="anchored" data-anchor-id="the-4-quadrants">1.2.1 The 4 Quadrants</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/quadrant.webp" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+<p><em>The Four Quadrants:</em></p>
 <ul>
 <li>Quadrant I is for the winning visualizations that are both clear AND beautiful.</li>
 <li>Quadrant II, where those unfortunate clear but ugly visualizations live.</li>
@@ -275,18 +301,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Quadrant IV – the insidious land of the visualizations that stun you with their graphical beauty, but don’t impart a lick of understanding of the real world, at least not of the accurate sort. Even worse, they tend to mislead the reader, sometimes with malicious intent.</li>
 </ul>
 </section>
-<section id="classmate-links" class="level3">
-<h3 class="anchored" data-anchor-id="classmate-links">Classmate Links</h3>
-<p>I will be using the following few classmate’s submission (See the link) for this activity. His data cleaning will be replicated in the initial steps to get the original plot.</p>
+</section>
+<section id="classmate-links" class="level2">
+<h2 class="anchored" data-anchor-id="classmate-links">1.3 Classmate Links</h2>
+<p>I will be using the following classmate’s submission <strong>(Click the link below)</strong> for this activity. His data cleaning will be replicated in the initial steps to get the original plot.</p>
 <p><a href="https://cabbage-wonderland.netlify.app/takehome_ex/takehome_ex01/takehome_ex01">Plot 3</a></p>
 </section>
 </section>
-</section>
-<section id="critic" class="level1">
-<h1>Critic</h1>
+<section id="getting-started" class="level1">
+<h1>2. Getting Started</h1>
 <section id="loading-of-libraries-and-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="loading-of-libraries-and-dataset">Loading of libraries and dataset</h2>
-<p>Libraries:</p>
+<h2 class="anchored" data-anchor-id="loading-of-libraries-and-dataset">2.1 Loading of libraries and dataset</h2>
+<p><strong>Libraries:</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -296,14 +322,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               patchwork, DT, dplyr, scales, forcats, dplyr, grid) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Dataset:</p>
+<p><strong>Dataset:</strong></p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/respopagesex2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Theme</p>
+</section>
+<section id="loading-original-skeleton-and-codes" class="level2">
+<h2 class="anchored" data-anchor-id="loading-original-skeleton-and-codes">2.2 Loading original skeleton and codes</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Original Author's Theme">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Original Author’s Theme
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will keep to the original author’s code to replicate his/her plot.</p>
+</div>
+</div>
+<p><strong>Theme:</strong></p>
+<p>Using the original author’s theme.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -317,7 +360,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Creating a Numeric Age Column &amp; Age Grouping</p>
+<p><strong>Creating a Numeric Age Column &amp; Age Grouping:</strong></p>
+<p>Column type created are integers to be used for plotting.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -339,167 +383,157 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>tibble [60,424 × 8] (S3: tbl_df/tbl/data.frame)
- $ PA      : chr [1:60424] "Ang Mo Kio" "Ang Mo Kio" "Ang Mo Kio" "Ang Mo Kio" ...
- $ SZ      : chr [1:60424] "Ang Mo Kio Town Centre" "Ang Mo Kio Town Centre" "Ang Mo Kio Town Centre" "Ang Mo Kio Town Centre" ...
- $ Age     : chr [1:60424] "0" "0" "1" "1" ...
- $ Sex     : chr [1:60424] "Males" "Females" "Males" "Females" ...
- $ Pop     : num [1:60424] 10 10 10 10 10 10 10 10 30 10 ...
- $ Time    : num [1:60424] 2024 2024 2024 2024 2024 ...
- $ AgeNum  : num [1:60424] 0 0 1 1 2 2 3 3 4 4 ...
- $ AgeGroup: chr [1:60424] "Child" "Child" "Child" "Child" ...</code></pre>
-</div>
-</div>
 </section>
 </section>
-<section id="plot-improvement-population-structure-by-age-gender" class="level1">
-<h1>Plot Improvement: Population Structure by Age / Gender</h1>
+<section id="original-plot-population-structure-by-age-gender" class="level1">
+<h1>3. Original Plot: Population Structure by Age / Gender</h1>
 <section id="orginal-plot" class="level2">
-<h2 class="anchored" data-anchor-id="orginal-plot">Orginal Plot</h2>
-<p>Below is the original plot (Plot 3) from the chosen classmate’s link.</p>
+<h2 class="anchored" data-anchor-id="orginal-plot">3.1 Orginal Plot</h2>
+<div class="callout callout-style-default callout-tip callout-titled" title="Replicating the Original Plot">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Replicating the Original Plot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Below is the original plot (Plot 3) from the chosen classmate’s link. It might look smaller from the original link but the overall aesthetic remains the same.</p>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_pyramid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AgeNum <span class="sc">&lt;=</span> <span class="dv">90</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop =</span> <span class="fu">ifelse</span>(Sex <span class="sc">==</span> <span class="st">"Males"</span>, <span class="sc">-</span>Pop, Pop))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_pyramid, <span class="fu">aes</span>(<span class="at">x =</span> AgeNum, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Population Pyramid"</span>, <span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  common_theme</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sex, AgeGroup) <span class="sc">%&gt;%</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Pop =</span> <span class="fu">sum</span>(Pop)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AgeGroup, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Group Distribution by Gender"</span>, <span class="at">y =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  common_theme</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>(p6 <span class="sc">/</span> p7) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">1.3</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Take-Home_Ex01_Part2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Take-Home_Ex01_Part2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong><em>Good Design Principles</em></strong></p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_pyramid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AgeNum <span class="sc">&lt;=</span> <span class="dv">90</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop =</span> <span class="fu">ifelse</span>(Sex <span class="sc">==</span> <span class="st">"Males"</span>, <span class="sc">-</span>Pop, Pop))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_pyramid, <span class="fu">aes</span>(<span class="at">x =</span> AgeNum, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Population Pyramid"</span>, <span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  common_theme</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sex, AgeGroup) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Pop =</span> <span class="fu">sum</span>(Pop)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AgeGroup, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Group Distribution by Gender"</span>, <span class="at">y =</span> <span class="st">"Population"</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  common_theme</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>(p6 <span class="sc">/</span> p7) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">1.3</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<section id="good-design-principles" class="level3">
+<h3 class="anchored" data-anchor-id="good-design-principles"><strong>3.1.1 Good Design Principles</strong></h3>
 <ol type="1">
-<li><p>The gridlines for both the 1) Pyramid plot and 2) Bar charts help with the mapping to both axis.</p></li>
-<li><p>The colour coding of males and females were consistent and distinguishable.</p></li>
-<li><p>The bar chart helps to describe the total population of each ‘Age groups’ where majority of the population are ‘Adults’.</p></li>
+<li><strong>Clean Plots with Gridlines</strong></li>
 </ol>
-<p><strong><em>Areas of Improvements</em></strong></p>
-<ol type="1">
-<li><p>The x-axis of the pyramid plot has a negative number for the population and the scaling is too large to identify the population number of each age. <strong>This requires changing the x-axis to only positive values and changing the scale.</strong></p></li>
-<li><p>The bars in the pyramid plot is too clustered to distinguish the age groups clearly as each age value is represented. Secondly, the Y-axis scale does not clearly identify all the age groups for the population comparison. <strong>This can tidied by grouping the ages into ranges for better representation and also reduce the amount of the bars on the pyramid plot</strong></p></li>
-<li><p>The Age Groups for the bar chart plot might be too bias for the ‘Adult’ group as its range is between 25 - 65 years old where majority of the population falls under. It will better to have more than 4 main groupings to increase the representation accuracy of population. <strong>This can be adjusted by splitting the ‘Adult’ groups into ‘Young Adults’, ‘Middle-Aged Adults’ etc. This will spread the age range as equal as possible with addition legends on the plot to describe the ranges</strong></p></li>
+<p>The gridlines for both the 1) Pyramid plot and 2) Bar charts help to guide the user on the axis references.</p>
+<ol start="2" type="1">
+<li><strong>Colour Theme</strong></li>
 </ol>
+<p>The colour code of males and females were consistent and easily distinguishable for both plots. I am instantly able to identify the gender from the plots.</p>
+<ol start="3" type="1">
+<li><strong>Clarity of Secondary Bar Chart Plot</strong></li>
+</ol>
+<p>The bar chart helps to provide a simple but direct comparison of the ranked categorical data. It describes the total population of each ‘Age groups’ where majority of the population are ‘Adults’.</p>
 </section>
-<section id="improvements-to-plot" class="level2">
-<h2 class="anchored" data-anchor-id="improvements-to-plot">Improvements to Plot</h2>
+<section id="areas-of-improvements" class="level3">
+<h3 class="anchored" data-anchor-id="areas-of-improvements"><strong>3.1.2 Areas of Improvements</strong></h3>
+<ol type="1">
+<li><strong>Axis Scale</strong></li>
+</ol>
+<p>The x-axis of the pyramid plot has a negative number for the population and the scaling is too large to identify the population number of each age.</p>
+<p><u>Suggestion:</u> <strong>This requires changing the x-axis to only positive values and changing the scale into thousands.</strong></p>
+<ol start="2" type="1">
+<li><strong>Binning of Age Groups</strong></li>
+</ol>
+<p>The bars in the pyramid plot is too clustered, where I am unable to distinguish the age groups clearly as all the ages are represented in the plot. Secondly, the Y-axis scale of only 4 digits does not clearly identify all the age groups for identification.</p>
+<p><u>Suggestion:</u> <strong>This can tidied by grouping the ages into ranges for better representation and also reduce the amount of the bars on the pyramid plot</strong></p>
+<ol start="3" type="1">
+<li><strong>Editing the Age Grouping &amp; Sorting it via age</strong></li>
+</ol>
+<p>For the bar chart plot, the ‘Adult’ group might be too bias as majority of the population falls under the range between ‘25 - 65 years old’. It would be better to increases the amount of groups from the initial 4 for a more accurate representation of the population groups. Secondly, the groups are not sorted properly making it confusing to identify which has the least population.</p>
+<p><u>Suggestion:</u> <strong>This can be adjusted by splitting the ‘Adult’ groups into ‘Young Adults’, ‘Middle-Aged Adults’ &amp; ‘Older Adults’. Ensuring the groups are categorized as equal/fair as possible. The new groups are sorting according to increasing age groups for easier identification.</strong></p>
+</section>
+</section>
+</section>
+<section id="rework-improvements-to-the-plot" class="level1">
+<h1>4 Rework: Improvements to the Plot</h1>
+<section id="additional-code-chunks-to-the-plot" class="level2">
+<h2 class="anchored" data-anchor-id="additional-code-chunks-to-the-plot">4.1 Additional Code Chunks to the plot</h2>
 <section id="editing-the-age-column-and-binning" class="level3">
-<h3 class="anchored" data-anchor-id="editing-the-age-column-and-binning">Editing the Age column and Binning</h3>
-<p>The Age column is not entirely numeric due to texual vaues “90_and_Over”. I will directy address this by creating a new column called AgeNum2 and recode to “90” using string replacement. This will make the binning of new age ranges for the edited pyramid plot easier.</p>
-<p>Binning into ranges:</p>
+<h3 class="anchored" data-anchor-id="editing-the-age-column-and-binning">4.1.1 Editing the Age column and Binning</h3>
+<p>The Age column is not entirely numeric due to character values “90_and_Over”. I will directly address this by creating a new column called ‘AgeNum2’ and re-code those character values to “90” using <u>string replacement</u>. This will make the binning of new age ranges for the edited pyramid plot easier.</p>
+<p><strong>Binning into ranges:</strong></p>
 <p>I will bin the ages into incremental ranges of 5 using AgeNum column into ‘AgeNum2’.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>age_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">90</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>age_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">5</span>), <span class="fu">seq</span>(<span class="dv">4</span>, <span class="dv">84</span>, <span class="dv">5</span>), <span class="at">sep =</span> <span class="st">"-"</span>), <span class="st">"85-89"</span>, <span class="st">"90+"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeNum =</span> <span class="fu">ifelse</span>(AgeNum <span class="sc">==</span> <span class="st">"90+"</span>, <span class="dv">90</span>, AgeNum),</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeNum =</span> <span class="fu">as.numeric</span>(AgeNum),</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeNum2 =</span> <span class="fu">cut</span>(</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      AgeNum,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">90</span>, <span class="dv">5</span>), <span class="cn">Inf</span>),</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> age_labels,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">right =</span> <span class="cn">FALSE</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>age_breaks <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">90</span>, <span class="at">by =</span> <span class="dv">5</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>age_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">80</span>, <span class="dv">5</span>), <span class="fu">seq</span>(<span class="dv">4</span>, <span class="dv">84</span>, <span class="dv">5</span>), <span class="at">sep =</span> <span class="st">"-"</span>), <span class="st">"85-89"</span>, <span class="st">"90+"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeNum =</span> <span class="fu">ifelse</span>(AgeNum <span class="sc">==</span> <span class="st">"90+"</span>, <span class="dv">90</span>, AgeNum),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeNum =</span> <span class="fu">as.numeric</span>(AgeNum),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeNum2 =</span> <span class="fu">cut</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      AgeNum,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">90</span>, <span class="dv">5</span>), <span class="cn">Inf</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">labels =</span> age_labels,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">right =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p><strong>Expanding Age Groupings:</strong></p>
 <p>Adding Another column ‘AgeGroup2’ by editing the Age ranges</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeGroup2 =</span> <span class="fu">case_when</span>(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">12</span> <span class="sc">~</span> <span class="st">"Children"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">20</span> <span class="sc">~</span> <span class="st">"Teenagers"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Young Adults"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">45</span> <span class="sc">~</span> <span class="st">"Adults"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">64</span> <span class="sc">~</span> <span class="st">"Older Adults"</span>,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Elderly"</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">AgeGroup2 =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">12</span> <span class="sc">~</span> <span class="st">"Children"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">20</span> <span class="sc">~</span> <span class="st">"Teenagers"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">30</span> <span class="sc">~</span> <span class="st">"Young Adults"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">45</span> <span class="sc">~</span> <span class="st">"Adults"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      AgeNum <span class="sc">&lt;=</span> <span class="dv">64</span> <span class="sc">~</span> <span class="st">"Older Adults"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Elderly"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+</section>
+</section>
+<section id="reworking-the-actual-plot" class="level2">
+<h2 class="anchored" data-anchor-id="reworking-the-actual-plot">4.2 Reworking the Actual Plot</h2>
+<p>Combining the additional code blocks above together with optimizing the original code. The below plot is derived.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Code</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_pyramid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop =</span> <span class="fu">ifelse</span>(Sex <span class="sc">==</span> <span class="st">"Males"</span>, <span class="sc">-</span>Pop, Pop))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_pyramid, <span class="fu">aes</span>(<span class="at">x =</span> AgeNum2, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">150000</span>, <span class="dv">150000</span>, <span class="dv">50000</span>),</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">150</span>, <span class="dv">150</span>, <span class="dv">50</span>))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Singapore Residents Pyramid by Age Cohort, 2024"</span>,</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Age group"</span>,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Population in thousands"</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">10</span>))</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sex, AgeGroup2) <span class="sc">%&gt;%</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Pop =</span> <span class="fu">sum</span>(Pop)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AgeGroup2, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">width =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Children"</span>,<span class="st">"Teenagers"</span>,<span class="st">"Young Adults"</span>,<span class="st">"Adults"</span>,<span class="st">"Older Adults"</span>,<span class="st">"Elderly"</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">+</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Group Distribution by Gender"</span>, <span class="at">y =</span> <span class="st">"Population"</span>, <span class="at">x =</span> <span class="st">"Age Groups"</span>) <span class="sc">+</span></span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  common_theme <span class="sc">+</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">4</span>)),</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>(p6 <span class="sc">/</span> p7) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">1.3</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -508,9 +542,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_pyramid <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Pop =</span> <span class="fu">ifelse</span>(Sex <span class="sc">==</span> <span class="st">"Males"</span>, <span class="sc">-</span>Pop, Pop))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df_pyramid, <span class="fu">aes</span>(<span class="at">x =</span> AgeNum2, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">150000</span>, <span class="dv">150000</span>, <span class="dv">50000</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">150</span>, <span class="dv">150</span>, <span class="dv">50</span>))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Singapore Residents Pyramid by Age Cohort, 2024"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Age group"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Population (in thousands)"</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">10</span>))</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>p7 <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Sex, AgeGroup2) <span class="sc">%&gt;%</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Pop =</span> <span class="fu">sum</span>(Pop)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> AgeGroup2, <span class="at">y =</span> Pop, <span class="at">fill =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>, <span class="at">width =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Children"</span>,<span class="st">"Teenagers"</span>,<span class="st">"Young Adults"</span>,<span class="st">"Adults"</span>,<span class="st">"Older Adults"</span>,<span class="st">"Elderly"</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">+</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Group Distribution by Gender"</span>, <span class="at">y =</span> <span class="st">"Population"</span>, <span class="at">x =</span> <span class="st">"Age Groups"</span>) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_comma</span>()) <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  common_theme <span class="sc">+</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">4</span>)),</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title     =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>(p6 <span class="sc">/</span> p7) <span class="sc">+</span> <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(<span class="fl">1.3</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Conclusion">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conclusion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With these changes to the original plots, we can visualize the Age and Population distribution much clearer.</p>
+</div>
+</div>
 
 
-</section>
 </section>
 </section>
 

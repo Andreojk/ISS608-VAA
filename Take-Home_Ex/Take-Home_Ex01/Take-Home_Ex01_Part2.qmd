@@ -9,38 +9,42 @@ format:
     code-summary: "Code"
 ---
 
-# Intro
+# 1. Overview
 
-## Overview
+## 1.1 Background
 
 *We are tasked with the below instructions for 'Take-Home_Ex01_Part2':*
 
-Phase 2: Selecting one submission provided by your classmate, critic three good design principles and three areas for further improvement. With reference to the comment, prepare the makeover version of the data visualisation.
+::: {.callout-tip title="Part 2 Instructions"}
+Part 2: Selecting one submission provided by your classmate, critic three good design principles and three areas for further improvement. With reference to the comment, prepare the makeover version of the data visualization.
+:::
 
-## Framework to Critic Visualisations & Classmates links
+## 1.2 Framework to Critic Visualizations & Classmates links
 
-During lecture, an article published by [Ben Jones](https://dataremixed.com/2012/05/data-visualization-clarity-or-aesthetics/) was shared as a framework to judge data visualisation plots. I will be using this as a baseline to praise or critic the plots.
+During lecture, an article published by [Ben Jones](https://dataremixed.com/2012/05/data-visualization-clarity-or-aesthetics/) was shared as a framework to judge data visualization plots. I will be using this as a baseline to praise or critic the plots in this exercise.
 
-### 4 Quadrants
+### 1.2.1 The 4 Quadrants
 
-![](images/quadrant.webp){fig-align="center"} *The Four Quadrants:*
+![](images/quadrant.webp){fig-align="center"}
+
+*The Four Quadrants:*
 
 -   Quadrant I is for the winning visualizations that are both clear AND beautiful.
 -   Quadrant II, where those unfortunate clear but ugly visualizations live.
 -   Quadrant III, the saddest plot of land reserved for those ugly AND confusing works that should never have been.
 -   Quadrant IV – the insidious land of the visualizations that stun you with their graphical beauty, but don’t impart a lick of understanding of the real world, at least not of the accurate sort. Even worse, they tend to mislead the reader, sometimes with malicious intent.
 
-### Classmate Links
+## 1.3 Classmate Links
 
-I will be using the following few classmate's submission (See the link) for this activity. His data cleaning will be replicated in the initial steps to get the original plot.
+I will be using the following classmate's submission **(Click the link below)** for this activity. His data cleaning will be replicated in the initial steps to get the original plot.
 
 [Plot 3](https://cabbage-wonderland.netlify.app/takehome_ex/takehome_ex01/takehome_ex01)
 
-# Critic
+# 2. Getting Started
 
-## Loading of libraries and dataset
+## 2.1 Loading of libraries and dataset
 
-Libraries:
+**Libraries:**
 
 ```{r}
 pacman::p_load(ggrepel, patchwork, 
@@ -49,13 +53,21 @@ pacman::p_load(ggrepel, patchwork,
                patchwork, DT, dplyr, scales, forcats, dplyr, grid) 
 ```
 
-Dataset:
+**Dataset:**
 
 ```{r}
 df <- read_csv("data/respopagesex2024.csv")
 ```
 
-Theme
+## 2.2 Loading original skeleton and codes
+
+::: {.callout-tip title="Original Author's Theme"}
+We will keep to the original author's code to replicate his/her plot.
+:::
+
+**Theme:**
+
+Using the original author's theme.
 
 ```{r}
 common_theme <- theme_minimal(base_size = 16) +
@@ -68,7 +80,9 @@ common_theme <- theme_minimal(base_size = 16) +
   )
 ```
 
-Creating a Numeric Age Column & Age Grouping
+**Creating a Numeric Age Column & Age Grouping:**
+
+Column type created are integers to be used for plotting.
 
 ```{r}
 df <- df %>%
@@ -89,17 +103,19 @@ df <- df %>%
   )
 ```
 
+# 3. Original Plot: Population Structure by Age / Gender
+
+## 3.1 Orginal Plot
+
+::: {.callout-tip title="Replicating the Original Plot"}
+Below is the original plot (Plot 3) from the chosen classmate's link. It might look smaller from the original link but the overall aesthetic remains the same.
+:::
+
+::: panel-tabset
+#### Plot
+
 ```{r}
-str(df)
-```
-
-# Plot Improvement: Population Structure by Age / Gender
-
-## Orginal Plot
-
-Below is the original plot (Plot 3) from the chosen classmate's link.
-
-```{r}
+#| echo: false
 df_pyramid <- df %>%
   filter(AgeNum <= 90) %>%
   mutate(Pop = ifelse(Sex == "Males", -Pop, Pop))
@@ -123,29 +139,79 @@ p7 <- df %>%
 (p6 / p7) + plot_layout(heights = c(1.3, 1))
 ```
 
-***Good Design Principles***
+#### Code
 
-1.  The gridlines for both the 1) Pyramid plot and 2) Bar charts help with the mapping to both axis.
+```{r}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+df_pyramid <- df %>%
+  filter(AgeNum <= 90) %>%
+  mutate(Pop = ifelse(Sex == "Males", -Pop, Pop))
 
-2.  The colour coding of males and females were consistent and distinguishable.
+p6 <- ggplot(df_pyramid, aes(x = AgeNum, y = Pop, fill = Sex)) +
+  geom_col(width = 1) +
+  coord_flip() +
+  labs(title = "Population Pyramid", x = "Age", y = "Population") +
+  scale_y_continuous(labels = label_comma()) +
+  common_theme
 
-3.  The bar chart helps to describe the total population of each 'Age groups' where majority of the population are 'Adults'.
+p7 <- df %>%
+  group_by(Sex, AgeGroup) %>%
+  summarise(Pop = sum(Pop)) %>%
+  ggplot(aes(x = AgeGroup, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Age Group Distribution by Gender", y = "Population") +
+  scale_y_continuous(labels = label_comma()) +
+  common_theme
 
-***Areas of Improvements***
+(p6 / p7) + plot_layout(heights = c(1.3, 1))
+```
+:::
 
-1.  The x-axis of the pyramid plot has a negative number for the population and the scaling is too large to identify the population number of each age. **This requires changing the x-axis to only positive values and changing the scale.**
+### **3.1.1 Good Design Principles**
 
-2.  The bars in the pyramid plot is too clustered to distinguish the age groups clearly as each age value is represented. Secondly, the Y-axis scale does not clearly identify all the age groups for the population comparison. **This can tidied by grouping the ages into ranges for better representation and also reduce the amount of the bars on the pyramid plot**
+1.  **Clean Plots with Gridlines**
 
-3.  The Age Groups for the bar chart plot might be too bias for the 'Adult' group as its range is between 25 - 65 years old where majority of the population falls under. It will better to have more than 4 main groupings to increase the representation accuracy of population. **This can be adjusted by splitting the 'Adult' groups into 'Young Adults', 'Middle-Aged Adults' etc. This will spread the age range as equal as possible with addition legends on the plot to describe the ranges**
+The gridlines for both the 1) Pyramid plot and 2) Bar charts help to guide the user on the axis references.
 
-## Improvements to Plot
+2.  **Colour Theme**
 
-### Editing the Age column and Binning
+The colour code of males and females were consistent and easily distinguishable for both plots. I am instantly able to identify the gender from the plots.
 
-The Age column is not entirely numeric due to texual vaues "90_and_Over". I will directy address this by creating a new column called AgeNum2 and recode to "90" using string replacement. This will make the binning of new age ranges for the edited pyramid plot easier.
+3.  **Clarity of Secondary Bar Chart Plot**
 
-Binning into ranges:
+The bar chart helps to provide a simple but direct comparison of the ranked categorical data. It describes the total population of each 'Age groups' where majority of the population are 'Adults'.
+
+### **3.1.2 Areas of Improvements**
+
+1.  **Axis Scale**
+
+The x-axis of the pyramid plot has a negative number for the population and the scaling is too large to identify the population number of each age.
+
+[Suggestion:]{.underline} **This requires changing the x-axis to only positive values and changing the scale into thousands.**
+
+2.  **Binning of Age Groups**
+
+The bars in the pyramid plot is too clustered, where I am unable to distinguish the age groups clearly as all the ages are represented in the plot. Secondly, the Y-axis scale of only 4 digits does not clearly identify all the age groups for identification.
+
+[Suggestion:]{.underline} **This can tidied by grouping the ages into ranges for better representation and also reduce the amount of the bars on the pyramid plot**
+
+3.  **Editing the Age Grouping & Sorting it via age**
+
+For the bar chart plot, the 'Adult' group might be too bias as majority of the population falls under the range between '25 - 65 years old'. It would be better to increases the amount of groups from the initial 4 for a more accurate representation of the population groups. Secondly, the groups are not sorted properly making it confusing to identify which has the least population.
+
+[Suggestion:]{.underline} **This can be adjusted by splitting the 'Adult' groups into 'Young Adults', 'Middle-Aged Adults' & 'Older Adults'. Ensuring the groups are categorized as equal/fair as possible. The new groups are sorting according to increasing age groups for easier identification.**
+
+# 4 Rework: Improvements to the Plot
+
+## 4.1 Additional Code Chunks to the plot
+
+### 4.1.1 Editing the Age column and Binning
+
+The Age column is not entirely numeric due to character values "90_and_Over". I will directly address this by creating a new column called 'AgeNum2' and re-code those character values to "90" using [string replacement]{.underline}. This will make the binning of new age ranges for the edited pyramid plot easier.
+
+**Binning into ranges:**
 
 I will bin the ages into incremental ranges of 5 using AgeNum column into 'AgeNum2'.
 
@@ -166,6 +232,8 @@ df <- df %>%
   )
 ```
 
+**Expanding Age Groupings:**
+
 Adding Another column 'AgeGroup2' by editing the Age ranges
 
 ```{r}
@@ -182,7 +250,16 @@ df <- df %>%
   )
 ```
 
+## 4.2 Reworking the Actual Plot
+
+Combining the additional code blocks above together with optimizing the original code. The below plot is derived.
+
+::: panel-tabset
+#### Plot
+
 ```{r, fig.width=10, fig.height=10}
+#| echo: false
+
 df_pyramid <- df %>%
   mutate(Pop = ifelse(Sex == "Males", -Pop, Pop))
 
@@ -196,7 +273,7 @@ p6 <- ggplot(df_pyramid, aes(x = AgeNum2, y = Pop, fill = Sex)) +
   labs(
     title = "Singapore Residents Pyramid by Age Cohort, 2024",
     x = "Age group",
-    y = "Population in thousands"
+    y = "Population (in thousands)"
   ) +
   theme_minimal() +
   theme(
@@ -228,3 +305,61 @@ p7 <- df %>%
 
 (p6 / p7) + plot_layout(heights = c(1.3, 1))
 ```
+
+#### Code
+
+```{r, fig.width=10, fig.height=10}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+df_pyramid <- df %>%
+  mutate(Pop = ifelse(Sex == "Males", -Pop, Pop))
+
+p6 <- ggplot(df_pyramid, aes(x = AgeNum2, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", width = 0.8) +
+  coord_flip() +
+  scale_y_continuous(
+    breaks = seq(-150000, 150000, 50000),
+    labels = abs(seq(-150, 150, 50))
+  ) +
+  labs(
+    title = "Singapore Residents Pyramid by Age Cohort, 2024",
+    x = "Age group",
+    y = "Population (in thousands)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    axis.text.y = element_text(size = 10),
+    axis.title.x = element_text(margin = margin(t = 10))
+  )
+
+p7 <- df %>%
+  group_by(Sex, AgeGroup2) %>%
+  summarise(Pop = sum(Pop)) %>%
+  ggplot(aes(x = AgeGroup2, y = Pop, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.8) +
+  scale_x_discrete(limits = c(
+      "Children","Teenagers","Young Adults","Adults","Older Adults","Elderly"
+    )) +
+  labs(title = "Age Group Distribution by Gender", y = "Population", x = "Age Groups") +
+  scale_y_continuous(labels = label_comma()) +
+  common_theme +
+  theme(
+    plot.title       = element_text(size = 14, hjust = 0.5, face = "bold"),
+    axis.title.x     = element_text(size = 10, margin = margin(t = 4)),
+    axis.title.y     = element_text(size = 10),
+    axis.text.y      = element_text(size = 8),
+    axis.text.x      = element_text(size = 8),
+    legend.title     = element_text(size = 10),
+    legend.text      = element_text(size = 8)
+    )
+
+(p6 / p7) + plot_layout(heights = c(1.3, 1))
+```
+:::
+
+::: {.callout-tip title="Conclusion"}
+With these changes to the original plots, we can visualize the Age and Population distribution much clearer.
+:::
