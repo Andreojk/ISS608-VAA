@@ -346,6 +346,77 @@ Thing to learn from the code chunk above:
 
 - layout argument is used to define the layout to be used.
 
+### **(Alternate Plots)**
+
+In this sub-portion, I will be exploring alternate plots from the following *references*:
+
+- [Layouts](https://ggraph.data-imaginist.com/articles/Layouts.html)
+- [tidygraph and ggraph](https://ggraph.data-imaginist.com/articles/tidygraph.html)
+
+::: panel-tabset
+
+#### Tidygraph algorithms in ggraph code
+
+```{r}
+
+ggraph(GAStech_graph, 
+            layout = 'fr') + 
+  geom_edge_link() + 
+  geom_node_point(aes(size = centrality_pagerank())) + 
+  theme(legend.position = 'bottom')
+```
+
+#### Group_info map from above
+
+```{r}
+
+ggraph(GAStech_graph, 
+            layout = 'fr') + 
+  geom_edge_link() + 
+  geom_node_point() + 
+  facet_nodes(~ group_infomap())
+
+```
+
+#### Grid Layout
+
+```{r}
+
+ggraph(GAStech_graph, 
+            layout = "grid") +
+  geom_edge_link(aes()) +
+  geom_node_point(aes()) +
+  theme_graph()
+```
+
+#### Focal Layout (Coord Diagram)
+
+```{r}
+
+g <- ggraph(GAStech_graph, 
+            'focus', focus = node_is_center()) + 
+  ggforce::geom_circle(aes(x0 = 0, y0 = 0, r = r), data.frame(r = 1:3), colour = 'grey') + 
+  geom_edge_link() + 
+  geom_node_point() + 
+  coord_fixed()
+
+g + theme_graph()
+```
+
+#### Spring-based Layout
+
+```{r}
+
+ggraph(GAStech_graph, 
+            layout = "kk") +
+  geom_edge_link(aes()) +
+  geom_node_point(aes()) +
+  theme_graph()
+
+```
+
+:::
+
 ### 27.5.6 Modifying network nodes
 
 In this section, you will colour each node by referring to their respective departments.
