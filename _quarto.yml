@@ -2,10 +2,10 @@ project:
   type: website
 
 website:
-  favicon: "images/Peachu_Goma.png"
+  favicon: "images/Chibi-guy.png"
   title: "ISS608-VAA"
   navbar:
-    logo: "images/Peachu_Goma.png"
+    logo: "images/Chibi-guy.png"
     left:
     - text: "Hands-on Exercise"
       menu:
