@@ -380,27 +380,27 @@ hline.data <- Vietnam %>%
 
 The code chunk below is used to plot the cycle plot as shown in Slide 12/23.
 
-```{r, fig.width=22, fig.height=12}
+```{r}
 #| code-fold: false
 #| code-summary: "Code"
 
 ggplot() + 
-  geom_line(data=Vietnam,
-            aes(x=year, 
-                y=`Vietnam`, 
-                group=month), 
-            colour="black") +
-  geom_hline(aes(yintercept=avgvalue), 
-             data=hline.data, 
-             linetype=6, 
-             colour="red", 
-             size=0.5) + 
+  geom_line(data = Vietnam,
+            aes(x = year, 
+                y = `Vietnam`, 
+                group = month), 
+            colour = "black") +
+  geom_hline(data = hline.data, 
+             aes(yintercept = avgvalue), 
+             linetype = "dashed", 
+             colour = "red", 
+             size = 0.5) + 
   facet_grid(~month) +
-  labs(axis.text.x = element_blank(),
-       title = "Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019") +
-  xlab("") +
-  ylab("No. of Visitors") +
-  theme_tufte(base_family = "Helvetica")
+  labs(title = "Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019",
+       x = "", 
+       y = "No. of Visitors") +   
+  theme_minimal(base_family = "Helvetica") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 8))
 ```
 
 ## 17.6 Plotting Slopegraph
@@ -458,4 +458,368 @@ rice %>%
 
 ::: {.callout-note title="Note"}
 For effective data visualisation design, factor() is used convert the value type of Year field from numeric to factor.
+:::
+
+## **Extra Plots using Rice Dataset**
+
+I will be exploring the below additional plots for the Rice dataset.
+
+- **Heatmaps, Cycleplots, Barcharts, Boxplots, Linegraphs.**
+
+Main purpose will be to visualize the **1) Rice production** & **2) Yield** over the years or countries.
+
+::: {.callout-tip title="Simple and Easy"}
+For effective data visualization, simple graphs can tell a story instead of complicated ones.
+:::
+
+### Loading Packages
+
+```{r}
+pacman::p_load(ggplot2, readr, dplyr, scales) 
+```
+
+### Rice Production (Extra Plots 1 - 4)
+
+#### Plot 1 Rice Production Heat Map
+
+- Let's plot out a heatmap to show the Rice Production values across the countries.
+
+::: panel-tabset
+
+##### Plot
+
+```{r}
+#| echo: false
+
+ggplot(rice, aes(x = Year, y = Country, fill = Production)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis(option = "C", labels = comma) +
+  labs(
+    title = "Heatmap of Rice Production",
+    x = "Year",
+    y = ""
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 7),
+    panel.grid = element_blank()
+  )
+```
+
+##### Code
+
+```{r}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+ggplot(rice, aes(x = Year, y = Country, fill = Production)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis(option = "C", labels = comma) +
+  labs(
+    title = "Heatmap of Rice Production",
+    x = "Year",
+    y = ""
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 7),
+    panel.grid = element_blank()
+  )
+```
+
+:::
+
+::: {.callout-note title="Plot 1 Note"}
+Based on the colour, this shows that China has the highest amount of rice production
+:::
+
+
+#### Plot 2 Rice Production Over Time
+
+- If china has the highest rice production, let's see how much China actually produces yearly against the other countries.
+
+::: panel-tabset
+
+##### Plot
+
+```{r, fig.width=10, fig.height=10}
+#| echo: false
+
+ggplot(rice, aes(x = Year, y = Production, color = Country, group = Country)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Rice Production Over Time",
+    x = "Year",
+    y = "Production (tonnes)"
+  ) +
+  scale_x_continuous(breaks = pretty_breaks()) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal()
+```
+
+##### Code
+
+```{r}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+ggplot(rice, aes(x = Year, y = Production, color = Country, group = Country)) +
+  geom_line(size = 1) +
+  labs(
+    title = "Rice Production Over Time",
+    x = "Year",
+    y = "Production (tonnes)"
+  ) +
+  scale_x_continuous(breaks = pretty_breaks()) +
+  theme_minimal()
+```
+
+:::
+
+::: {.callout-note title="Plot 2 Note"}
+The bottom few countries in the plot are hard to deduce the order. Let's try to use bargraph to understand it further.
+:::
+
+#### Plot 3 Rice Production using Bar graphs 
+
+- Using bargraphs with the axis, we can visualise clearly on the order of countries for total rice production and their respective values.
+
+::: panel-tabset
+
+##### Plot 
+
+```{r}
+#| echo: false
+
+rice %>%
+  group_by(Country) %>%
+  summarize(TotalProd = sum(Production, na.rm = TRUE)) %>%
+  arrange(desc(TotalProd)) %>%
+  ggplot(aes(x = reorder(Country, TotalProd), y = TotalProd, fill = Country)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Total Rice Production by Country",
+    x = "",
+    y = "Total Production (tonnes)"
+  ) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal()
+```
+
+##### Code 
+
+```{r}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+rice %>%
+  group_by(Country) %>%
+  summarize(TotalProd = sum(Production, na.rm = TRUE)) %>%
+  arrange(desc(TotalProd)) %>%
+  ggplot(aes(x = reorder(Country, TotalProd), y = TotalProd, fill = Country)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Total Rice Production by Country",
+    x = "",
+    y = "Total Production (tonnes)"
+  ) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal()
+```
+
+:::
+
+::: {.callout-note title="Plot 3 Note"}
+The bar graph clearly shows the distinct difference and order between the countries and the amount of rice produced.
+:::
+
+#### Plot 4 Overall Rice production across the Years using Line graphs
+
+- Curiously, I want to find out has rice production output always increased every decade.
+
+::: panel-tabset
+
+##### Plot
+
+```{r, fig.height=4}
+#| echo: false
+
+# 2. Cycle plot: group years into decades and show within-decade patterns
+
+
+rice_cycle <- rice %>%
+  mutate(
+    Decade = paste0(floor((Year - 1) / 10) * 10, "s"),
+    YearInDecade = Year - as.numeric(substr(Decade, 1, 4))
+  ) %>%
+  group_by(Decade, Year, YearInDecade) %>%
+  summarize(TotalProd = sum(Production, na.rm = TRUE), .groups = "drop")
+
+
+ggplot(rice_cycle, aes(
+  x = Year - as.numeric(substr(Decade, 1, 4)),
+  y = TotalProd,
+  color = Decade,
+  group = Decade
+)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Cycle Plot: Rice Production by Decade",
+    x = "Year within Decade",
+    y = "Total Production (tonnes)"
+  ) +
+  scale_x_continuous(breaks = 0:10) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+
+##### Code
+
+```{r, fig.height=4}
+
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+# 2. Cycle plot: group years into decades and show within-decade patterns
+
+
+rice_cycle <- rice %>%
+  mutate(
+    Decade = paste0(floor((Year - 1) / 10) * 10, "s"),
+    YearInDecade = Year - as.numeric(substr(Decade, 1, 4))
+  ) %>%
+  group_by(Decade, Year, YearInDecade) %>%
+  summarize(TotalProd = sum(Production, na.rm = TRUE), .groups = "drop")
+
+
+ggplot(rice_cycle, aes(
+  x = Year - as.numeric(substr(Decade, 1, 4)),
+  y = TotalProd,
+  color = Decade,
+  group = Decade
+)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Cycle Plot: Rice Production by Decade",
+    x = "Year within Decade",
+    y = "Total Production (tonnes)"
+  ) +
+  scale_x_continuous(breaks = 0:10) +
+  scale_y_continuous(labels = comma) +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+```
+
+:::
+
+::: {.callout-note title="Plot 4 Note"}
+This trend shows that countries have produced more than 2.5x the total production of rice from 1960s to 2000s.
+:::
+
+### Rice Yield (Extra Plots 5 - 6)
+
+#### Plot 5 Rice Yield By Country using line graph
+
+- Let's try to visualize the yield of rice production of each country.
+
+::: panel-tabset
+
+##### Plot
+
+```{r, fig.height= 8}
+#| echo: false
+
+ggplot(rice, aes(x = Year, y = Yield, color = Country, group = Country)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_continuous(labels = label_comma()) +
+  labs(
+    title = "Rice Yield by Country (1961–1980)",
+    subtitle = "Year: 1960 to 1980",
+    x = "Year", y = "Yield (tonnes per hectare)",
+    caption = "Animated line plot using gganimate"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+```
+
+##### Code
+
+```{r, fig.height= 8}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+ggplot(rice, aes(x = Year, y = Yield, color = Country, group = Country)) +
+  geom_line(linewidth = 1.2) +
+  scale_y_continuous(labels = label_comma()) +
+  labs(
+    title = "Rice Yield by Country (1961–1980)",
+    subtitle = "Year: 1960 to 1980",
+    x = "Year", y = "Yield (tonnes per hectare)",
+    caption = "Animated line plot using gganimate"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+
+```
+
+:::
+
+::: {.callout-note title="Plot 5 Note"}
+It's abit hard to visualise with line graph, a boxplot might be more suitable for this instead.
+:::
+
+#### Plot 6 Rice Yield By Country using Boxplot
+
+::: panel-tabset
+
+##### Plot
+
+```{r}
+#| echo: false
+
+ggplot(rice, aes(x = Country, y = Yield, fill = Country)) +
+  geom_boxplot(outlier.alpha = 0.4) +
+  coord_flip() +
+  labs(
+    title = "Distribution of Rice Yield by Country",
+    x = "",
+    y = "Yield (tonnes/ha)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+##### Code
+
+```{r}
+#| code-fold: false
+#| code-summary: "Code"
+#| eval: false
+
+ggplot(rice, aes(x = Country, y = Yield, fill = Country)) +
+  geom_boxplot(outlier.alpha = 0.4) +
+  coord_flip() +
+  labs(
+    title = "Distribution of Rice Yield by Country",
+    x = "",
+    y = "Yield (tonnes/ha)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+
+:::
+
+::: {.callout-note title="Plot 6 Note"}
+The boxplot accurately shows the spread of yield of each country. Based on the plot, u can find that Korea, Japan & China are the top 3 countries for Yield.
 :::

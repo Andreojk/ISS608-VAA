@@ -10,6 +10,7 @@ format:
 ---
 
 ## Getting Started
+
 Loading the R packages required.
 
 ```{r}
@@ -30,7 +31,7 @@ str(kg, max.level = 1)
 
 ### Extract and Inspect
 
-- Data cleaning by splitting the nodes and links. 
+-   Data cleaning by splitting the nodes and links.
 
 ```{r}
 nodes_tbl <- as_tibble(kg$nodes)
@@ -40,7 +41,7 @@ edges_tb1 <- as_tibble(kg$links)
 ## Initial EDA
 
 ::: {.callout-note title="Note"}
-- field names uses `` instead of ''.
+-   field names uses \`\` instead of ''.
 :::
 
 ```{r}
