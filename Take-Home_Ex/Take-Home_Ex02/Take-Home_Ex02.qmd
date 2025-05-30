@@ -14,7 +14,7 @@ format:
 Loading the R packages required.
 
 ```{r}
-pacman::p_load(tidyverse, jsonlite, SmartEDA, tidygraph, ggraph, visNetwork)
+pacman::p_load(tidyverse, jsonlite, SmartEDA, tidygraph, ggraph, visNetwork, gridExtra)
 ```
 
 In the code below, 'fromJSON' of **jsonlite** package is used to import *MC1_graph.json* file ino R.
@@ -38,7 +38,9 @@ nodes_tbl <- as_tibble(kg$nodes)
 edges_tb1 <- as_tibble(kg$links)
 ```
 
-## Initial EDA
+## Initial Data Checks
+
+- I will be checking the categories for the Nodes,Edges and their count.
 
 ::: {.callout-note title="Note"}
 -   field names uses \`\` instead of ''.
@@ -47,7 +49,12 @@ edges_tb1 <- as_tibble(kg$links)
 ```{r}
 ggplot(data = edges_tb1,
        aes(y = `Edge Type`)) + geom_bar()
-```
+``` 
+
+```{r}
+ggplot(data = nodes_tbl,
+       aes(y = `Node Type`)) + geom_bar()
+``` 
 
 ## Creating Knowledge Graph
 
@@ -81,7 +88,7 @@ edges_tb1 <- edges_tb1 %>%
 
 ### Step 4: Creating the graph
 
-Lastly, 'tbl_graph' is used to create idygraph's graph object by using the code chuk below.
+Lastly, 'tbl_graph' is used to create tidygraph's graph object by using the code chuk below.
 
 ```{r}
 graph <- tbl_graph(nodes = nodes_tbl,
@@ -89,27 +96,6 @@ graph <- tbl_graph(nodes = nodes_tbl,
                    directed = kg$directed)
 ```
 
-## Visualising the knowledge graph
-
-```{r}
-set.seed(1234)
-```
-
-### Visualising the whole graph
-
-```{r}
-#| eval: false
-
-ggraph(graph, layout = "fr") + 
-  geom_edge_link(alpha = 0.3,
-                 colour = "gray") +
-  geom_node_point(aes(color = `Node Type`),
-                  size = 4) +
-  geom_node_text(aes(label = name),
-                 repel = TRUE, 
-                 size = 2.5) +
-  theme_void()
-```
 
 ### Visualising the sub-graph
 
@@ -158,6 +144,8 @@ ggraph(graph_memberof,
                  size = 2.5) +
   theme_void()
 ```
+
+
 ## visNetwork plot
 
 ```{r}
@@ -215,41 +203,337 @@ visNetwork(nodes_df, edges_df, height = "600px", width = "100%") %>%
 ```
 
 
-## Carving out just Sailor Shift (and her “MemberOf” edges) from your existing graph 
+## Data Exploring
 
-### Visualising the sub-graph section:
+### Checking on the most songs in genres
+
+- Let's find out the top genre's with the most songs.
+
 ```{r}
-# first find Sailor Shift’s node index
-ss_idx <- which(nodes_tbl$name == "Sailor Shift")
 
-# pull only the MemberOf edges touching her
-ss_edges <- edges_tb1 %>% 
-  filter(`Edge Type` == "MemberOf") %>%
-  filter(from == ss_idx | to == ss_idx)
+library(gridExtra)
 
-# rebuild a tiny graph of just those nodes + edges
-ss_nodes <- nodes_tbl %>% 
-  slice(unique(c(ss_edges$from, ss_edges$to)))
+# 1. Load your data
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes)
 
-graph_ss <- tbl_graph(nodes = ss_nodes,
-                      edges = ss_edges %>% 
-                                # remap 'from'/'to' to 1..nrow(ss_nodes)
-                                mutate(
-                                  from = match(from, unique(c(ss_edges$from, ss_edges$to))),
-                                  to   = match(to,   unique(c(ss_edges$from, ss_edges$to)))
-                                ),
-                      directed = TRUE)
+# 2. Filter to Song nodes and flag notoriety
+songs <- nodes_tbl %>% 
+  filter(`Node Type` == "Song") %>%
+  mutate(
+    has_notoriety = !is.na(notoriety_date)
+  )
 
-# plot it
-ggraph(graph_ss, layout = "fr") +
-  geom_edge_link(alpha = 0.7, colour = "gray50") +
-  geom_node_point(aes(color = `Node Type`), size = 4) +
-  geom_node_text(aes(label = name), repel = TRUE, size = 3) +
-  theme_void()
+# 3. Count of songs per genre, broken down by notoriety
+genre_counts <- songs %>%
+  count(genre, has_notoriety, name = "Count") %>%
+  arrange(genre)
+
+p1 <- ggplot(genre_counts, aes(x = fct_reorder(genre, Count, .fun = sum), 
+                               y = Count, 
+                               fill = has_notoriety)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(
+    name   = "Has Notoriety Date",
+    values = c(`TRUE` = "#1f78b4", `FALSE` = "#89aac9"),
+    labels = c("No", "Yes")
+  ) +
+  labs(
+    title = "Number of Songs by Genre (Notoriety Date Present)",
+    x     = NULL,
+    y     = "Song Count"
+  ) +
+  theme_minimal(base_size = 12)
+
+# 4. Optional: Average popularity per genre (if available)
+has_pop <- "popularity" %in% colnames(songs)
+if (has_pop) {
+  genre_pop <- songs %>%
+    group_by(genre) %>%
+    summarise(AvgPopularity = mean(popularity, na.rm = TRUE),
+              .groups = "drop") %>%
+    arrange(desc(AvgPopularity))
+  
+  p2 <- ggplot(genre_pop, aes(x = fct_reorder(genre, AvgPopularity), y = AvgPopularity)) +
+    geom_col(fill = "tomato") +
+    coord_flip() +
+    labs(
+      title = "Average Song Popularity by Genre",
+      x     = NULL,
+      y     = "Avg. Popularity"
+    ) +
+    theme_minimal(base_size = 12)
+  
+  # 5. Display side-by-side
+  grid.arrange(p1, p2, ncol = 2)
+} else {
+  # 5. If no popularity field, just show the stacked count plot
+  print(p1)
+}
 
 ```
 
-## 3 artists
+### Adding notable songs
+
+-  After analysis, there are songs that never get a notoriety_date chart but are still marked as notable == True. Thus, it would be better to count the notable songs instead of notoriety_date.
+
+```{r}
+library(gridExtra)
+
+# 1. Load your data
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes)
+
+# 2. Filter to Song nodes and flag notable
+songs <- nodes_tbl %>% 
+  filter(`Node Type` == "Song") %>%
+  mutate(
+    has_notable = (notable == TRUE)
+  )
+
+# 3. Count of songs per genre, broken down by notable
+genre_counts <- songs %>%
+  count(genre, has_notable, name = "Count") %>%
+  arrange(genre)
+
+p1 <- ggplot(genre_counts, aes(
+         x = fct_reorder(genre, Count, .fun = sum), 
+         y = Count, 
+         fill = has_notable
+       )) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(
+    name   = "Has Notable",
+    values = c(`TRUE`  = "#1f78b4", 
+               `FALSE` = "grey80"),
+    labels = c("No", "Yes")
+  ) +
+  labs(
+    title = "Number of Songs by Genre (Notable Present)",
+    x     = NULL,
+    y     = "Song Count"
+  ) +
+  theme_minimal(base_size = 12)
+
+# 4. Optional: Average popularity per genre (if available)
+has_pop <- "popularity" %in% colnames(songs)
+if (has_pop) {
+  genre_pop <- songs %>%
+    group_by(genre) %>%
+    summarise(AvgPopularity = mean(popularity, na.rm = TRUE),
+              .groups = "drop") %>%
+    arrange(desc(AvgPopularity))
+  
+  p2 <- ggplot(genre_pop, aes(
+           x = fct_reorder(genre, AvgPopularity), 
+           y = AvgPopularity
+         )) +
+    geom_col(fill = "tomato") +
+    coord_flip() +
+    labs(
+      title = "Average Song Popularity by Genre",
+      x     = NULL,
+      y     = "Avg. Popularity"
+    ) +
+    theme_minimal(base_size = 12)
+  
+  # 5. Display side-by-side
+  grid.arrange(p1, p2, ncol = 2)
+} else {
+  # 5. If no popularity field, just show the stacked count plot
+  print(p1)
+}
+
+```
+
+### Top 10 artists with the most notable songs and if it links to the most popular genres.
+
+### Top 10 Person by Notoriety_date Songs
+
+```{r}
+
+
+# 1. Load & index the graph
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes) %>% 
+  mutate(idx = row_number())    # add an index for joining
+links_tbl <- as_tibble(kg_raw$links)
+
+id_map <- nodes_tbl %>% select(id, idx)
+
+edges_idx <- links_tbl %>%
+  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
+  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
+  filter(!is.na(from) & !is.na(to))
+
+# 2. Identify all Person nodes
+person_idxs <- which(nodes_tbl$`Node Type` == "Person")
+
+# 3. Count songs marked 'notable' per Person
+notable_tbl <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf", "PerformerOf"),
+         from %in% person_idxs) %>%
+  # join to get each target song's 'notable' flag
+  left_join(
+    nodes_tbl %>% select(idx, notable),
+    by = c("to" = "idx")
+  ) %>%
+  # keep only those with notable == TRUE
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableSongs") %>%
+  arrange(desc(NotableSongs))
+
+# 4. Plot the top 5 Persons by number of notable songs
+top_n <- 15
+notable_tbl %>%
+  slice_head(n = top_n) %>%
+  ggplot(aes(x = fct_reorder(Person, NotableSongs), y = NotableSongs)) +
+    geom_col(fill = "pink") +
+    coord_flip() +
+    labs(
+      title = "Top Persons by Number of Notable Songs",
+      x     = NULL,
+      y     = "Count of Notable Songs"
+    ) +
+    theme_minimal(base_size = 12)
+
+
+```
+
+-  I will like to visualise who are the top 10 performers with the most notable songs. This will be across genres and not limited to only 1 genre.
+
+
+```{r}
+
+# 3. Compute total notable songs per Person
+notable_tbl_edit <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableSongs") %>%
+  arrange(desc(NotableSongs))
+
+# 4. Define the 10 genres of interest
+genres <- c(
+  "Dream Pop", "Indie Folk", "Synthwave", "Doom Metal", "Oceanus Folk",
+  "Alternative Rock", "Southern Gothic Rock", "Indie Rock",
+  "Americana", "Psychedelic Rock"
+)
+
+# 5. Compute notable‐song counts by Person × Genre
+genre_counts <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs) %>%
+  left_join(
+    nodes_tbl %>% 
+      filter(`Node Type` == "Song", genre %in% genres, notable == TRUE) %>%
+      select(idx, genre),
+    by = c("to" = "idx")
+  ) %>%
+  filter(!is.na(genre)) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, genre, name = "Count")
+
+# 6. Pivot those genres into columns for all persons
+comparison <- notable_tbl_edit %>%
+  rename(AllGenres = NotableSongs) %>%
+  left_join(
+    genre_counts %>%
+      pivot_wider(
+        id_cols     = Person,
+        names_from  = genre,
+        values_from = Count,
+        values_fill = 0,
+        names_prefix = "Notable_"
+      ),
+    by = "Person"
+  ) %>%
+  # fill any missing genre columns with zeros
+  mutate(across(where(is.numeric), ~replace_na(.x, 0))) %>%
+  # reorder: Person, AllGenres, then the Notable_* genres
+  select(Person, AllGenres, starts_with("Notable_"))
+
+# 7. View the wide table
+print(comparison)
+
+```
+
+### Top persons in the top 5 genres based on notarable songs.
+
+```{r}
+
+# 1. Load & index the graph
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes) %>% 
+  mutate(idx = row_number())
+links_tbl <- as_tibble(kg_raw$links)
+
+id_map <- nodes_tbl %>% select(id, idx)
+edges_idx <- links_tbl %>%
+  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
+  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
+  filter(!is.na(from) & !is.na(to))
+
+# 2. Identify all Person nodes
+person_idxs <- which(nodes_tbl$`Node Type` == "Person")
+
+# 3. Define your genres of interest
+genres <- c("Dream Pop", "Indie Folk", "Synthwave", "Doom Metal", "Oceanus Folk")
+
+# 4. Build a lookup of song‐idx → genre + notable flag, for these genres
+genre_songs <- nodes_tbl %>%
+  filter(`Node Type` == "Song", genre %in% genres) %>%
+  select(idx, genre, notable)
+
+# 5. Count notable songs per Person per genre
+notable_genre_tbl <- edges_idx %>%
+  filter(
+    `Edge Type` %in% c("ComposerOf", "PerformerOf"),
+    from %in% person_idxs
+  ) %>%
+  inner_join(genre_songs, by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(genre, Person, name = "NotableSongs") %>%
+  arrange(genre, desc(NotableSongs))
+
+# 6. Take top 5 Persons in each genre
+top5_by_genre <- notable_genre_tbl %>%
+  group_by(genre) %>%
+  slice_max(NotableSongs, n = 5, with_ties = FALSE) %>%
+  ungroup()
+
+# 7. Plot small multiples
+ggplot(top5_by_genre, 
+       aes(x = fct_reorder(Person, NotableSongs), y = NotableSongs)) +
+  geom_col(fill = "darkgreen") +
+  coord_flip() +
+  facet_wrap(~ genre, scales = "free_y", ncol = 2) +
+  labs(
+    title = "Top 5 Persons by Number of Notable Songs in Each Genre",
+    x     = NULL,
+    y     = "Count of Notable Songs"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(strip.text = element_text(face = "bold"))
+
+```
+
+::: {.callout-note title="Selection"}
+Based on the charts shown, we will choose the following artist based on high number of notable songs and popular genre.
+  1. Kimberly Snyder
+  2. Leyla Graf-Gotthard
+  3. Szymon Pyć
+  
+:::
+
+
+##  Part (a) Choosing 3 Artist
 
 I will build an interactive network you can embed right in your Quarto HTML and let readers mouse-over nodes, zoom in on each artist’s “career path,” and color-code by node type (albums, songs, collaborators, etc.). Here’s a self-contained example you can drop into your Quarto doc, which:
 
@@ -259,14 +543,663 @@ Pulls out every node that’s either one of those artists or connected to them b
 
 Builds a tiny visNetwork graph showing their releases (sized by any “popularity” metric you have) and collaborations over time.
 
-### show all possible Edge Type values
+
+## Popularity (Comparison Overall vs in Genre by Notable Songs)
+
+::: panel-tabset
+
+### Kimberly Snyder (Dream Pop)
+
+- Based on the bar graphs, Kimberly Snyder has the most notable songs with some influence in other genres too. 
+
 ```{r}
-unique(edges_idx$`Edge Type`)
+library(gridExtra)
+
+# 1. Load & index the graph
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes) %>% mutate(idx = row_number())
+links_tbl <- as_tibble(kg_raw$links)
+
+id_map    <- nodes_tbl %>% select(id, idx)
+edges_idx <- links_tbl %>%
+  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
+  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
+  filter(!is.na(from) & !is.na(to))
+
+person_idxs <- which(nodes_tbl$`Node Type` == "Person")
+
+# 2. Dream Pop: top 5 Persons by notable Dream Pop songs
+dp_song_idxs <- nodes_tbl %>%
+  filter(`Node Type` == "Song", genre == "Dream Pop") %>%
+  pull(idx)
+
+notable_dp_tbl <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs, to %in% dp_song_idxs) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableDreamPopSongs") %>%
+  arrange(desc(NotableDreamPopSongs))
+
+p1 <- notable_dp_tbl %>%
+  slice_head(n = 5) %>%
+  ggplot(aes(x = fct_reorder(Person, NotableDreamPopSongs), 
+             y = NotableDreamPopSongs)) +
+    geom_col(fill = "lightblue") +
+    coord_flip() +
+    labs(
+      title = "Top 5 Persons by Notable Dream Pop Songs",
+      x     = NULL,
+      y     = "Count of Notable Dream Pop Songs"
+    ) +
+    theme_minimal(base_size = 10)+
+    theme(
+      plot.title   = element_text(size = 10),
+      plot.subtitle= element_text(size = 8),
+      axis.title.x = element_text(size = 8),
+      axis.text    = element_text(size = 7)
+    )
+
+# 3. Selected Persons: overall notable songs
+focus_people <- c("Kimberly Snyder", "Matthew Hancock", 
+                  "Catherine Clay", "Navya Sastry", "Kashvi Dhillon")
+
+notable_tbl <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableSongs") %>%
+  arrange(desc(NotableSongs))
+
+plot_tbl <- tibble(Person = focus_people) %>%
+  left_join(notable_tbl, by = "Person") %>%
+  replace_na(list(NotableSongs = 0))
+
+p2 <- plot_tbl %>%
+  ggplot(aes(x = fct_reorder(Person, NotableSongs), y = NotableSongs)) +
+    geom_col(fill = "pink") +
+    coord_flip() +
+    labs(
+      title    = "Notable Songs by Selected Persons",
+      x        = NULL,
+      y        = "Count of Notable Songs"
+    ) +
+    theme_minimal(base_size = 10)+
+    theme(
+      plot.title   = element_text(size = 10),
+      plot.subtitle= element_text(size = 8),
+      axis.title.x = element_text(size = 8),
+      axis.text    = element_text(size = 7)
+    )
+
+# 4. Arrange side‐by‐side
+grid.arrange(p1, p2, ncol = 2)
 
 ```
-## Sailor Shift
-### Sailor Swift Edge Types 1
+
+### Leyla Graf-Gotthard
+
 ```{r}
+
+
+# 2. Dream Pop: top 5 Persons by notable Dream Pop songs
+dp_song_idxs2 <- nodes_tbl %>%
+  filter(`Node Type` == "Song", genre == "Doom Metal") %>%
+  pull(idx)
+
+notable_dp_tbl2 <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs, to %in% dp_song_idxs2) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableDoomMetalSongs") %>%
+  arrange(desc(NotableDoomMetalSongs))
+
+p3 <- notable_dp_tbl2 %>%
+  slice_head(n = 5) %>%
+  ggplot(aes(x = fct_reorder(Person, NotableDoomMetalSongs), 
+             y = NotableDoomMetalSongs)) +
+    geom_col(fill = "lightblue") +
+    coord_flip() +
+    labs(
+      title = "Top 5 Persons by Doom Metal Pop Songs",
+      x     = NULL,
+      y     = "Count of Notable Doom Metal Songs"
+    ) +
+    theme_minimal(base_size = 10)+
+    theme(
+      plot.title   = element_text(size = 10),
+      plot.subtitle= element_text(size = 8),
+      axis.title.x = element_text(size = 8),
+      axis.text    = element_text(size = 7)
+    )
+
+# 3. Selected Persons: overall notable songs
+focus_people2 <- c("Leyla Graf-Gotthard", "Sandro Gröttner", 
+                  "Bernfried Stolze", "Belinda Knappe", "Alla Lorch")
+
+notable_tbl2 <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableSongs") %>%
+  arrange(desc(NotableSongs))
+
+plot_tbl2 <- tibble(Person = focus_people2) %>%
+  left_join(notable_tbl2, by = "Person") %>%
+  replace_na(list(NotableSongs = 0))
+
+p4 <- plot_tbl2 %>%
+  ggplot(aes(x = fct_reorder(Person, NotableSongs), y = NotableSongs)) +
+    geom_col(fill = "pink") +
+    coord_flip() +
+    labs(
+      title    = "Notable Songs by Selected Persons",
+      x        = NULL,
+      y        = "Count of Notable Songs"
+    ) +
+    theme_minimal(base_size = 10)+
+    theme(
+      plot.title   = element_text(size = 10),
+      plot.subtitle= element_text(size = 8),
+      axis.title.x = element_text(size = 8),
+      axis.text    = element_text(size = 7)
+    )
+
+# 4. Arrange side‐by‐side
+grid.arrange(p3, p4, ncol = 2)
+
+```
+
+### Szymon Pyć
+
+
+```{r}
+
+
+# 2. Dream Pop: top 5 Persons by notable Dream Pop songs
+dp_song_idxs3 <- nodes_tbl %>%
+  filter(`Node Type` == "Song", genre == "Southern Gothic Rock") %>%
+  pull(idx)
+
+notable_dp_tbl3 <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs, to %in% dp_song_idxs3) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableSouthernGothicRockSongs") %>%
+  arrange(desc(NotableSouthernGothicRockSongs))
+
+p5 <- notable_dp_tbl3 %>%
+  slice_head(n = 5) %>%
+  ggplot(aes(x = fct_reorder(Person, NotableSouthernGothicRockSongs), 
+             y = NotableSouthernGothicRockSongs)) +
+    geom_col(fill = "lightblue") +
+    coord_flip() +
+    labs(
+      title = "Top 5 Persons by Southern Gothic Rock Songs",
+      x     = NULL,
+      y     = "Count of Notable Southern Gothic Rock Songs"
+    ) +
+    theme_minimal(base_size = 10)+
+    theme(
+      plot.title   = element_text(size = 10),
+      plot.subtitle= element_text(size = 8),
+      axis.title.x = element_text(size = 8),
+      axis.text    = element_text(size = 7)
+    )
+
+# 3. Selected Persons: overall notable songs
+focus_people3 <- c("Szymon Pyć", "Urszula Stochmal","Andrew Williams","Jay Walters","Deborah Lucas")
+
+notable_tbl3 <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from %in% person_idxs) %>%
+  left_join(nodes_tbl %>% select(idx, notable), by = c("to" = "idx")) %>%
+  filter(notable == TRUE) %>%
+  mutate(Person = nodes_tbl$name[from]) %>%
+  count(Person, name = "NotableSongs") %>%
+  arrange(desc(NotableSongs))
+
+plot_tbl3 <- tibble(Person = focus_people3) %>%
+  left_join(notable_tbl2, by = "Person") %>%
+  replace_na(list(NotableSongs = 0))
+
+p6 <- plot_tbl3 %>%
+  ggplot(aes(x = fct_reorder(Person, NotableSongs), y = NotableSongs)) +
+    geom_col(fill = "pink") +
+    coord_flip() +
+    labs(
+      title    = "Notable Songs by Selected Persons",
+      x        = NULL,
+      y        = "Count of Notable Songs"
+    ) +
+    theme_minimal(base_size = 10)+
+    theme(
+      plot.title   = element_text(size = 10),
+      plot.subtitle= element_text(size = 8),
+      axis.title.x = element_text(size = 8),
+      axis.text    = element_text(size = 7)
+    )
+
+# 4. Arrange side‐by‐side
+grid.arrange(p5, p6, ncol = 2)
+
+
+```
+
+:::
+
+::: {.callout-note title="Notable Songs by Top 5 persons in Genre vs Overall"}
+-   Based on the notable songs, the selected 3 artists are the top for their genre with influences in other genres as well. This shows the popularity based on using "Notable Songs" as a proxy.
+:::
+
+
+## Notable and Notoriety_Date plotted against release_date
+
+- notable is a clean, complete flag for “this song was popular/critically acclaimed,” regardless of whether we know its exact chart date.
+
+- notoriety_date only exists for the subset of notable tracks that actually landed on the charts, so it will always under-count your popularity signal.
+
+So for a broad “popularity over time” view, counting notable == TRUE by release year will give a more faithful picture of an artist’s impact. Notoriety_date can still be use to see the precised chart‐entry timing, but it should be considered a subset of the popularity metric, not the whole thing.
+
+
+::: panel-tabset
+
+### Kimberly Snyder
+
+```{r}
+
+
+# 1. Load & index the graph
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes) %>% mutate(idx = row_number())
+links_tbl <- as_tibble(kg_raw$links)
+
+# 2. Build edge index
+id_map    <- nodes_tbl %>% select(id, idx)
+edges_idx <- links_tbl %>%
+  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
+  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
+  filter(!is.na(from), !is.na(to))
+
+# 3. Pull Kimberly Snyder’s song edges
+kim_idx <- which(nodes_tbl$name == "Kimberly Snyder")
+kim_songs <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"), from == kim_idx) %>%
+  left_join(
+    nodes_tbl %>% select(idx, notable, release_date, notoriety_date),
+    by = c("to" = "idx")
+  )
+
+# 4. Extract years
+kim_songs <- kim_songs %>%
+  mutate(
+    release_year   = str_extract(release_date,    "\\d{4}") %>% as.integer(),
+    notoriety_year = str_extract(notoriety_date, "\\d{4}") %>% as.integer()
+  )
+
+# 5. Aggregate counts
+notable_yearly <- kim_songs %>%
+  filter(notable == TRUE, !is.na(release_year)) %>%
+  count(Year = release_year, name = "Notable") 
+
+charted_yearly <- kim_songs %>%
+  filter(!is.na(notoriety_year)) %>%
+  count(Year = notoriety_year, name = "Charted")
+
+combined <- full_join(notable_yearly, charted_yearly, by = "Year") %>%
+  replace_na(list(Notable = 0, Charted = 0)) %>%
+  arrange(Year)
+
+# 6. Plot both metrics
+ggplot(combined, aes(x = Year)) +
+  geom_col(aes(y = Notable, fill = "Notable"), alpha = 0.5, width = 0.8) +
+  geom_line(aes(y = Charted, color = "Charted"), size = 1) +
+  geom_point(aes(y = Charted, color = "Charted"), size = 2) +
+  scale_fill_manual(
+    name   = NULL,
+    values = c(Notable = "#1f78b4")
+  ) +
+  scale_color_manual(
+    name   = NULL,
+    values = c(Charted = "#e31a1c")
+  ) +
+  labs(
+    title    = "Kimberly Snyder: Notable vs. Charted Songs by Year",
+    subtitle = "Bars = all Notable; Line = those with a known notoriety_date",
+    x        = "Year",
+    y        = "Song Count"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title    = element_text(size = 14),
+    plot.subtitle = element_text(size = 10),
+    axis.text     = element_text(size = 9),
+    axis.title    = element_text(size = 10)
+  )
+
+
+```
+
+### Leyla Graf-Gotthard
+
+```{r}
+
+
+# 3. Pull Kimberly Snyder’s song edges
+leyla_idx <- which(nodes_tbl$name == "Leyla Graf-Gotthard")
+leyla_songs <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"), from == leyla_idx) %>%
+  left_join(
+    nodes_tbl %>% select(idx, notable, release_date, notoriety_date),
+    by = c("to" = "idx")
+  )
+
+# 4. Extract years
+leyla_songs <- leyla_songs %>%
+  mutate(
+    release_year   = str_extract(release_date,    "\\d{4}") %>% as.integer(),
+    notoriety_year = str_extract(notoriety_date, "\\d{4}") %>% as.integer()
+  )
+
+# 5. Aggregate counts
+notable_yearly2 <- leyla_songs %>%
+  filter(notable == TRUE, !is.na(release_year)) %>%
+  count(Year = release_year, name = "Notable") 
+
+charted_yearly2 <- leyla_songs %>%
+  filter(!is.na(notoriety_year)) %>%
+  count(Year = notoriety_year, name = "Charted")
+
+combined2 <- full_join(notable_yearly2, charted_yearly2, by = "Year") %>%
+  replace_na(list(Notable = 0, Charted = 0)) %>%
+  arrange(Year)
+
+# 6. Plot both metrics
+ggplot(combined2, aes(x = Year)) +
+  geom_col(aes(y = Notable, fill = "Notable"), alpha = 0.5, width = 0.8) +
+  geom_line(aes(y = Charted, color = "Charted"), size = 1) +
+  geom_point(aes(y = Charted, color = "Charted"), size = 2) +
+  scale_fill_manual(
+    name   = NULL,
+    values = c(Notable = "#1f78b4")
+  ) +
+  scale_color_manual(
+    name   = NULL,
+    values = c(Charted = "#e31a1c")
+  ) +
+  labs(
+    title    = "Leyla Graf-Gotthard: Notable vs. Charted Songs by Year",
+    subtitle = "Bars = all Notable; Line = those with a known notoriety_date",
+    x        = "Year",
+    y        = "Song Count"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title    = element_text(size = 14),
+    plot.subtitle = element_text(size = 10),
+    axis.text     = element_text(size = 9),
+    axis.title    = element_text(size = 10)
+  )
+
+
+```
+
+### Szymon Pyć
+
+```{r}
+
+
+# 3. Pull Kimberly Snyder’s song edges
+szymon_idx <- which(nodes_tbl$name == "Szymon Pyć")
+szymon_songs <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"), from == szymon_idx) %>%
+  left_join(
+    nodes_tbl %>% select(idx, notable, release_date, notoriety_date),
+    by = c("to" = "idx")
+  )
+
+# 4. Extract years
+szymon_songs <- szymon_songs %>%
+  mutate(
+    release_year   = str_extract(release_date,    "\\d{4}") %>% as.integer(),
+    notoriety_year = str_extract(notoriety_date, "\\d{4}") %>% as.integer()
+  )
+
+# 5. Aggregate counts
+notable_yearly3 <- szymon_songs %>%
+  filter(notable == TRUE, !is.na(release_year)) %>%
+  count(Year = release_year, name = "Notable") 
+
+charted_yearly3 <- szymon_songs %>%
+  filter(!is.na(notoriety_year)) %>%
+  count(Year = notoriety_year, name = "Charted")
+
+combined3 <- full_join(notable_yearly3, charted_yearly3, by = "Year") %>%
+  replace_na(list(Notable = 0, Charted = 0)) %>%
+  arrange(Year)
+
+# 6. Plot both metrics
+ggplot(combined3, aes(x = Year)) +
+  geom_col(aes(y = Notable, fill = "Notable"), alpha = 0.5, width = 0.8) +
+  geom_line(aes(y = Charted, color = "Charted"), size = 1) +
+  geom_point(aes(y = Charted, color = "Charted"), size = 2) +
+  scale_fill_manual(
+    name   = NULL,
+    values = c(Notable = "#1f78b4")
+  ) +
+  scale_color_manual(
+    name   = NULL,
+    values = c(Charted = "#e31a1c")
+  ) +
+  labs(
+    title    = "Szymon Pyć: Notable vs. Charted Songs by Year",
+    subtitle = "Bars = all Notable; Line = those with a known notoriety_date",
+    x        = "Year",
+    y        = "Song Count"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title    = element_text(size = 14),
+    plot.subtitle = element_text(size = 10),
+    axis.text     = element_text(size = 9),
+    axis.title    = element_text(size = 10)
+  )
+
+
+```
+
+:::
+
+::: {.callout-note title="Notable Songs and Charted Songs across the years"}
+-   How each of the artist is able to maintain popularity would be due to the release of "notable" songs consistently. Although some of the songs might not have "charted", the artist still maintains its popularity.
+:::
+
+## Song Popularity using 'notable' as proxy.
+
+::: panel-tabset
+
+### Kimberly's songs
+
+```{r}
+
+# 1. Load & index the graph
+kg_raw    <- fromJSON("data/MC1_graph.json")
+nodes_tbl <- as_tibble(kg_raw$nodes) %>% mutate(idx = row_number())
+links_tbl <- as_tibble(kg_raw$links)
+
+# 2. Build an edge index
+id_map    <- nodes_tbl %>% select(id, idx)
+edges_idx <- links_tbl %>%
+  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
+  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
+  filter(!is.na(from), !is.na(to))
+
+# 3. Find Kimberly Snyder’s index
+kim_idx <- which(nodes_tbl$name == "Kimberly Snyder")
+
+# 4. Pull her ComposerOf/PerformerOf song edges, join the Song nodes
+kim_songs <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from == kim_idx) %>%
+  left_join(
+    nodes_tbl %>% 
+      filter(`Node Type` == "Song") %>% 
+      select(idx, notable),
+    by = c("to" = "idx")
+  )
+
+# 5. Count notable vs non-notable
+summary_tbl <- kim_songs %>%
+  mutate(Notable = if_else(notable, "Yes", "No")) %>%
+  count(Notable) %>%
+  arrange(Notable)
+
+# 6. Plot as a bar chart
+# 6. Plot as a pie chart with labels
+summary_tbl <- summary_tbl %>%
+  mutate(percentage = round(n / sum(n) * 100, 1),
+         label = paste0(Notable, "\n", n, " (", percentage, "%)"))
+
+ggplot(summary_tbl, aes(x = "", y = n, fill = Notable)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  scale_fill_manual(values = c(Yes = "#33a02c", No = "#ff7f00")) +
+  geom_text(aes(label = label), position = position_stack(vjust = 0.5), size = 3) +
+  labs(
+    title = "Kimberly Snyder: Notable vs. Non-Notable Songs",
+    x     = NULL,
+    y     = NULL
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_blank(), 
+        axis.ticks = element_blank(), 
+        panel.grid = element_blank())
+
+
+```
+
+### Leyla's songs
+
+```{r}
+
+# 3. Find Kimberly Snyder’s index
+leyla_idx <- which(nodes_tbl$name == "Leyla Graf-Gotthard")
+
+# 4. Pull her ComposerOf/PerformerOf song edges, join the Song nodes
+leyla_songs <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from == leyla_idx) %>%
+  left_join(
+    nodes_tbl %>% 
+      filter(`Node Type` == "Song") %>% 
+      select(idx, notable),
+    by = c("to" = "idx")
+  )
+
+# 5. Count notable vs non-notable
+summary_tbl2 <- leyla_songs %>%
+  mutate(Notable = if_else(notable, "Yes", "No")) %>%
+  count(Notable) %>%
+  arrange(Notable)
+
+# 6. Plot as a bar chart
+# 6. Plot as a pie chart with labels
+summary_tbl2 <- summary_tbl2 %>%
+  mutate(percentage = round(n / sum(n) * 100, 1),
+         label = paste0(Notable, "\n", n, " (", percentage, "%)"))
+
+ggplot(summary_tbl2, aes(x = "", y = n, fill = Notable)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  scale_fill_manual(values = c(Yes = "#33a02c", No = "#ff7f00")) +
+  geom_text(aes(label = label), position = position_stack(vjust = 0.5), size = 2.5) +
+  labs(
+    title = "Leyla Graf-Gotthard: Notable vs. Non-Notable Songs",
+    x     = NULL,
+    y     = NULL
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_blank(), 
+        axis.ticks = element_blank(), 
+        panel.grid = element_blank())
+
+
+```
+
+### Szymon's songs
+
+```{r}
+
+# 3. Find Kimberly Snyder’s index
+szymon_idx <- which(nodes_tbl$name == "Szymon Pyć")
+
+# 4. Pull her ComposerOf/PerformerOf song edges, join the Song nodes
+szymon_songs <- edges_idx %>%
+  filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
+         from == szymon_idx) %>%
+  left_join(
+    nodes_tbl %>% 
+      filter(`Node Type` == "Song") %>% 
+      select(idx, notable),
+    by = c("to" = "idx")
+  )
+
+# 5. Count notable vs non-notable
+summary_tbl3 <- szymon_songs %>%
+  mutate(Notable = if_else(notable, "Yes", "No")) %>%
+  count(Notable) %>%
+  arrange(Notable)
+
+# 6. Plot as a bar chart
+# 6. Plot as a pie chart with labels
+summary_tbl3 <- summary_tbl3 %>%
+  mutate(percentage = round(n / sum(n) * 100, 1),
+         label = paste0(Notable, "\n", n, " (", percentage, "%)"))
+
+ggplot(summary_tbl3, aes(x = "", y = n, fill = Notable)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  scale_fill_manual(values = c(Yes = "#33a02c", No = "#ff7f00")) +
+  geom_text(aes(label = label), position = position_stack(vjust = 0.5), size = 3) +
+  labs(
+    title = "Szymon Pyć: Notable vs. Non-Notable Songs",
+    x     = NULL,
+    y     = NULL
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_blank(), 
+        axis.ticks = element_blank(), 
+        panel.grid = element_blank())
+
+
+```
+
+:::
+
+::: {.callout-note title="Notable Songs vs Non-Notable Songs"}
+-   These 3 artist have a majority of notable songs compared to non-notable songs.
+:::
+
+
+
+## Influence
+
+### Kimberly Snyder 
+
+::: panel-tabset
+
+#### Edge Types 1
+```{r}
+
 
 id_map <- nodes_tbl %>% 
   mutate(index = row_number()) %>% 
@@ -278,8 +1211,8 @@ edges_idx <- links_tbl %>%
   filter(!is.na(from) & !is.na(to))
 
 # 2. Filter for your chosen edge types & artist
-artists    <- c("Sailor Shift")
-edge_types <- c("MemberOf", "ComposerOf", "PerformerOf", "ProducerOf")
+artists    <- c("Kimberly Snyder")
+edge_types <- c("MemberOf", "ComposerOf", "PerformerOf","LyricistOf", "RecordedBy","ProducerOf","DistributedBy")
 career_edges <- edges_idx %>%
   filter(`Edge Type` %in% edge_types,
          (from %in% which(nodes_tbl$name %in% artists)) |
@@ -307,22 +1240,256 @@ vn_edges <- career_edges %>%
     from,
     to,
     label = `Edge Type`,   # drawn on the arrow
-    title = `Edge Type`    # hover‐tooltip
+    title = `Edge Type`,    # hover‐tooltip
+    color = case_when(
+      label == "MemberOf"   ~ "#e31a1c",
+      label == "ComposerOf" ~ "#33a02c",
+      label == "PerformerOf"~ "#1f78b4",
+      label == "LyricistOf" ~ "#ff7f00",
+      label == "RecordedBy" ~ "#6a329f",
+      label == "ProducerOf" ~ "#fce80a",
+      label == "DistributedBy" ~ "#04f3f0",
+      TRUE                  ~ "#888888"
+    )
   )
 
 # 6. Plot with edge‐labels
 visNetwork(vn_nodes, vn_edges, height = "600px", width = "100%") %>%
-  visNodes(shape = "dot", font = list(color = "black")) %>%
+  visNodes(shape = "dot", size =14, font = list(color = "black", size = 10)) %>%
   visEdges(
     arrows = "to",
     labelHighlightBold = TRUE,
-    font = list(color = "blue", size = 7)
+    font = list(color = "blue", size = 8)
   ) %>%
-  visLegend(useGroups = TRUE, width = 0.1, position = "right")
+  visLegend(useGroups = TRUE, width = 0.1, position = "right") %>%
+  visIgraphLayout(layout = "layout_with_fr", randomSeed = 1234) %>%
+  visPhysics(enabled = FALSE)
 
 ```
 
-### Sailor Shift Edge Types 2
+#### Summary of the interactions
+
+```{r}
+
+
+# Assuming `career_edges` is already in your environment:
+# Count interactions per edge type
+edge_summary <- career_edges %>%
+  count(`Edge Type`, name = "Interactions") %>%
+  arrange(Interactions)
+
+# Bar‐chart of interactions by edge type
+ggplot(edge_summary, aes(
+         x = fct_reorder(`Edge Type`, Interactions),
+         y = Interactions,
+         fill = `Edge Type`
+       )) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Total Interactions by Edge Type",
+    x     = NULL,
+    y     = "Number of Links"
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+
+:::
+
+### Leyla Graf-Gotthard
+
+::: panel-tabset
+
+#### Edge Types 1
+```{r}
+
+# 2. Filter for your chosen edge types & artist
+artists2    <- c("Leyla Graf-Gotthard")
+edge_types <- c("MemberOf", "ComposerOf", "PerformerOf","LyricistOf", "RecordedBy","ProducerOf","DistributedBy")
+career_edges2 <- edges_idx %>%
+  filter(`Edge Type` %in% edge_types,
+         (from %in% which(nodes_tbl$name %in% artists2)) |
+         (to   %in% which(nodes_tbl$name %in% artists2)))
+
+# 3. Prune to only the nodes in those edges
+career_node_ids2 <- unique(c(career_edges2$from, career_edges2$to))
+career_nodes2    <- nodes_tbl %>% slice(career_node_ids2)
+
+# 4. Build visNetwork node DF
+vn_nodes2 <- career_nodes2 %>%
+  mutate(
+    id    = row_number(),
+    label = name,
+    group = `Node Type`,
+    title = paste0("<b>", name, "</b><br>Type: ", `Node Type`)
+  )
+
+# 5. Build visNetwork edge DF with both label & title
+id_lu2 <- tibble(old = career_node_ids2, new = vn_nodes2$id)
+vn_edges2 <- career_edges2 %>%
+  inner_join(id_lu2, by = c("from" = "old")) %>% select(-from)  %>% rename(from = new) %>%
+  inner_join(id_lu2, by = c("to"   = "old")) %>% select(-to)    %>% rename(to   = new) %>%
+  transmute(
+    from,
+    to,
+    label = `Edge Type`,   # drawn on the arrow
+    title = `Edge Type`,    # hover‐tooltip
+    color = case_when(
+      label == "MemberOf"   ~ "#e31a1c",
+      label == "ComposerOf" ~ "#33a02c",
+      label == "PerformerOf"~ "#1f78b4",
+      label == "LyricistOf" ~ "#ff7f00",
+      label == "RecordedBy" ~ "#6a329f",
+      label == "ProducerOf" ~ "#fce80a",
+      label == "DistributedBy" ~ "#04f3f0",
+      TRUE                  ~ "#888888"
+    )
+  )
+
+# 6. Plot with edge‐labels
+visNetwork(vn_nodes2, vn_edges2, height = "600px", width = "100%") %>%
+  visNodes(shape = "dot", size =14, font = list(color = "black", size = 10)) %>%
+  visEdges(
+    arrows = "to",
+    labelHighlightBold = TRUE,
+    font = list(color = "blue", size = 8)
+  ) %>%
+  visLegend(useGroups = TRUE, width = 0.1, position = "right") %>%
+  visIgraphLayout(layout = "layout_with_fr", randomSeed = 1234) %>%
+  visPhysics(enabled = FALSE)
+
+```
+
+#### Summary of the interactions
+
+```{r}
+
+
+# Assuming `career_edges` is already in your environment:
+# Count interactions per edge type
+edge_summary2 <- career_edges2 %>%
+  count(`Edge Type`, name = "Interactions") %>%
+  arrange(Interactions)
+
+# Bar‐chart of interactions by edge type
+ggplot(edge_summary2, aes(
+         x = fct_reorder(`Edge Type`, Interactions),
+         y = Interactions,
+         fill = `Edge Type`
+       )) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Total Interactions by Edge Type",
+    x     = NULL,
+    y     = "Number of Links"
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+
+:::
+
+### Szymon Pyć
+
+::: panel-tabset
+
+#### Edge Types 1
+```{r}
+
+# 2. Filter for your chosen edge types & artist
+artists3    <- c("Szymon Pyć")
+edge_types <- c("MemberOf", "ComposerOf", "PerformerOf","LyricistOf", "RecordedBy","ProducerOf","DistributedBy")
+career_edges3 <- edges_idx %>%
+  filter(`Edge Type` %in% edge_types,
+         (from %in% which(nodes_tbl$name %in% artists3)) |
+         (to   %in% which(nodes_tbl$name %in% artists3)))
+
+# 3. Prune to only the nodes in those edges
+career_node_ids3 <- unique(c(career_edges3$from, career_edges3$to))
+career_nodes3    <- nodes_tbl %>% slice(career_node_ids3)
+
+# 4. Build visNetwork node DF
+vn_nodes3 <- career_nodes3 %>%
+  mutate(
+    id    = row_number(),
+    label = name,
+    group = `Node Type`,
+    title = paste0("<b>", name, "</b><br>Type: ", `Node Type`)
+  )
+
+# 5. Build visNetwork edge DF with both label & title
+id_lu3 <- tibble(old = career_node_ids3, new = vn_nodes3$id)
+vn_edges3 <- career_edges3 %>%
+  inner_join(id_lu3, by = c("from" = "old")) %>% select(-from)  %>% rename(from = new) %>%
+  inner_join(id_lu3, by = c("to"   = "old")) %>% select(-to)    %>% rename(to   = new) %>%
+  transmute(
+    from,
+    to,
+    label = `Edge Type`,   # drawn on the arrow
+    title = `Edge Type`,    # hover‐tooltip
+    color = case_when(
+      label == "MemberOf"   ~ "#e31a1c",
+      label == "ComposerOf" ~ "#33a02c",
+      label == "PerformerOf"~ "#1f78b4",
+      label == "LyricistOf" ~ "#ff7f00",
+      label == "RecordedBy" ~ "#6a329f",
+      label == "ProducerOf" ~ "#fce80a",
+      label == "DistributedBy" ~ "#04f3f0",
+      TRUE                  ~ "#888888"
+    )
+  )
+
+# 6. Plot with edge‐labels
+visNetwork(vn_nodes3, vn_edges3, height = "600px", width = "100%") %>%
+  visNodes(shape = "dot", size =14, font = list(color = "black", size = 10)) %>%
+  visEdges(
+    arrows = "to",
+    labelHighlightBold = TRUE,
+    font = list(color = "blue", size = 8)
+  ) %>%
+  visLegend(useGroups = TRUE, width = 0.1, position = "right") %>%
+  visIgraphLayout(layout = "layout_with_fr", randomSeed = 1234) %>%
+  visPhysics(enabled = FALSE)
+
+```
+
+#### Summary of the interactions
+
+```{r}
+
+
+# Assuming `career_edges` is already in your environment:
+# Count interactions per edge type
+edge_summary3 <- career_edges3 %>%
+  count(`Edge Type`, name = "Interactions") %>%
+  arrange(Interactions)
+
+# Bar‐chart of interactions by edge type
+ggplot(edge_summary3, aes(
+         x = fct_reorder(`Edge Type`, Interactions),
+         y = Interactions,
+         fill = `Edge Type`
+       )) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  labs(
+    title = "Total Interactions by Edge Type",
+    x     = NULL,
+    y     = "Number of Links"
+  ) +
+  theme_minimal(base_size = 12)
+
+```
+
+:::
+
+
+## Kimberly Snyder Edge Types 2
+
+- The below plot tries to see draw a interactive network using influence metrics "InterpolatesFrom","InStyleOf","LyricalReferenceTo","CoverOf","DirectlySamples".
+
 ```{r}
 
 
@@ -341,11 +1508,8 @@ edges_idx <- links_tbl %>%
   filter(!is.na(from) & !is.na(to))
 
 # 2. Filter for your chosen edge types & artist
-artists    <- c("Sailor Shift")
-edge_types <- c(
-  "InterpolatesFrom","RecordedBy","InStyleOf",
-  "LyricalReferenceTo","CoverOf","DistributedBy","LyricistOf","DirectlySamples"
-)
+artists    <- c("Kimberly Snyder")
+edge_types <- c("InterpolatesFrom","InStyleOf","LyricalReferenceTo","CoverOf","DirectlySamples")
 career_edges <- edges_idx %>%
   filter(`Edge Type` %in% edge_types,
          (from %in% which(nodes_tbl$name %in% artists)) |
@@ -373,12 +1537,20 @@ vn_edges <- career_edges %>%
     from,
     to,
     label = `Edge Type`,   # drawn on the arrow
-    title = `Edge Type`    # hover‐tooltip
+    title = `Edge Type`,    # hover‐tooltip
+    color = case_when(
+      label == "InterpolatesFrom"   ~ "#1f78b4",
+      label == "DirectlySamples"         ~ "#33a02c",
+      label == "InStyleOf"          ~ "#e31a1c",
+      label == "LyricalReferenceTo" ~ "#6a3d9a",
+      label == "CoverOf"            ~ "#fb9a99",
+      TRUE                           ~ "#999999"
+    )
   )
 
 # 6. Plot with edge‐labels
 visNetwork(vn_nodes, vn_edges, height = "600px", width = "100%") %>%
-  visNodes(shape = "dot", font = list(color = "black")) %>%
+  visNodes(shape = "dot", size =14, font = list(color = "black", size = 9)) %>%
   visEdges(
     arrows = "to",
     labelHighlightBold = TRUE,
@@ -388,79 +1560,90 @@ visNetwork(vn_nodes, vn_edges, height = "600px", width = "100%") %>%
 
 ```
 
-
-## Ivy Echos
-
-### Ivy Echos affliations
-
-- I want to visualise the catogeries for Ivy Echos and their members. From there I will pick 3 artist from it and do another 
+### 1-order ego network and betweenness centrality for everyone in that network.
 
 ```{r}
 
-#── Ingest your graph data ────────────────────────────────────────────────────
+library(igraph)
+
+# 1. Load & index the graph
 kg_raw    <- fromJSON("data/MC1_graph.json")
-nodes_tbl <- as_tibble(kg_raw$nodes)
-edges_tbl <- as_tibble(kg_raw$links)
+nodes_tbl <- as_tibble(kg_raw$nodes) %>% mutate(idx = row_number())
+links_tbl <- as_tibble(kg_raw$links)
 
-#── Map source/target to row indices ──────────────────────────────────────────
-id_map <- nodes_tbl %>%
-  mutate(index = row_number()) %>%
-  select(id, index)
+# 2. Build an index for from/to
+id_map <- nodes_tbl %>% select(id, idx)
+edges_idx <- links_tbl %>%
+  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
+  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
+  filter(!is.na(from), !is.na(to))
 
-edges_idx <- edges_tbl %>%
-  left_join(id_map, by = c("source" = "id")) %>% rename(from = index) %>%
-  left_join(id_map, by = c("target" = "id")) %>% rename(to   = index) %>%
-  filter(!is.na(from) & !is.na(to))
+# 3. Filter only Kimberly Snyder’s relevant edges
+kim_idx    <- which(nodes_tbl$name == "Kimberly Snyder")
+edge_types <- c("MemberOf","ComposerOf","PerformerOf","LyricistOf",
+                "RecordedBy","ProducerOf","DistributedBy")
+career_edges <- edges_idx %>%
+  filter(`Edge Type` %in% edge_types,
+         from == kim_idx | to == kim_idx)
 
-#── Find the index for Ivy Echoes ─────────────────────────────────────────────
-band_idx <- which(nodes_tbl$name == "Ivy Echos")
+if (nrow(career_edges) == 0) {
+  stop("No edges found for Kimberly Snyder with those types.")
+}
 
-#── Pull all edges incident on Ivy Echoes ────────────────────────────────────
-band_edges <- edges_idx %>%
-  filter(from == band_idx | to == band_idx)
-
-# Optional: if you only want certain edge types, you can uncomment and adjust:
-# band_edges <- band_edges %>%
-#   filter(`Edge Type` %in% c("MemberOf", "ComposerOf", "PerformerOf"))
-
-#── Slice out all involved nodes ──────────────────────────────────────────────
-band_node_ids <- unique(c(band_edges$from, band_edges$to))
-band_nodes    <- nodes_tbl %>% slice(band_node_ids)
-
-#── Build the visNetwork nodes data frame ────────────────────────────────────
-vn_nodes_band <- band_nodes %>%
-  mutate(
-    id    = row_number(),
+# 4. Prepare vertices and build undirected igraph
+career_node_ids <- unique(c(career_edges$from, career_edges$to))
+vertices <- nodes_tbl %>%
+  filter(idx %in% career_node_ids) %>%
+  transmute(
+    name  = as.character(idx),
     label = name,
-    group = `Node Type`,
-    value = 1
+    type  = `Node Type`
   )
+edges_graph <- career_edges %>%
+  transmute(
+    from = as.character(from),
+    to   = as.character(to)
+  )
+g_full <- graph_from_data_frame(edges_graph, directed = FALSE, vertices = vertices)
 
-#── Remap edges to the new vn_node IDs ────────────────────────────────────────
-id_lookup_band <- tibble(old = band_node_ids, new = vn_nodes_band$id)
+# 5. Extract Kimberly’s 1‐order ego network
+ego_g <- make_ego_graph(g_full, order = 1, nodes = as.character(kim_idx))[[1]]
 
-vn_edges_band <- band_edges %>%
-  inner_join(id_lookup_band, by = c("from" = "old")) %>% select(-from) %>% rename(from = new) %>%
-  inner_join(id_lookup_band, by = c("to"   = "old")) %>% select(-to)   %>% rename(to   = new) %>%
-  select(from, to, title = `Edge Type`)
+# 6. Compute betweenness centrality
+bc_vals <- betweenness(ego_g, directed = FALSE)
+centrality_tbl <- tibble(
+  idx = as.integer(names(bc_vals)),
+  bc  = unname(bc_vals)
+) %>%
+  left_join(nodes_tbl %>% select(idx, Person = name), by = "idx") %>%
+  arrange(desc(bc)) %>%
+  slice_head(n = 10)
 
-#── Plot the static network ───────────────────────────────────────────────────
-visNetwork(vn_nodes_band, vn_edges_band, height = "600px", width = "100%") %>%
-  visNodes(shape = "dot", scaling = list(min = 5, max = 30)) %>%
-  visEdges(arrows = "to") %>%
-  visLegend(width = 0.15, position = "right") %>%
-  visLayout(randomSeed = 123)
+# 7. Plot top 10 by betweenness
+ggplot(centrality_tbl, aes(x = fct_reorder(Person, bc), y = bc)) +
+  geom_col(fill = "purple") +
+  coord_flip() +
+  labs(
+    title = "Top 10 Nodes by Betweenness in Kimberly Snyder’s Ego‐Network",
+    x     = NULL,
+    y     = "Betweenness Centrality"
+  ) +
+  theme_minimal(base_size = 12)
+
 
 ```
 
 
+### Affliation works with Musical Group: Sonic Renegade
 
-### Ivy Echos members
+- I want to visualise the categories for Kimberly Snyder's Sonic Renegades and their members.
+
+
+### Sonic Renegade members
 
 - "MemberOf", "ComposerOf", "PerformerOf","ProducerOf" only.
 
 ```{r}
-
 
 #── Ingest your graph data ────────────────────────────────────────────────────
 kg_raw    <- fromJSON("data/MC1_graph.json")
@@ -479,11 +1662,10 @@ edges_idx <- edges_tbl %>%
 
 #── Define your five Ivy Echos members ────────────────────────────────────────
 artists <- c(
-  "Sailor Shift",
-  "Maya Jensen",
-  'Lila "Lilly" Hartman',
-  "Jade Thompson",
-  "Sophie Ramirez"
+  "Kimberly Snyder",
+  "Gerald Mullins",
+  "Kelly Stewart",
+  "Joshua Herring"
 )
 
 #── Pull only the relevant edges for those artists ────────────────────────────
@@ -522,12 +1704,13 @@ visNetwork(vn_nodes, vn_edges, height = "600px", width = "100%") %>%
   visNodes(shape = "dot", scaling = list(min = 5, max = 30)) %>%
   visEdges(arrows = "to") %>%
   visLegend(width = 0.1, position = "right") %>%
-  visLayout(randomSeed = 42)
+  visIgraphLayout(layout = "layout_with_fr", randomSeed = 1234) %>%
+  visPhysics(enabled = FALSE)
 
 ```
 
 
-### Timeline of Ivy Echos' members works
+### Timeline of Sonic Renegade' members works
 
 - I would like to view the timeline of the works by each of the members to see who has been having consistent work throughout the years.
 
@@ -551,7 +1734,7 @@ ivy_edges   <- links_tbl %>%
   filter(!is.na(from), !is.na(to))
 
 # 2. Get Ivy Echos members ---------------------------------------
-band_idx     <- which(nodes_tbl$name == "Ivy Echos")
+band_idx     <- which(nodes_tbl$name == "Sonic Renegade")
 member_idxs  <- ivy_edges %>%
   filter(`Edge Type` == "MemberOf", to == band_idx) %>%
   pull(from)
@@ -590,7 +1773,7 @@ ggplot(timeline_tbl %>% mutate(Year_f = factor(Year)),
   geom_point(position = position_dodge(width = 0.5), size = 3) +
   scale_x_discrete(drop = FALSE) +
   labs(
-    title = "Annual Output by Ivy Echos Members (Dodged)",
+    title = "Annual Output by Sonic Renegade Members (Dodged)",
     x     = "Year",
     y     = "Number of Works",
     color = "Artist"
@@ -601,51 +1784,40 @@ ggplot(timeline_tbl %>% mutate(Year_f = factor(Year)),
 ```
 
 
-## Top 10 performers by ComposerOf and PerformerOf
+
+## Leyla Graf-Gotthard
 
 ```{r}
 
-# 1. Load and index the graph
-kg_raw    <- fromJSON("data/MC1_graph.json")
-nodes_tbl <- as_tibble(kg_raw$nodes)
-links_tbl <- as_tibble(kg_raw$links)
 
-id_map <- nodes_tbl %>% 
-  mutate(idx = row_number()) %>% 
-  select(id, idx)
-
-edges_idx <- links_tbl %>%
-  left_join(id_map, by = c("source" = "id")) %>% rename(from = idx) %>%
-  left_join(id_map, by = c("target" = "id")) %>% rename(to   = idx) %>%
-  filter(!is.na(from) & !is.na(to))
-
-# 2. Identify all Person nodes
-person_idxs  <- which(nodes_tbl$`Node Type` == "Person")
-person_names <- nodes_tbl$name[person_idxs]
-
-# 3. Count works (composed or performed) per Person
-works_tbl <- edges_idx %>%
-  filter(`Edge Type` %in% c("ComposerOf", "PerformerOf"),
-         from %in% person_idxs) %>%
-  mutate(Person = nodes_tbl$name[from]) %>%
-  count(Person, name = "Works") %>%
-  arrange(desc(Works))
-
-# 4. Plot the top 10 busiest Persons
-top_n <- 10  # change to nrow(works_tbl) to plot all
-ggplot(works_tbl %>% slice_head(n = top_n),
-       aes(x = fct_reorder(Person, Works),
-           y = Works)) +
-  geom_col(fill = "steelblue") +
-  coord_flip() +
-  labs(
-    title = "Top Persons by Number of Composed/Performed Works",
-    x     = NULL,
-    y     = "Number of Works"
-  ) +
-  theme_minimal(base_size = 12)
 
 ```
 
 
+## Part (b)
 
+-  To predict the next Oceanus Folk, I would need to check on the popularity + influence nodes. (Count)
+
+
+That’s a smart way to structure it. By profiling rising-star trajectories across genres, you:
+
+Broaden your signal – You’ll pick up on universal markers (e.g. rapid early streaming growth, key high-profile collaborations, stylistic “sampling” by others) rather than quirks specific to Oceanus Folk.
+
+Isolate what’s genre-agnostic – Which factors (early playlist adds, cross-genre remixes, rapid betweenness in collaboration networks) show up no matter the style?
+
+Then test those markers in Oceanus Folk – You can ask, “Which Oceanus Folk acts are showing that same pattern?” and make your five-year predictions grounded in what really drives stardom elsewhere.
+
+How it might look in your Quarto:
+Part (a): Pick three breakout stars from, say, Indie Pop, Country, and Hip-Hop.
+
+Chart their early popularity (cumulative streams, chart entries) and influence (how often they’re sampled, covered, or playlisted by others).
+
+Note the shared inflection points: e.g. around 1–2 years post-debut, collaborations spike, stylistic interpolations increase in year 3.
+
+Part (b): Now apply that template to the Oceanus Folk pool:
+
+Compute which emerging Oceanus Folk artists in 2035–2040 hit those same early metrics.
+
+Predict the top three as your “next Oceanus Folk stars.”
+
+This cross-genre → then within-genre approach will make your predictions both rooted in data and tailored to Oceanus Folk’s particular ecosystem.
