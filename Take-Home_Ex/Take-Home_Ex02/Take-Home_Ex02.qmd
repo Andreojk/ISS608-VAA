@@ -8,18 +8,23 @@ format:
     code-fold: true
     code-summary: "Code"
 ---
-# Overview 
 
-For Take-home Exercise 2, my group members ([Hendra](https://norhendra-isss608.netlify.app/) and [Jin Yao](https://isss608-blessmebellburve.netlify.app/)) and I have decided to do [Mini-Challenge 1](https://vast-challenge.github.io/2025/MC1.html). 
+# Overview
+
+For Take-home Exercise 2, my group members ([Hendra](https://norhendra-isss608.netlify.app/) and [Jin Yao](https://isss608-blessmebellburve.netlify.app/)) and I have decided to do [Mini-Challenge 1](https://vast-challenge.github.io/2025/MC1.html).
+
 Through our discussion (and the help of a wheel randomizer), we split the challenge's questions amongst ourselves. Hendra will be doing question 2, Jin Yao will be doing question 1 and I will be doing question 3.
 
-## Question 3
+## Scenario + Question 3
 
-3. Use your visualizations to develop a profile of what it means to be a rising star in the music industry.
+My task in MC1 is to help Silas, a local journalist to create beautiful and informative visualizations of this data and uncover new and interesting information. Below is the question I am tasked to solve.
 
-  a. Visualize the careers of three artists. Compare and contrast their rise in popularity and influence.
+<span style="color:red;">**3.Use your visualizations to develop a profile of what it means to be a rising star in the music industry.**</span>
 
-  b. Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years.
+
+<span style="color:red;">a.  *Visualize the careers of three artists. Compare and contrast their rise in popularity and influence.*</span>
+
+<span style="color:red;">b.  *Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years.*</span>
 
 ## Getting Started
 
@@ -54,24 +59,21 @@ edges_tb1 <- as_tibble(kg$links)
 
 I will be checking the categories for the Nodes,Edges and their count.
 
-
 ```{r}
 ggplot(data = edges_tb1,
        aes(y = `Edge Type`)) + geom_bar()
-``` 
+```
 
 ```{r}
 ggplot(data = nodes_tbl,
        aes(y = `Node Type`)) + geom_bar()
-``` 
+```
 
 ### visNetwork plot
 
-I will draw up a simple visNetwork to show the linkages of `Edge Type` == "MemberOf' to respective Person and MusicalGroup nodes.
-This is for the initial step for visualization and checking the affliation of each Person to a Group.
+I will draw up a simple visNetwork to show the linkages of `Edge Type` == "MemberOf' to respective Person and MusicalGroup nodes. This is for the initial step for visualization and checking the affliation of each Person to a Group.
 
 ```{r}
-
 
 # 1. Load & index the graph
 kg_raw    <- fromJSON("data/MC1_graph.json")
@@ -124,19 +126,22 @@ visNetwork(nodes_df, edges_df, height = "600px", width = "100%") %>%
 
 ```
 
-
 ## Data Exploring for Top Artists across all genres
 
 Let's check for the most popular genres in the music industry. I want to find out which genres have the most released songs and also whether their songs have appeared on a top record chart.
 
-Nodes to be used:
-  •	notable (boolean) – whether or not the song has appeared on a top record chart
-  •	notoriety_date (string) – if provided, the year in which the song first appeared on a top record chart
-  •	genre (string) – the song’s genre
+::: {.callout-note title="Nodes to be used"}
+• notable (boolean) – whether or not the song has appeared on a top record chart
 
-### Number of songs in genres with notoriety_date
+• notoriety_date (string) – if provided, the year in which the song first appeared on a top record chart
 
-- Let's find out the top genres with the most notoriety_dates.
+• genre (string) – the song’s genre
+:::
+
+::: panel-tabset
+### Total songs in genres (notoriety_date)
+
+-   Let's find out the top genres with the most notoriety_dates.
 
 ```{r}
 
@@ -203,14 +208,10 @@ if (has_pop) {
 
 ```
 
-::: {.callout-note title="Note"}
-After analysis, there are songs that never get a notoriety_date chart but are still marked as notable == True. Thus, it would be better to count the notable songs instead of notoriety_date.
-:::
+### Total songs in genres (notoble)
 
-### Number of songs in genres with notorable count
-
-- We get a much better representation of the total songs an whether it appeared on the top charts below.
-- Dream Pop has the most songs while Celtic Folk has the least amount of songs in the dataset throughout the years.
+-   We get a much better representation of the total songs an whether it appeared on the top charts below.
+-   Dream Pop has the most songs while Celtic Folk has the least amount of songs in the dataset throughout the years.
 
 ```{r}
 library(gridExtra)
@@ -281,15 +282,19 @@ if (has_pop) {
 }
 
 ```
+:::
+
+::: {.callout-note title="Note"}
+After analysis, there are songs that never get a notoriety_date chart but are still marked as notable == True. Thus, it would be better to count the notable songs instead of notoriety_date.
+:::
 
 ## Top 15 artists with the most notable songs and if it links to the most popular genres.
 
-- Let's find out the top 15 artists with the most notable songs in this dataset.
+-   Let's find out the top 15 artists with the most notable songs in this dataset.
 
 ### Top 15 Person by Total of Notable Songs
 
 ```{r}
-
 
 # 1. Load & index the graph
 kg_raw    <- fromJSON("data/MC1_graph.json")
@@ -339,21 +344,21 @@ notable_tbl %>%
 
 ```
 
-
 ::: {.callout-note title="Plot 6 Note"}
 With this, I will like to visualize these 15 top performers and their affiliation to each genres just as a preview.
 :::
 
+### Table of Artist and Genres appeared
 
-- The table below shows the notable songs of the artists into the selected top 10 genres.
+-   The table below shows the notable songs of the artists into the selected top 10 genres.
 
-**Top 10 Genres based on total number of songs:**
-"Dream Pop", "Indie Folk", "Synthwave", "Doom Metal", "Oceanus Folk",
- "Alternative Rock", "Southern Gothic Rock", "Indie Rock", "Americana", "Psychedelic Rock"
+-   **Top 10 Genres based on total number of songs:**
+
+    "Dream Pop", "Indie Folk", "Synthwave", "Doom Metal", "Oceanus Folk", "Alternative Rock", "Southern Gothic Rock", "Indie Rock", "Americana", "Psychedelic Rock"
 
 ```{r}
 
-# 3. Compute total notable songs per Person
+# 1. Compute total notable songs per Person
 notable_tbl_edit <- edges_idx %>%
   filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
          from %in% person_idxs) %>%
@@ -363,14 +368,14 @@ notable_tbl_edit <- edges_idx %>%
   count(Person, name = "NotableSongs") %>%
   arrange(desc(NotableSongs))
 
-# 4. Define the 10 genres of interest
+# 2. Define the 10 genres of interest
 genres <- c(
   "Dream Pop", "Indie Folk", "Synthwave", "Doom Metal", "Oceanus Folk",
   "Alternative Rock", "Southern Gothic Rock", "Indie Rock",
   "Americana", "Psychedelic Rock"
 )
 
-# 5. Compute notable‐song counts by Person × Genre
+# 3. Compute notable‐song counts by Person × Genre
 genre_counts <- edges_idx %>%
   filter(`Edge Type` %in% c("ComposerOf","PerformerOf"),
          from %in% person_idxs) %>%
@@ -384,7 +389,7 @@ genre_counts <- edges_idx %>%
   mutate(Person = nodes_tbl$name[from]) %>%
   count(Person, genre, name = "Count")
 
-# 6. Pivot those genres into columns for all persons
+# 4. Pivot those genres into columns for all persons
 comparison <- notable_tbl_edit %>%
   rename(AllGenres = NotableSongs) %>%
   left_join(
@@ -403,14 +408,21 @@ comparison <- notable_tbl_edit %>%
   # reorder: Person, AllGenres, then the Notable_* genres
   select(Person, AllGenres, starts_with("Notable_"))
 
-# 7. View the wide table
-print(comparison)
+# 5. Display as a horizontally scrollable DataTable
+library(DT)
+DT::datatable(
+  comparison,
+  options = list(
+    scrollX = TRUE,
+    pageLength = 10
+  )
+)
 
 ```
 
 ### Top persons in the top 6 genres based on notarable songs.
 
-I will select the top 6 genres based on number of songs and filter to the top 5 artists with the most notable songs.
+I will select the top 6 genres based on the previous plot and filter to the top 5 artists with the most notable songs.
 
 ```{r}
 
@@ -472,49 +484,39 @@ ggplot(top5_by_genre,
 ```
 
 ::: {.callout-note title="Selection"}
-Based on the charts shown, we will choose the following artist based on high number of notable songs and popular genre.
-I will explore and derive some findings of the 3 artists and any characteristics on how popular & influential they are as top artist in their field.
+Based on the charts shown, I will choose the following artist based on high number of notable songs and popular genre. I will also explore and derive some findings of the 3 artists and any characteristics on how **popular** & **influential** they are as top artist in their field.
 
-  **1. Kimberly Snyder**
-  **2. Leyla Graf-Gotthard**
-  **3. Szymon Pyć**
-  
+**1. Kimberly Snyder**
+
+**2. Leyla Graf-Gotthard**
+
+**3. Szymon Pyć**
 :::
 
-#  **Part (a) Visualize the careers of three artists. Compare and contrast their rise in popularity and influence**
+# Question 3 Part (a)
 
-I have picked the following three artists and genres based on the data exploring conducted: 
+<span style="color:red;">Part (a): Visualize the careers of three artists. Compare and contrast their rise in popularity and influence</span>
 
-*Kimberly Snyder - Dream Pop*
+I have picked the following three artists and genres based on the data exploring conducted:
 
-*Leyla Graf-Gotthard - Doom Metal*
+*1. Kimberly Snyder - Dream Pop*
 
-*Szymon Pyć - Southern Gothic Rock*
+*2. Leyla Graf-Gotthard - Doom Metal*
 
+*3. Szymon Pyć - Southern Gothic Rock*
 
-
-I will build an interactive network you can embed right in your Quarto HTML and let readers mouse-over nodes, zoom in on each artist’s “career path,” and color-code by node type (albums, songs, collaborators, etc.). Here’s a self-contained example you can drop into your Quarto doc, which:
-
-
-
-Builds a tiny visNetwork graph showing their releases (sized by any “popularity” metric you have) and collaborations over time.
-
-
-
-
+I will build a tiny visNetwork graph showing their releases and collaborations over time to check on their popularity and influence.
 
 ## Popularity: Comparison Overall vs in Genre by Notable Songs
 
-Using notable songs as a proxy for popularity, let's compare the notable songs of the selected 3 artists in their respective genre vs overall.
+Using notable songs as a proxy for popularity, let's compare the total notable songs of the selected 3 artists in their respective genre vs overall.
 
-This will show how many notable songs the artist produced overall and how many were actually their main genre.
-
+This will show how many notable songs the artist produced were actually their main genre.
 
 ::: panel-tabset
-
 ### Kimberly Snyder
 
-- Based on the bar graphs, Kimberly Snyder has the most notable songs released but ties with Matthew Hancock in the Dream Pop genre. However, this shows the influence Kimberly has on other genres.
+-   Based on the bar graphs, Kimberly Snyder has the most notable songs released but ties with Matthew Hancock in the Dream Pop genre. However, this also shows that Kimberly has influence on other genres.
 
 ```{r}
 library(gridExtra)
@@ -606,7 +608,7 @@ grid.arrange(p1, p2, ncol = 2)
 
 ### Leyla Graf-Gotthard
 
-- Leyla Graf-Gotthard is the top in her genre with some influence in other genres too based on overall.
+-   Leyla Graf-Gotthard is the top in her genre with some influence in other genres too based on overall.
 
 ```{r}
 
@@ -685,7 +687,7 @@ grid.arrange(p3, p4, ncol = 2)
 
 ### Szymon Pyć
 
-- Similarly, Szymon is the top in his genre with some influence in other genres too based on overall. He has the most number of notable songs overall.
+-   Similarly, Szymon is the top in his genre with some influence in other genres too based on overall. He has the most number of notable songs overall.
 
 ```{r}
 
@@ -761,13 +763,11 @@ grid.arrange(p5, p6, ncol = 2)
 
 
 ```
-
 :::
 
 ::: {.callout-note title="Notable Songs by Top 5 persons in Genre vs Overall"}
 -   Based on the notable songs, the selected 3 artists are the top for their genre with influences in other genres as well. This shows the popularity based on using "Notable Songs" as a proxy.
 :::
-
 
 ## Popularity: Notable and Notoriety_Date plotted against release_date
 
@@ -775,17 +775,15 @@ Let's take a look at the timeline of notable songs for the 3 artists. I will be 
 
 This will give a broad “popularity over time” view of an artist's impact.
 
+::: {.callout-note title="Note on Nodes used"}
+Below is some explanation on the nodes used for the plots.
 
+-   Notable: “this song was popular/critically acclaimed,” regardless of whether we know its exact chart date.
 
-::: {.callout-note title="Note"}
-- Notable: “this song was popular/critically acclaimed,” regardless of whether we know its exact chart date.
-
-- Notoriety_date: only exists for the subset of notable tracks that actually landed on the charts. It will just be a marker for precised chart‐entry timing information (not the whole thing) as it will always under-count the popularity signal.
+-   Notoriety_date: only exists for the subset of notable tracks that actually landed on the charts. It will just be a marker for precised chart‐entry timing information (not the whole thing) as it will always under-count the popularity signal.
 :::
 
-
 ::: panel-tabset
-
 ### Kimberly Snyder
 
 ```{r}
@@ -989,19 +987,17 @@ ggplot(combined3, aes(x = Year)) +
 
 
 ```
-
 :::
 
-::: {.callout-note title="Notable Songs and Charted Songs across the years"}
--   How each of the artist is able to maintain popularity would be due to the release of "notable" songs consistently throughout the years. This is a clear signal on how the artist still maintains its popularity.
+::: {.callout-note title="Notable Songs and Charted Songs across the Years"}
+-   We can see how each of the artist is able to "maintain popularity" be due to their consistent release of "notable" songs throughout the years. This is a clear signal on how the artists still maintain their popularity.
 :::
 
-## Popularity: Percentage of popular songs released by artist
+## Popularity: Percentage of un-charted songs released by artist
 
 We have seen the timeline and number of notable songs. Let's find out how many songs did not chart for each of the artist.
 
 ::: panel-tabset
-
 ### Kimberly's songs
 
 ```{r}
@@ -1157,39 +1153,36 @@ ggplot(summary_tbl3, aes(x = "", y = n, fill = Notable)) +
 
 
 ```
-
 :::
 
 ::: {.callout-note title="Notable Songs vs Non-Notable Songs"}
-These 3 artist have a majority (More than 2/3 of the total) of notable songs as compared to non-notable songs.
-This is another good signal that shows how the artist is able to maintain popularity by releasing top charting songs consistently.
+These 3 artist have a majority (more than 2/3) of notable songs as compared to non-notable songs they produced. This is another good signal that shows how the artist is able to maintain popularity by releasing top charting songs consistently.
 :::
-
 
 ## Influence: Work Interactions
 
-- I want to find out the direct influences by the 3 artist. I will visualise using a visNetwork and count number of **work-type influence edges** each artists has.
+-   I want to find out the direct influences by the 3 artist. I will visualise using a visNetwork and count number of **work-type influence edges** each artists has.
 
-::: {.callout-note title="Work-type Influences"}
+::: {.callout-note title="Work-type Influences used in plots"}
+Below are the definition of the Edge Types being used.
 
-1. "MemberOf" - Indicates that the source node (Person) is (or was) a member of the destination node (MusicalGroup)
-2. "ComposerOf" - Indicates that the source node (Person) composed the destination node (Song or Album)
-3. "PerformerOf" - Indicates a that the source node (Person or MusicalGroup) performed the destination node (Song or Album)
-4. "LyricistOf" - Indicates that the source node (Person) wrote lyrics for the destination node (Song or Album)
-5. "RecordedBy" - Indicates that the destination node (RecordLabel) aided in the recording process for the source node (Song or Album)
-6. "ProducerOf" - Indicates that the source node (Person or RecordLabel) participated in the production of the destination node’s work (Song, Album, Person, or MusicalGroup)
-7. "DistributedBy" - Indicates that the destination node (RecordLabel) aided in the distribution process for the source node (Song or Album) 
+1.  "MemberOf" - Indicates that the source node (Person) is (or was) a member of the destination node (MusicalGroup)
+2.  "ComposerOf" - Indicates that the source node (Person) composed the destination node (Song or Album)
+3.  "PerformerOf" - Indicates a that the source node (Person or MusicalGroup) performed the destination node (Song or Album)
+4.  "LyricistOf" - Indicates that the source node (Person) wrote lyrics for the destination node (Song or Album)
+5.  "RecordedBy" - Indicates that the destination node (RecordLabel) aided in the recording process for the source node (Song or Album)
+6.  "ProducerOf" - Indicates that the source node (Person or RecordLabel) participated in the production of the destination node’s work (Song, Album, Person, or MusicalGroup)
+7.  "DistributedBy" - Indicates that the destination node (RecordLabel) aided in the distribution process for the source node (Song or Album)
 :::
 
-
-### Kimberly Snyder 
+### Kimberly Snyder
 
 ::: panel-tabset
-
 #### Work Influence Edge Types
+
 ```{r}
 
-
+# 1.
 id_map <- nodes_tbl %>% 
   mutate(index = row_number()) %>% 
   select(id, index)
@@ -1283,14 +1276,13 @@ ggplot(edge_summary, aes(
   theme_minimal(base_size = 12)
 
 ```
-
 :::
 
 ### Leyla Graf-Gotthard
 
 ::: panel-tabset
-
 #### Work Influence Edge Types
+
 ```{r}
 
 # 2. Filter for your chosen edge types & artist
@@ -1354,7 +1346,6 @@ visNetwork(vn_nodes2, vn_edges2, height = "600px", width = "100%") %>%
 
 ```{r}
 
-
 # Assuming `career_edges` is already in your environment:
 # Count interactions per edge type
 edge_summary2 <- career_edges2 %>%
@@ -1377,14 +1368,13 @@ ggplot(edge_summary2, aes(
   theme_minimal(base_size = 12)
 
 ```
-
 :::
 
 ### Szymon Pyć
 
 ::: panel-tabset
-
 #### Work Influence Edge Types
+
 ```{r}
 
 # 2. Filter for your chosen edge types & artist
@@ -1471,40 +1461,38 @@ ggplot(edge_summary3, aes(
   theme_minimal(base_size = 12)
 
 ```
-
 :::
 
 ::: {.callout-note title="Work-type Influences"}
-These plots show the work influences by the artist within their scope and also how their work with other people. 
+These plots show the number of work influences by the artist within their scope.
 :::
-
 
 ## Influence: People Interactions
 
-This portion will cover how people are directly/indirectly influenced by the selected artists and their work.
-I will be plotting a visNetwork and barchart for Betweenness value to show the influence.
+This portion will cover how people are directly/indirectly influenced by the selected artists and their work. I will be plotting a visNetwork and barcharts for Betweenness Centrality value to show their influences.
 
 ::: {.callout-note title="People Influences"}
-1. "InterpolatesFrom" - 
-2. "DirectlySamples" - 
-3. "InStyleOf" - 
-4. "LyricalReferenceTo" - 
-5. "CoverOf" - 
+1.  "InterpolatesFrom" - Indicates that the source node (Song or Album) interpolated a melody from the destination node (Song or Album).
+2.  "DirectlySamples" - Indicates that the source node (Song or Album) consists of (an) audio recording(s) that directly reuse a portion of the audio recording of the destination node (Song or Album) via sampling.
+3.  "InStyleOf" - Indicates that the source node (Song or Album) consists of (an) audio recording(s) that directly reuse a portion of the audio recording of the destination node (Song or Album) via sampling.
+4.  "LyricalReferenceTo" - Indicates that the source node (Song or Album) consists of (an) audio recording(s) that directly reuse a portion of the audio recording of the destination node (Song or Album) via sampling.
+5.  "CoverOf" - Indicates that the source node (Song or Album) is a cover of the destination node (Song or Album).
 :::
 
 **VisNetwork**
-- The visNetwork will be limited to a maximum hop of 2 to reduce messiness.
-- Dropdown select to see the artists and their influences.
 
-**Betweenness CentralityValue**
-- This measures a node's influence in a network by quantifying how often it lies on the shortest paths between other nodes.
-- I will be solely using as information to show what are the most relevant "bridges" controlling the flow of in the network using maximum hop of 3.
+-   The visNetwork will be limited to a maximum hop of 2 to reduce messiness.
+-   Dropdown select will be created to see the individual artists and their influences.
 
-### Kimberly Snyder 
+**Betweenness Centrality Value**
+
+-   This measures a node's influence in a network by quantifying how often it lies on the shortest paths between other nodes.
+-   I will solely using this as information on what are the most relevant "bridges" controlling the flow of in the network using maximum hop of 3.
+
+### Kimberly Snyder
 
 ::: panel-tabset
-
-#### People Influence Edge Types
+#### People Influence Edges
 
 ```{r}
 
@@ -1623,9 +1611,9 @@ render_ego_network("Kimberly Snyder")
 
 ```
 
-#### 1-order ego network and betweenness centrality for everyone in that network.
+#### Betweenness centrality in network
 
-- Kimberly had more song influences in her network.
+-   Kimberly had more song influences in her network.
 
 ```{r}
 
@@ -1708,10 +1696,8 @@ if (nrow(ego_edges) == 0) {
     ) %>%
     arrange(desc(betweenness))
   
-  # ─── 9. Print the full centrality table ───────────────────────────────────
-  print(centrality_tbl)
   
-  # ─── 10. Bar‐chart of top 10 nodes by betweenness ──────────────────────────
+  # ─── 9. Bar‐chart of top 10 nodes by betweenness ──────────────────────────
   centrality_tbl %>%
     slice_head(n = 10) %>%
     ggplot(aes(x = fct_reorder(NodeName, betweenness), y = betweenness, fill = NodeType)) +
@@ -1732,14 +1718,12 @@ if (nrow(ego_edges) == 0) {
 
 
 ```
-
 :::
 
 ### Leyla Graf-Gotthard
 
 ::: panel-tabset
-
-#### People Influence Edge Types
+#### People Influence Edges
 
 ```{r}
 
@@ -1858,9 +1842,9 @@ render_ego_network("Leyla Graf-Gotthard")
 
 ```
 
-#### 1-order ego network and betweenness centrality for everyone in that network.
+#### Betweenness centrality in network
 
-- Similarly, Leyla had more song influences in her network.
+-   Similarly, Leyla had more song influences in her network.
 
 ```{r}
 
@@ -1944,10 +1928,7 @@ if (nrow(ego_edges) == 0) {
     ) %>%
     arrange(desc(betweenness))
   
-  # ─── 9. Print the full centrality table ───────────────────────────────────
-  print(centrality_tbl)
-  
-  # ─── 10. Bar‐chart of top 10 nodes by betweenness ──────────────────────────
+  # ─── 9. Bar‐chart of top 10 nodes by betweenness ──────────────────────────
   centrality_tbl %>%
     slice_head(n = 10) %>%
     ggplot(aes(x = fct_reorder(NodeName, betweenness), y = betweenness, fill = NodeType)) +
@@ -1967,14 +1948,12 @@ if (nrow(ego_edges) == 0) {
 }
 
 ```
-
 :::
 
 ### Szymon Pyć
 
 ::: panel-tabset
-
-#### People Influence Edge Types
+#### People Influence Edges
 
 ```{r}
 
@@ -2093,9 +2072,9 @@ render_ego_network("Szymon Pyć")
 
 ```
 
-#### 1-order ego network and betweenness centrality for everyone in that network.
+#### Betweenness centrality in network
 
-- Interestingly, there were more albums and people influence in Szymon's network.
+-   Interestingly, there were more albums and people influence in Szymon's network.
 
 ```{r}
 
@@ -2179,10 +2158,7 @@ if (nrow(ego_edges) == 0) {
     ) %>%
     arrange(desc(betweenness))
   
-  # ─── 9. Print the full centrality table ───────────────────────────────────
-  print(centrality_tbl)
-  
-  # ─── 10. Bar‐chart of top 10 nodes by betweenness ──────────────────────────
+  # ─── 9. Bar‐chart of top 10 nodes by betweenness ──────────────────────────
   centrality_tbl %>%
     slice_head(n = 10) %>%
     ggplot(aes(x = fct_reorder(NodeName, betweenness), y = betweenness, fill = NodeType)) +
@@ -2202,34 +2178,25 @@ if (nrow(ego_edges) == 0) {
 }
 
 ```
-
 :::
 
 ::: {.callout-note title="People Influence"}
-These plots show each artist has a difference in which external node (song/album/person) had the most influence and control. 
+These plots depict that each artist has a difference in which external node (song/album/person) had the most influence and control.
 :::
 
-## **Summary**
+## Additional: Affliation works with Musical Groups
 
-**Notable songs and release across the years are important factors for artist's popularity.**
+-   I want to visualise the categories for Kimberly Snyder's Sonic Renegades and their members.
 
-**External factors such as influences factors show how much control and spread of the artist's information is spread across to people.**
-
-
-## Additional: Affliation works with Musical Groups 
-
-- I want to visualise the categories for Kimberly Snyder's Sonic Renegades and their members.
-
-- Only Kimberly Snyder has an affliated musicalgroup as Leyla Graf-Gotthard and Szymon Pyć are supposedly solo artists as there isnt any nodes linking them to a group.
-
+-   Only Kimberly Snyder has an affliated musicalgroup as Leyla Graf-Gotthard and Szymon Pyć are supposedly solo artists as there isnt any nodes linking them to a group.
 
 ### Kimberly Snyder and Sonic Renegade members
 
 Following factors are used to visualize Kimberly and her members.
 
-- "MemberOf", "ComposerOf", "PerformerOf","LyricistOf", "RecordedBy","ProducerOf","DistributedBy"
+-   "MemberOf", "ComposerOf", "PerformerOf","LyricistOf", "RecordedBy","ProducerOf","DistributedBy"
 
-#### Links
+#### MusicalGroup Linkages
 
 ```{r}
 
@@ -2297,10 +2264,9 @@ visNetwork(vn_nodes, vn_edges, height = "600px", width = "100%") %>%
 
 ```
 
-
 #### Timeline of Sonic Renegade' members works
 
-- I would like to view the timeline of the works by each of the members to see who has been having consistent work throughout the years.
+-   I would like to view the timeline of the works by each of the members to see who has been having consistent work throughout the years.
 
 ```{r}
 
@@ -2372,30 +2338,38 @@ ggplot(timeline_tbl %>% mutate(Year_f = factor(Year)),
 ```
 
 ::: {.callout-note title="Additional"}
-Based on the above plot, the trend of how many songs released by each member is similar. Just that Kimberly Snyder has more each year. This could also show how Kimberly had more notable songs due to more effort in producing songs each year which lead to her popularity and influence.
+Based on the above plot, the trend of how many songs released by each member is similar. However, Kimberly Snyder has more songs each year as compared to the other group members.
+
+This could also show how Kimberly had more notable songs due to more effort in producing songs each year which lead to her immense popularity and influence.
 :::
 
+## **Summary of part (a)**
 
+1.  Notable songs and release across the years are important factors for artist's popularity.
 
-# **Part (b) Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years**
+2.  External factors such as influences factors show how much control and spread of the artist's information is spread across to people.
 
-To predict the next Oceanus Folk stars over the next 5 years, I would need to check on the popularity + influence nodes that was done in part (a).
-I will see if there is a pattern in the plots and predict from there who I think will be the next upcoming stars.
+# Question 3 Part (b)
+
+<span style="color:red;">Part (b): **Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years**</span>
+
+To predict the next Oceanus Folk stars over the next 5 years, I would need to check on the popularity + influence nodes that was done in part (a). I will see if there is a pattern in the plots and predict from there who I think will be the next upcoming stars.
 
 ::: {.callout-note title="Factors to consider"}
-1. Count of Notable songs
-2. Years since 1st release song (Limiting the years since the artist's first released song")
-3. Betweenness Centrality score in Oceanus Folk genre
-4. Similar pattern to Top Stars in industry
+1.  Count of Notable songs
+2.  Years since 1st release song (Limiting the years since the artist's first released song")
+3.  Betweenness Centrality score in Oceanus Folk genre
+4.  Similar pattern to Top Stars in industry
+5.  Advisable to check artists as individuals and not between group members as some might be an older veteran in the industry
 :::
 
-## Popularity:
+## Popularity
 
 ### Number of Notable songs of Oceanus Folk
 
-- Let's take a look at all the songs + notable songs released by Oceanus Folk throughout their careers.
-- I will do a global count of every Oceanus Folk song marked "notable == True" to have an overview without any restrictions. I will plot the total songs released beside it as comparison.
-
+-   Let's take a look at all the songs + notable songs released by Oceanus Folk throughout their careers.
+-   I will do a global count of every Oceanus Folk song marked "notable == True" to have an overview without any restrictions.
+-   I will plot the total songs released beside the notable songs barchart as comparison.
 
 ```{r}
 
@@ -2484,12 +2458,12 @@ ggplot(plot_long, aes(x = Person, y = Count, fill = Metric)) +
 ```
 
 ::: {.callout-note title="Overall Artists in Oceanus Folk"}
-You can see the spread of artists with notable songs but we have yet to limit the years as we are not interested in long-careered artists but emerging artists
+You can see the spread of artists with notable songs but we have yet to limit the years as we are not interested in long-careered artists but **rising artists**.
 :::
 
 ### Songs timeline
 
-We will now plot these songs across the years to visualize which years we should set as our limit.
+I will plot these songs across the years to visualize which years we should set as our limit.
 
 ```{r}
 
@@ -2559,29 +2533,24 @@ ggplot(yearly_trends, aes(x = year)) +
 ```
 
 ::: {.callout-note title="Timeline Note"}
-- There weren't any notable songs released by the Oceanus Folk artists from 2036 to 2040.
-- Based on this, I will want to limit the spread to around 10 years since the last notable song in 2035.
-- The range I will select to determine my 3 rising stars will be from **2025 to 2035**.
+-   There weren't any notable songs released by the Oceanus Folk artists from 2036 to 2040.
+-   Based on this, I will want to limit the spread to around 10 years since the last notable song in 2035.
+-   The range I will select to determine my 3 rising stars will be from **2025 to 2035**.
 :::
 
-### Direct Prediction based on notable songs
+## Direct Prediction based on notable songs
 
-- Below is a direct prediction on the top 3 “next Oceanus Folk stars” based on limiting the notable songs and release years from 2025 to 2035.
+-   Below is a direct prediction on the **top 3 “next Oceanus Folk stars”** based on limiting the notable songs and release years from 2025 to 2035.
 
 ```{r}
 
+library(DT)
 library(lubridate)
-library(igraph)
 
 # ─── 0. PARAMETERS ─────────────────────────────────────────────────────────────
-# Time window for “emerging” Oceanus Folk releases:
-window_start <- 2025
-window_end   <- 2035
-
-# How many “years after first release” to consider for early‐career metrics:
+window_start       <- 2025
+window_end         <- 2035
 early_window_years <- 5
-
-# Influence‐type edges to count:
 influence_edge_types <- c(
   "InterpolatesFrom",
   "CoverOf",
@@ -2593,11 +2562,9 @@ influence_edge_types <- c(
 # ─── 1. LOAD & PREPARE NODES + EDGES ───────────────────────────────────────────
 kg_raw    <- fromJSON("data/MC1_graph.json")
 nodes_tbl <- as_tibble(kg_raw$nodes) %>%
-  mutate(idx = row_number())  # give each node a numeric index for easy joins
-
+  mutate(idx = row_number())  # numeric index for joining
 links_tbl <- as_tibble(kg_raw$links)
 
-# Build a numeric “from/to” index for every edge row (for fast lookups)
 id_map <- nodes_tbl %>% select(id, idx)
 edges_idx <- links_tbl %>%
   left_join(id_map, by = c("source" = "id"))  %>% rename(from = idx) %>%
@@ -2605,102 +2572,76 @@ edges_idx <- links_tbl %>%
   filter(!is.na(from), !is.na(to))
 
 # ─── 2. EXTRACT “OCEANUS FOLK” SONGS & THEIR FIRST‐RELEASE YEARS ─────────────
-# We’ll pull out every Song node with genre == "Oceanus Folk", parse its release/written year,
-# and then find for each Person the earliest year they contributed.
-
-# 2a. Keep only Song nodes that are “Oceanus Folk”
 songs_oceanus <- nodes_tbl %>%
   filter(`Node Type` == "Song", genre == "Oceanus Folk") %>%
-  # parse release_year & written_year (if present) → take whichever is non‐NA/earlier
   mutate(
     release_year = suppressWarnings(as.integer(str_extract(release_date, "\\d{4}"))),
     written_year = suppressWarnings(as.integer(str_extract(written_date, "\\d{4}"))),
     first_year   = pmin(release_year, written_year, na.rm = TRUE)
   ) %>%
-  # drop any songs that have no valid year
   filter(!is.na(first_year)) %>%
-  # now keep only those whose first_year is within [window_start, window_end]
   filter(first_year >= window_start, first_year <= window_end) %>%
   select(song_idx = idx, first_year)
 
-# 2b. For each Person, find their “first Oceanus Folk year” by looking at edges
 person_idxs <- nodes_tbl %>%
   filter(`Node Type` == "Person") %>%
   pull(idx)
 
-# Get all ComposerOf / PerformerOf edges that point TO an Oceanus Folk song
-# (so we know which people contributed to an Oceanus Folk song, and when)
 person_song_edges <- edges_idx %>%
-  filter(`Edge Type` %in% c("ComposerOf", "PerformerOf"),
-         from %in% person_idxs,
-         to   %in% songs_oceanus$song_idx) %>%
+  filter(
+    `Edge Type` %in% c("ComposerOf", "PerformerOf"),
+    from %in% person_idxs,
+    to   %in% songs_oceanus$song_idx
+  ) %>%
   select(person_idx = from, song_idx = to)
 
-# Join back to get that song’s first_year, then pick the earliest per person
 person_first_oceanus <- person_song_edges %>%
-  left_join(songs_oceanus, by = c("song_idx")) %>%
+  left_join(songs_oceanus, by = "song_idx") %>%
   group_by(person_idx) %>%
-  summarise(
-    first_oceanus_year = min(first_year, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  # Only keep those whose first oceanus year is in [window_start, window_end]
-  filter(first_oceanus_year >= window_start,
-         first_oceanus_year <= window_end)
+  summarise(first_oceanus_year = min(first_year, na.rm = TRUE), .groups = "drop") %>%
+  filter(first_oceanus_year >= window_start, first_oceanus_year <= window_end)
 
-# If nobody emerges in that window, we can stop early
 if (nrow(person_first_oceanus) == 0) {
   stop("No emerging Oceanus Folk artists found between ", window_start, " and ", window_end, ".")
 }
 
-# ─── 3. COMPUTE EARLY‐CAREER “POPULARITY” (NOTABLE SONG COUNTS) ─────────────
-# For each emerging artist, count how many of their Oceanus Folk songs within
-# [first_oceanus_year, first_oceanus_year + early_window_years] are notable.
-
-# 3a. Tag each Oceanus Folk song with its year and its “notable” flag
+# ─── 3. COMPUTE EARLY‐CAREER “POPULARITY” ─────────────────────────────────────
 songs_oceanus_full <- nodes_tbl %>%
   filter(`Node Type` == "Song", genre == "Oceanus Folk") %>%
   mutate(
-    release_year   = suppressWarnings(as.integer(str_extract(release_date, "\\d{4}"))),
-    written_year   = suppressWarnings(as.integer(str_extract(written_date, "\\d{4}"))),
-    first_year_song = pmin(release_year, written_year, na.rm = TRUE),
-    is_notable     = if_else(!is.na(notoriety_date), TRUE, FALSE)
+    release_year     = suppressWarnings(as.integer(str_extract(release_date, "\\d{4}"))),
+    written_year     = suppressWarnings(as.integer(str_extract(written_date, "\\d{4}"))),
+    first_year_song  = pmin(release_year, written_year, na.rm = TRUE),
+    is_notable       = !is.na(notoriety_date)
   ) %>%
   select(song_idx = idx, first_year_song, is_notable)
 
-# 3b. For each emerging artist, list all their Oceanus Folk songs (with years & flags)
 artist_songs <- edges_idx %>%
-  filter(`Edge Type` %in% c("ComposerOf", "PerformerOf"),
-         from %in% person_first_oceanus$person_idx,
-         to   %in% songs_oceanus_full$song_idx) %>%
+  filter(
+    `Edge Type` %in% c("ComposerOf", "PerformerOf"),
+    from %in% person_first_oceanus$person_idx,
+    to   %in% songs_oceanus_full$song_idx
+  ) %>%
   select(person_idx = from, song_idx = to) %>%
   left_join(songs_oceanus_full, by = "song_idx") %>%
   left_join(person_first_oceanus, by = "person_idx")
 
-# 3c. Filter those “within early_window_years” of their first Oceanus Folk release
 artist_songs_early <- artist_songs %>%
   filter(
     first_year_song >= first_oceanus_year,
     first_year_song <= first_oceanus_year + early_window_years
   )
 
-# 3d. Count notable songs per emerging artist in that early window
 popularity_tbl <- artist_songs_early %>%
   filter(is_notable) %>%
   count(person_idx, name = "early_notable_songs")
 
-# If an emerging artist has zero notable songs in the early window, give them a 0
 popularity_tbl <- person_first_oceanus %>%
   select(person_idx) %>%
   left_join(popularity_tbl, by = "person_idx") %>%
   mutate(early_notable_songs = replace_na(early_notable_songs, 0))
 
-# ─── 4. COMPUTE EARLY‐CAREER “INFLUENCE” (INFLUENCE‐EDGE COUNTS) ─────────────
-# For each emerging artist, count how many influence‐type edges they are involved in,
-# where that edge’s “timestamp” (we’ll approximate by “max of connected node’s year”) 
-# falls within [first_oceanus_year, first_oceanus_year + early_window_years].
-
-# 4a. First, let’s annotate each node with a “node_year” = earliest valid year (release/written/notoriety)
+# ─── 4. COMPUTE EARLY‐CAREER “INFLUENCE” ─────────────────────────────────────
 nodes_years <- nodes_tbl %>%
   mutate(
     release_year   = suppressWarnings(as.integer(str_extract(release_date, "\\d{4}"))),
@@ -2710,19 +2651,16 @@ nodes_years <- nodes_tbl %>%
   ) %>%
   select(idx, node_year)
 
-# 4b. Filter the master edge list to only those influence‐types and where one endpoint is an emerging artist
 artist_infl_edges <- edges_idx %>%
   filter(
     `Edge Type` %in% influence_edge_types,
     (from %in% person_first_oceanus$person_idx) |
     (to   %in% person_first_oceanus$person_idx)
   ) %>%
-  # annotate each edge with “edge_year” = max( node_year[from], node_year[to] )
   left_join(nodes_years, by = c("from" = "idx")) %>% rename(year_from = node_year) %>%
   left_join(nodes_years, by = c("to"   = "idx")) %>% rename(year_to   = node_year) %>%
   mutate(edge_year = pmax(year_from, year_to, na.rm = TRUE))
 
-# 4c. Join to get each artist’s first_oceanus_year, then keep only if edge_year is within the early window
 artist_infl_early <- artist_infl_edges %>%
   mutate(person_idx = if_else(from %in% person_first_oceanus$person_idx, from, to)) %>%
   left_join(person_first_oceanus, by = "person_idx") %>%
@@ -2732,7 +2670,6 @@ artist_infl_early <- artist_infl_edges %>%
   ) %>%
   count(person_idx, name = "early_influence_edges")
 
-# 4d. Attach zeros for artists with no early influence edges
 influence_tbl <- person_first_oceanus %>%
   select(person_idx) %>%
   left_join(artist_infl_early, by = "person_idx") %>%
@@ -2742,39 +2679,34 @@ influence_tbl <- person_first_oceanus %>%
 emerging_metrics <- person_first_oceanus %>%
   left_join(popularity_tbl, by = "person_idx") %>%
   left_join(influence_tbl,  by = "person_idx") %>%
-  # Join in the actual Person name
-  left_join(
-    nodes_tbl %>% select(person_idx = idx, name),
-    by = "person_idx"
-  ) %>%
-  mutate(
-    total_score = early_notable_songs + early_influence_edges
-  ) %>%
+  left_join(nodes_tbl %>% select(person_idx = idx, name), by = "person_idx") %>%
+  mutate(total_score = early_notable_songs + early_influence_edges) %>%
   select(person_idx, name, first_oceanus_year,
          early_notable_songs, early_influence_edges, total_score) %>%
   arrange(desc(total_score), desc(early_notable_songs))
 
-# 5a. The top 3 predictions:
 top3_emerging <- emerging_metrics %>% slice_head(n = 3)
 
-# ─── 6. OUTPUT RESULTS ────────────────────────────────────────────────────────
-message("All emerging Oceanus Folk artists (", window_start, "–", window_end, 
-        ") ranked by early‐career score:\n")
-print(emerging_metrics)
-
-message("\nTop 3 predictions for next Oceanus Folk stars:\n")
-print(top3_emerging)
+# ─── 6. RENDER AS DATA TABLE WITH SCROLLING ──────────────────────────────────
+DT::datatable(
+  top3_emerging,
+  extensions = "Buttons",
+  options = list(
+    scrollX    = TRUE,
+    pageLength = 5
+  )
+)
 
 ```
 
 ::: {.callout-note title="Most notable songs from emerging artists in Oceanus Folk genre"}
-- Orla Seabloom, Beatrice Albright & Daniel O'Connell have the most notable songs (4<=) and their debut was between 2025 to 2035. 
-- Let's visualise them against the rest of the artist to have a clearer view on this take.
+-   Orla Seabloom, Beatrice Albright & Daniel O'Connell have the most notable songs (4\<=) and their debut was between 2025 to 2035.
+-   Let's visualise them against the rest of the artist to have a clearer view on this take.
 :::
 
 ## Visualising Notable Oceanus Folk songs based on debut of Artist from 2025 to 2035
 
-- I will be restricting the artists whose first Oceanus Folk release fell in 2025–2035 and count that as notable songs for more relevance for recent years.
+-   I will be restricting the artists whose first Oceanus Folk release fell in 2025–2035 and count that as notable songs for more relevance for recent years.
 
 ```{r}
 
@@ -2909,31 +2841,28 @@ interactive_plot
 ```
 
 ::: {.callout-note title="Findings based on Notable Songs"}
-- This plot shows that Orla, Beatrice and Daniel indeed have the most notable songs in the "recent" time period.
+-   This plot shows that Orla, Beatrice and Daniel indeed have the most notable songs in the "recent" time period.
 :::
 
-::: {.callout-tip title="Sailor Shift"}
-- It's worth to note that Sailor Shift has alot more notable songs overall. But only 1 of it fell in the 2025 - 2035 period.
+::: {.callout-tip title="Sailor Shift outlier"}
+-   It's worth to note that Sailor Shift has alot more notable songs overall. But only 1 of it falls under the 2025 - 2035 period.
 
-The reason why Sailor Shift isn't considered an **"rising star"** is due to the combination of 2 filters. 
+-   The reason why Sailor Shift isn't considered an **"rising star"** is due to the combination of 2 filters.
 
-1. Emerging-artist filter (2025 - 2035) - **1st** Oceanus Folk song_year must fall in this window.
-2. "Notable" + Year - The song must have a non-NA notoriety_date in the period.
+    1.  Emerging-artist filter (2025 - 2035) - **1st** Oceanus Folk song_year must fall in this window.
+    2.  "Notable" + Year - The song must have a non-NA notoriety_date in the period.
 :::
 
-
-**Orla Seabloom, Beatrice Albright and Daniel O'Connell are the most promising upcoming Oceanus Folk artists based on popularity in recent years**
-
+**Orla Seabloom, Beatrice Albright and Daniel O'Connell** are the most promising upcoming Oceanus Folk artists based on popularity in recent years.
 
 ## Influences
 
-- I will plot the influence diagram without splitting the work and influence related edges. This will show a good overview. 
+-   I will plot the influence diagram without splitting the work and influence related edges. This will show a good overview of Orla Seabloom, Beatrice Albright and Daniel O'Connell's connection.
 
 ::: panel-tabset
-
 ### Oceanus Folk visNetwork from 2025 - 2035
 
-- Limiting the hop to 1.
+-   Limiting the hop to 1.
 
 ```{r}
 
@@ -3225,9 +3154,6 @@ betw_tbl <- tibble(
 ) %>%
   arrange(desc(betweenness))
 
-# Print the full betweenness table
-print(betw_tbl)
-
 # ─── 9. Plot top 10 nodes by betweenness ────────────────────────────────────
 top_n <- 10
 betw_tbl %>%
@@ -3243,18 +3169,18 @@ betw_tbl %>%
   theme_minimal(base_size = 12)
 
 ```
-
 :::
 
 ::: {.callout-note title="Influence Notes"}
 Based on the plots and betweenness centrality values:
 
-- Orla Seabloom, Beatrice Albright & Daniel O'Connell appear in the top 10 most critical nodes under Oceanus Folk in the later years (2025 - 2035)
+-   Orla Seabloom, Beatrice Albright & Daniel O'Connell appear in the top 10 most critical nodes under Oceanus Folk in the later years (2025 - 2035)
 
-- We have to count out Sailor Shift and Yang Wan as they might have already been very popular + influential artists in the earlier years before 2025 which led them to having high scores
-
+-   We have to count out Sailor Shift and Yang Wan as they might have already been very popular + influential artists in the earlier years before 2025, which led them to having high scores
 :::
 
-## **Summary**
+## **Summary of part (b)**
 
-Based on the Popularity and Influence plots. There is significant evidence that show that Orla Seabloom, Beatrice Albright & Daniel O'Connell are the next upcoming Oceanus Folk stars that debut recently that will likely continue to chart over the next 5 years.
+Based on the Popularity and Influence plots we can predict based on Oceanus Folks who might be the upcoming rising stars in the next few years.
+
+Looking at the plots, there is significant evidence that show that **1) Orla Seabloom, 2) Beatrice Albright & 3) Daniel O'Connell** are the next upcoming Oceanus Folk stars that debut recently that will likely continue to chart over the next 5 years.
