@@ -1,0 +1,139 @@
+---
+title: "Take-Home_Ex03"
+author: "Andre Ong Jia Kang"
+date: "June 14, 2025"
+date-modified: "last-modified"
+format:
+  html:
+    code-fold: true
+    code-summary: "Code"
+---
+
+# Prototyping Modules for Visual Analytics Shiny Application
+
+In this take-home exercise, I am required to select one of the modules of my proposed Shiny application and complete the following tasks:
+
+- To evaluate and determine the necessary R packages needed for your Shiny application are supported in R CRAN,
+- To prepare and test the specific R codes can be run and returned the correct output as expected,
+- To determine the parameters and outputs that will be exposed on the Shiny applications, and
+- To select the appropriate Shiny UI components for exposing the parameters determine above.
+
+
+These components have been considered and reviewed individually using **Take-Home Ex02** where this current exercise will be the continuation and preparation to build the plots into Shiny App.
+
+## Data Preparation
+
+Continuing from Take-Home Exercise 2, my group members ([Hendra](https://norhendra-isss608.netlify.app/) and [Jin Yao](https://isss608-blessmebellburve.netlify.app/)) and I have completed [Mini-Challenge 1](https://vast-challenge.github.io/2025/MC1.html) and publish the relevant data and visualisation required.
+
+Based on Take Home 3, we have cross-examined the work done for each of [MC1]{style="color:red;"} sections and hand picked some useful charts that we feel is great for the Shiny app. 
+
+
+# Introduction
+
+Following the background of [MC1]{style="color:red;"}, Silas Reed, a local journalist is writing a feature titled Oceanus Folk: Then-and-Now to trace the rise of Sailor, the influence of Oceanus Folk and the popularity/influence of other genres in the global music scene. He has compiled a large dataset of musical artistes, producers, albums, songs, and influence relationships into a knowledge graph. 
+
+We have already assisted Silas by developing informative data visualizations to uncover insights about the music industry and notable interesting findings. Now the final task would be to compile these visualisations into an app for Users such as Silas to easily access and forecast the trends and information collected in this industry.
+
+# Methodology
+
+To achieve a good dashboard that shows all the interaction of nodes + edges and all the dashboard to be interactive, we need to review a few aspects:
+
+::: {.callout-note title="Dashboard Aspects"}
+- Firstly, we need to transform the data and perform relavant linkages from the provided dataset. After which we will perform the modeling and split into the sections that we intend to display on the dashboard.
+
+- Lastly, we need the dashboard to be simple yet clear for the user to interact. Based on [MC1]{style="color:red;"} questions, we will develop the 3 major questions and build the dashboard around it.
+:::
+
+## R packages required
+
+```{r}
+pacman::p_load(tidyverse, jsonlite, SmartEDA, tidygraph,ggraph,dplyr,igraph, 
+               visNetwork,RColorBrewer,htmltools,ggplot2,scales,plotly,tidytext
+               ,patchwork, lubridate)
+```
+
+## Visualisation Charts
+
+The charts are linked to the below links.
+
+[Jin Yao](https://isss608-blessmebellburve.netlify.app/take-home_ex/take-home_ex02/mc1_release/take-home_ex02)
+
+[Hendra](https://norhendra-isss608.netlify.app/take-home_ex/take-home_ex02/take-home_ex02)
+
+[Andre/Myself](https://isss608-ay2025-aprilterm.netlify.app/take-home_ex/take-home_ex02/take-home_ex02)
+
+# Storyboard
+
+The below modules will be the prototype of the Shiny Application. The numbers will represent different features in the proposed app UI.
+
+## Module 1
+
+A navigation bar will be created at the top to click between section. Module 1 will be called (1) General Interaction.
+
+The first section will consist of the (6) Overallnetwork graph where the user can select either (2) Music Artist and/or (3) Groups filter drop down list. This selection will show the network graph interaction with each individual nodes (Song, Album, MusicalGroup, Person and RecordLabel).
+
+The filter number of (4) Hops can be selected to show a less clattered direct interaction. We wil also include a (5) timeline which we can choose the interaction period instead of visualising the whole career of the Artist/Group.
+
+The final plot wil be (7) Betweenness Centrality to show which interaction is the most significant.
+
+
+![](images/Module1.png){fig-align="center"}
+
+## Module 2
+
+This module will be (1) Inward/Outward Influences based on the network graph.
+Similarly the visualisation section is similar to module 1. The only changes will be an added (6) Inward/Outward button selection that will toggle between the plots. 
+
+An example can be seen for the (7) charts where we can scroll to see the individual edge connection. 
+
+::: panel-tabset
+
+### [2a]{style="color:blue;"}
+
+- Inward/Outward button will toggle between [2a]{style="color:blue;"} and [2b]{style="color:blue;"}.
+
+![](images/Module2a.png){fig-align="center"}
+
+### [2b]{style="color:blue;"}
+
+- Inward/Outward button will toggle between [2a]{style="color:blue;"} and [2b]{style="color:blue;"}.
+
+![](images/Module2b.png){fig-align="center"}
+
+:::
+
+## Module 3
+
+This module will be (1) Influence Through The Years with bar, line graphs and histograms being used.
+
+The chart will show (4) Selected Genre where the bar graphs will show the accumulated influences across the years. The (2) Genre can be selected from the filter drop down list and (3) Timeline can be limited on the chart for better visibility. 
+
+
+![](images/Module3.png){fig-align="center"}
+
+## Module 4
+
+This module will be (1) Top Genres and Artists where both line and bar graphs are used for the visuaisation.
+
+The (2) Number of songs by Genre will be the overall analysis of the dataset. (3) Top Artists with the most number of notable songs in each genre is plotted on the right. The filter selection of (5) Genres and (6) Artists in Genre are in the side box where the user is able to key in the number he/she intends to see in the plot.
+
+Lastly, (7) Timeline of Artist's released songs will be plotted acrss the years using the select artist in the filters. 
+
+
+![](images/Module4.png){fig-align="center"}
+
+## Module 5
+
+For the last module, we will take a look at (1) Artist and Song Popularity. This module will be based on the number of notable songs released by the artist.(2) Top Persons by Genre will be plotted as a reference where the genre can be selected by the (5) Genres filter list.
+
+The 2nd chart of (3) Artist: Notable vs Chartered songs across the timeline will be plotted using the (6) Selected Artist. (7) Timeline limit filter is also added to limit the visualisation. 
+
+Lastly, a pie chart of (7) Notable vs non-notable songs will be plotted for the selected artist in the genre.
+
+![](images/Module5.png){fig-align="center"}
+
+# Conclusion
+
+Overall, this is to showcase some of the initial idea in the development of the web application that we are planning to build for the dashboard. The whole concept of this storyboard is to allow user to visualise the data interactively.
+
+With this done up, our group will proceed with discussion on the final UI to be done for our [MC1]{style="color:red;"} project.

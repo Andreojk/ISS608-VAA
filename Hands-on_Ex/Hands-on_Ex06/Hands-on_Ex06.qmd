@@ -464,7 +464,7 @@ For effective data visualisation design, factor() is used convert the value type
 
 I will be exploring the below additional plots for the Rice dataset.
 
-- **Heatmaps, Cycleplots, Barcharts, Boxplots, Linegraphs.**
+-   **Heatmaps, Cycleplots, Barcharts, Boxplots, Linegraphs.**
 
 Main purpose will be to visualize the **1) Rice production** & **2) Yield** over the years or countries.
 
@@ -482,10 +482,9 @@ pacman::p_load(ggplot2, readr, dplyr, scales)
 
 #### Plot 1 Rice Production Heat Map
 
-- Let's plot out a heatmap to show the Rice Production values across the countries.
+-   Let's plot out a heatmap to show the Rice Production values across the countries.
 
 ::: panel-tabset
-
 ##### Plot
 
 ```{r}
@@ -527,20 +526,17 @@ ggplot(rice, aes(x = Year, y = Country, fill = Production)) +
     panel.grid = element_blank()
   )
 ```
-
 :::
 
 ::: {.callout-note title="Plot 1 Note"}
 Based on the colour, this shows that China has the highest amount of rice production
 :::
 
-
 #### Plot 2 Rice Production Over Time
 
-- If china has the highest rice production, let's see how much China actually produces yearly against the other countries.
+-   If china has the highest rice production, let's see how much China actually produces yearly against the other countries.
 
 ::: panel-tabset
-
 ##### Plot
 
 ```{r, fig.width=10, fig.height=10}
@@ -575,20 +571,18 @@ ggplot(rice, aes(x = Year, y = Production, color = Country, group = Country)) +
   scale_x_continuous(breaks = pretty_breaks()) +
   theme_minimal()
 ```
-
 :::
 
 ::: {.callout-note title="Plot 2 Note"}
 The bottom few countries in the plot are hard to deduce the order. Let's try to use bargraph to understand it further.
 :::
 
-#### Plot 3 Rice Production using Bar graphs 
+#### Plot 3 Rice Production using Bar graphs
 
-- Using bargraphs with the axis, we can visualise clearly on the order of countries for total rice production and their respective values.
+-   Using bargraphs with the axis, we can visualise clearly on the order of countries for total rice production and their respective values.
 
 ::: panel-tabset
-
-##### Plot 
+##### Plot
 
 ```{r}
 #| echo: false
@@ -609,7 +603,7 @@ rice %>%
   theme_minimal()
 ```
 
-##### Code 
+##### Code
 
 ```{r}
 #| code-fold: false
@@ -631,7 +625,6 @@ rice %>%
   scale_y_continuous(labels = comma) +
   theme_minimal()
 ```
-
 :::
 
 ::: {.callout-note title="Plot 3 Note"}
@@ -640,10 +633,9 @@ The bar graph clearly shows the distinct difference and order between the countr
 
 #### Plot 4 Overall Rice production across the Years using Line graphs
 
-- Curiously, I want to find out has rice production output always increased every decade.
+-   Curiously, I want to find out has rice production output always increased every decade.
 
 ::: panel-tabset
-
 ##### Plot
 
 ```{r, fig.height=4}
@@ -716,7 +708,6 @@ ggplot(rice_cycle, aes(
   theme_minimal() +
   theme(legend.title = element_blank())
 ```
-
 :::
 
 ::: {.callout-note title="Plot 4 Note"}
@@ -727,10 +718,9 @@ This trend shows that countries have produced more than 2.5x the total productio
 
 #### Plot 5 Rice Yield By Country using line graph
 
-- Let's try to visualize the yield of rice production of each country.
+-   Let's try to visualize the yield of rice production of each country.
 
 ::: panel-tabset
-
 ##### Plot
 
 ```{r, fig.height= 8}
@@ -770,7 +760,6 @@ ggplot(rice, aes(x = Year, y = Yield, color = Country, group = Country)) +
   theme(legend.position = "bottom")
 
 ```
-
 :::
 
 ::: {.callout-note title="Plot 5 Note"}
@@ -780,7 +769,6 @@ It's abit hard to visualise with line graph, a boxplot might be more suitable fo
 #### Plot 6 Rice Yield By Country using Boxplot
 
 ::: panel-tabset
-
 ##### Plot
 
 ```{r}
@@ -816,8 +804,6 @@ ggplot(rice, aes(x = Country, y = Yield, fill = Country)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
-
-
 :::
 
 ::: {.callout-note title="Plot 6 Note"}

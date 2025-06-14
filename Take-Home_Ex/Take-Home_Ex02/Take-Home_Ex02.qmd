@@ -19,12 +19,11 @@ Through our discussion (and the help of a wheel randomizer), we split the challe
 
 My task in MC1 is to help Silas, a local journalist to create beautiful and informative visualizations of this data and uncover new and interesting information. Below is the question I am tasked to solve.
 
-<span style="color:red;">**3.Use your visualizations to develop a profile of what it means to be a rising star in the music industry.**</span>
+[**3.Use your visualizations to develop a profile of what it means to be a rising star in the music industry.**]{style="color:red;"}
 
+[a. *Visualize the careers of three artists. Compare and contrast their rise in popularity and influence.*]{style="color:red;"}
 
-<span style="color:red;">a.  *Visualize the careers of three artists. Compare and contrast their rise in popularity and influence.*</span>
-
-<span style="color:red;">b.  *Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years.*</span>
+[b. *Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years.*]{style="color:red;"}
 
 ## Getting Started
 
@@ -495,7 +494,7 @@ Based on the charts shown, I will choose the following artist based on high numb
 
 # Question 3 Part (a)
 
-<span style="color:red;">Part (a): Visualize the careers of three artists. Compare and contrast their rise in popularity and influence</span>
+[Part (a): Visualize the careers of three artists. Compare and contrast their rise in popularity and influence]{style="color:red;"}
 
 I have picked the following three artists and genres based on the data exploring conducted:
 
@@ -2351,7 +2350,7 @@ This could also show how Kimberly had more notable songs due to more effort in p
 
 # Question 3 Part (b)
 
-<span style="color:red;">Part (b): **Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years**</span>
+[Part (b): **Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years**]{style="color:red;"}
 
 To predict the next Oceanus Folk stars over the next 5 years, I would need to check on the popularity + influence nodes that was done in part (a). I will see if there is a pattern in the plots and predict from there who I think will be the next upcoming stars.
 
