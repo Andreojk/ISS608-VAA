@@ -956,7 +956,7 @@ parallelPlot(wh,
 
 - [parallelPlot](https://cran.r-project.org/web/packages/parallelPlot/parallelPlot.pdf)
 
-# Treemap Visualisation with R
+# 16 Treemap Visualisation with R
 
 ## 16.1 Overview
 
@@ -1274,17 +1274,17 @@ ggplot(data=realis2018_selected,
 
 This slide shows you how to install a R package which is not available in cran.
 
-  1. If this is the first time you install a package from github, you should install devtools package by using the code below or else you can skip this step.
+  [1. If this is the first time you install a package from github, you should install devtools package by using the code below or else you can skip this step.]{style="color:red;"}
 
 ```{r}
-install.packages("devtools")
+#install.packages("devtools")
 ```
 
   2. Next, you will load the devtools library and install the package found in github by using the codes below.
 
 ```{r}
 library(devtools)
-install_github("timelyportfolio/d3treeR")
+install_github("timelyportfolio/d3treeR", force = TRUE)
 ```
 
   3. Now you are ready to launch d3treeR package
