@@ -15,7 +15,7 @@ format:
 
 Ternary plots are a way of displaying the distribution and variability of three-part compositional data. (For example, the proportion of aged, economy active and young population or sand, silt, and clay in soil.) It’s display is a triangle with sides scaled from 0 to 1. Each side represents one of the three components. A point is plotted so that a line drawn perpendicular from the point to each leg of the triangle intersect at the component values of the point.
 
-In this hands-on, you will learn how to build ternary plot programmatically using R for visualising and analysing population structure of Singapore.
+In this hands-on, we will learn how to build ternary plot programmatically using R for visualising and analysing population structure of Singapore.
 
 The hands-on exercise consists of four steps:
 
@@ -156,13 +156,13 @@ When the data is large, both in terms of the number of observations and the numb
 - Rendering the value of a correlation to depict its sign and magnitude, and
 - Reordering the variables in a correlation matrix so that “similar” variables are positioned adjacently, facilitating perception.
 
-In this hands-on exercise, you will learn how to plot data visualisation for visualising correlation matrix with R. It consists of three main sections. First, you will learn how to create correlation matrix using [pairs()](https://www.rdocumentation.org/packages/graphics/versions/3.6.0/topics/pairs) of R Graphics. Next, you will learn how to plot corrgram using **corrplot** package of R. Lastly, you will learn how to create an interactive correlation matrix using plotly R.
+In this hands-on exercise, we will learn how to plot data visualisation for visualising correlation matrix with R. It consists of three main sections. First, I will create a correlation matrix using [pairs()](https://www.rdocumentation.org/packages/graphics/versions/3.6.0/topics/pairs) of R Graphics. Next, I will plot corrgram using **corrplot** package of R. Lastly, I will create an interactive correlation matrix using plotly R.
 
 ## 6.2 Installing and Launching R Packages
 
-Before you get started, you are required to open a new Quarto document. Keep the default html authoring format.
+Before we get started, we are required to open a new Quarto document. Keep the default html authoring format.
 
-Next, you will use the code chunk below to install and launch **corrplot**, **ggpubr**, **plotly** and **tidyverse** in RStudio.
+Next, we will use the code chunk below to install and launch **corrplot**, **ggpubr**, **plotly** and **tidyverse** in RStudio.
 
 ```{r}
 pacman::p_load(corrplot, ggstatsplot, tidyverse)
@@ -184,9 +184,9 @@ Notice that beside quality and type, the rest of the variables are numerical and
 
 ## 6.4 Building Correlation Matrix: pairs() method
 
-There are more than one way to build scatterplot matrix with R. In this section, you will learn how to create a scatterplot matrix by using the pairs function of R Graphics.
+There are more than one way to build scatterplot matrix with R. In this section, we will create a scatterplot matrix by using the pairs function of R Graphics.
 
-Before you continue to the next step, you should read the syntax description of [pairs](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/pairs.html) function.
+Before you continue to the next step, we should read the syntax description of [pairs](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/pairs.html) function.
 
 
 ### 6.4.1 Building a basic correlation matrix
@@ -213,7 +213,7 @@ To show the lower half of the correlation matrix, the upper.panel argument will 
 pairs(wine[,2:12], upper.panel = NULL)
 ```
 
-Similarly, you can display the upper half of the correlation matrix by using the code chun below.
+Similarly, we can display the upper half of the correlation matrix by using the code chun below.
 
 ```{r}
 pairs(wine[,2:12], lower.panel = NULL)
@@ -223,7 +223,7 @@ pairs(wine[,2:12], lower.panel = NULL)
 
 To show the correlation coefficient of each pair of variables instead of a scatter plot, [panel.cor](https://www.rdocumentation.org/packages/xcms/versions/1.48.0/topics/panel.cor) function will be used. This will also show higher correlations in a larger font.
 
-Don’t worry about the details for now-just type this code into your R session or script. Let’s have more fun way to display the correlation matrix.
+Don’t worry about the details for now-just type this code into our R session or script. Let’s have more fun way to display the correlation matrix.
 
 ```{r}
 panel.cor <- function(x, y, digits=2, prefix="", cex.cor, ...) {
@@ -323,9 +323,9 @@ Things to learn from the code chunk above:
 
 ## 6.7 Visualising Correlation Matrix using corrplot Package
 
-In this hands-on exercise, we will focus on corrplot. However, you are encouraged to explore the other two packages too.
+In this hands-on exercise, we will focus on corrplot. However, I will encouraged to explore the other two packages too.
 
-Before getting started, you are required to read [An Introduction to corrplot Package](https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html) in order to gain basic understanding of **corrplot** package.
+Before getting started, we are required to read [An Introduction to corrplot Package](https://cran.r-project.org/web/packages/corrplot/vignettes/corrplot-intro.html) in order to gain basic understanding of **corrplot** package.
 
 ### 6.7.1 Getting started with corrplot
 
@@ -486,13 +486,13 @@ D.J. Murdoch, E.D. Chow (1996). “A graphical display of large correlation matr
 
 Heatmaps visualise data through variations in colouring. When applied to a tabular format, heatmaps are useful for cross-examining multivariate data, through placing variables in the columns and observation (or records) in rowa and colouring the cells within the table. Heatmaps are good for showing variance across multiple variables, revealing any patterns, displaying whether any variables are similar to each other, and for detecting if any correlations exist in-between them.
 
-In this hands-on exercise, you will gain hands-on experience on using R to plot static and interactive heatmap for visualising and analysing multivariate data.
+In this hands-on exercise, we will gain hands-on experience on using R to plot static and interactive heatmap for visualising and analysing multivariate data.
 
 ## 14.2 Installing and Launching R Packages
 
-Before you get started, you are required to open a new Quarto document. Keep the default html as the authoring format.
+Before getting started, we are required to open a new Quarto document. Keep the default html as the authoring format.
 
-Next, you will use the code chunk below to install and launch **seriation, heatmaply, dendextend** and **tidyverse** in RStudio.
+Next, we will use the code chunk below to install and launch **seriation, heatmaply, dendextend** and **tidyverse** in RStudio.
 
 ```{r}
 pacman::p_load(seriation, dendextend, heatmaply, tidyverse)
@@ -544,7 +544,8 @@ There are many R packages and functions can be used to drawing static heatmaps, 
 - [pheatmap()](https://www.rdocumentation.org/packages/pheatmap/versions/1.0.12/topics/pheatmap) of [pheatmap](https://www.rdocumentation.org/packages/pheatmap/versions/1.0.12) R package. **pheatmap** package also known as Pretty Heatmap. The package provides functions to draws pretty heatmaps and provides more control to change the appearance of heatmaps.
 - [ComplexHeatmap](https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html) package of R/Bioconductor package. The package draws, annotates and arranges complex heatmaps (very useful for genomic data analysis). The full reference guide of the package is available [here](https://jokergoo.github.io/ComplexHeatmap-reference/book/).
 - [superheat](https://cran.r-project.org/web/packages/superheat/) package: A Graphical Tool for Exploring Complex Datasets Using Heatmaps. A system for generating extendable and customizable heatmaps for exploring complex datasets, including big data and data with multiple data types. The full reference guide of the package is available [here](https://rlbarter.github.io/superheat/).
-In this section, you will learn how to plot static heatmaps by using **heatmap()** of R Stats package.
+
+In this section, we will learn how to plot static heatmaps by using **heatmap()** of R Stats package.
 
 ### 14.4.1 heatmap() of R Stats
 
@@ -587,9 +588,9 @@ Notice that the values are scaled now. Also note that **margins** argument is us
 
 [heatmaply](http://talgalili.github.io/heatmaply/index.html) is an R package for building interactive cluster heatmap that can be shared online as a stand-alone HTML file. It is designed and maintained by Tal Galili.
 
-Before we get started, you should review the [Introduction to Heatmaply](https://cran.r-project.org/web/packages/heatmaply/vignettes/heatmaply.html) to have an overall understanding of the features and functions of Heatmaply package. You are also required to have the [user manual](https://cran.r-project.org/web/packages/heatmaply/heatmaply.pdf) of the package handy with you for reference purposes.
+Before we get started, we should review the [Introduction to Heatmaply](https://cran.r-project.org/web/packages/heatmaply/vignettes/heatmaply.html) to have an overall understanding of the features and functions of Heatmaply package. we are also required to have the [user manual](https://cran.r-project.org/web/packages/heatmaply/heatmaply.pdf) of the package handy with us for reference purposes.
 
-In this section, you will gain hands-on experience on using **heatmaply** to design an interactive cluster heatmap. We will still use the wh_matrix as the input data.
+In this section, we will gain hands-on experience on using **heatmaply** to design an interactive cluster heatmap. We will still use the wh_matrix as the input data.
 
 ### 14.5.1 Working with heatmaply
 
@@ -706,7 +707,7 @@ heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]),
 
 ### 14.5.6 Seriation
 
-One of the problems with hierarchical clustering is that it doesn’t actually place the rows in a definite order, it merely constrains the space of possible orderings. Take three items A, B and C. If you ignore reflections, there are three possible orderings: ABC, ACB, BAC. If clustering them gives you ((A+B)+C) as a tree, you know that C can’t end up between A and B, but it doesn’t tell you which way to flip the A+B cluster. It doesn’t tell you if the ABC ordering will lead to a clearer-looking heatmap than the BAC ordering.
+One of the problems with hierarchical clustering is that it doesn’t actually place the rows in a definite order, it merely constrains the space of possible orderings. Take three items A, B and C. If we ignore reflections, there are three possible orderings: ABC, ACB, BAC. If clustering them gives us ((A+B)+C) as a tree, we know that C can’t end up between A and B, but it doesn’t tell us which way to flip the A+B cluster. It doesn’t tell us if the ABC ordering will lead to a clearer-looking heatmap than the BAC ordering.
 
 **heatmaply** uses the seriation package to find an optimal ordering of rows and columns. Optimal means to optimize the Hamiltonian path length that is restricted by the dendrogram structure. This, in other words, means to rotate the branches so that the sum of distances between each adjacent leaf (label) will be minimized. This is related to a restricted version of the travelling salesman problem.
 
@@ -781,9 +782,9 @@ heatmaply(normalize(wh_matrix[, -c(1, 2, 4, 5)]),
 
 ## 15.1 Overview
 
-Parallel coordinates plot is a data visualisation specially designed for visualising and analysing multivariate, numerical data. It is ideal for comparing multiple variables together and seeing the relationships between them. For example, the variables contribute to Happiness Index. Parallel coordinates was invented by [Alfred Inselberg](http://www.math.tau.ac.il/~aiisreal/) in the 1970s as a way to visualize high-dimensional data. This data visualisation technique is more often found in academic and scientific communities than in business and consumer data visualizations. As pointed out by [Stephen Few](https://www.perceptualedge.com/articles/b-eye/parallel_coordinates.pdf) (2006), “This certainly isn’t a chart that you would present to the board of directors or place on your Web site for the general public. In fact, the strength of parallel coordinates isn’t in their ability to communicate some truth in the data to others, but rather in their ability to bring meaningful multivariate patterns and comparisons to light when used interactively for analysis.” For example, parallel coordinates plot can be used to characterise clusters detected during customer segmentation.
+Parallel coordinates plot is a data visualisation specially designed for visualising and analysing multivariate, numerical data. It is ideal for comparing multiple variables together and seeing the relationships between them. For example, the variables contribute to Happiness Index. Parallel coordinates was invented by [Alfred Inselberg](http://www.math.tau.ac.il/~aiisreal/) in the 1970s as a way to visualize high-dimensional data. This data visualisation technique is more often found in academic and scientific communities than in business and consumer data visualizations. As pointed out by [Stephen Few](https://www.perceptualedge.com/articles/b-eye/parallel_coordinates.pdf) (2006), “This certainly isn’t a chart that we would present to the board of directors or place on your Web site for the general public. In fact, the strength of parallel coordinates isn’t in their ability to communicate some truth in the data to others, but rather in their ability to bring meaningful multivariate patterns and comparisons to light when used interactively for analysis.” For example, parallel coordinates plot can be used to characterise clusters detected during customer segmentation.
 
-By the end of this hands-on exercise, you will gain hands-on experience on:
+By the end of this hands-on exercise, we will gain hands-on experience on:
 
 - plotting statistic parallel coordinates plots by using [ggparcoord()](https://ggobi.github.io/ggally/reference/ggparcoord.html) of [GGally](https://r4va.netlify.app/chap15) package, and
 - plotting interactive parallel coordinates plots by using [parallelPlot](https://cran.r-project.org/web/packages/parallelPlot/) package.
@@ -810,7 +811,7 @@ wh <- read_csv("data/WHData-2018.csv")
 
 ## 15.4 Plotting Static Parallel Coordinates Plot
 
-In this section, you will learn how to plot static parallel coordinates plot by using [ggparcoord()](https://ggobi.github.io/ggally/reference/ggparcoord.html) of **GGally** package. Before getting started, it is a good practice to read the function description in detail.
+In this section, we will learn how to plot static parallel coordinates plot by using [ggparcoord()](https://ggobi.github.io/ggally/reference/ggparcoord.html) of **GGally** package. Before getting started, it is a good practice to read the function description in detail.
 
 ### 15.4.1 Plotting a simple parallel coordinates
 
@@ -825,7 +826,7 @@ Notice that only two argument namely [data]{style="color:purple;"} and [columns]
 
 ### 15.4.2 Plotting a parallel coordinates with boxplot
 
-The basic parallel coordinates failed to reveal any meaning understanding of the World Happiness measures. In this section, you will learn how to makeover the plot by using a collection of arguments provided by [ggparcoord()]{style="color:purple;"}.
+The basic parallel coordinates failed to reveal any meaning understanding of the World Happiness measures. In this section, we will learn how to makeover the plot by using a collection of arguments provided by [ggparcoord()]{style="color:purple;"}.
 
 ```{r}
 ggparcoord(data = wh, 
@@ -902,7 +903,7 @@ ggparcoord(data = wh,
 
 ## 15.5 Plotting Interactive Parallel Coordinates Plot: parallelPlot methods
 
-[parallelPlot](https://cran.r-project.org/web/packages/parallelPlot/) is an R package specially designed to plot a parallel coordinates plot by using ‘htmlwidgets’ package and [d3.js](https://d3js.org/). In this section, you will learn how to use functions provided in parallelPlot package to build interactive parallel coordinates plot.
+[parallelPlot](https://cran.r-project.org/web/packages/parallelPlot/) is an R package specially designed to plot a parallel coordinates plot by using ‘htmlwidgets’ package and [d3.js](https://d3js.org/). In this section, we will learn how to use functions provided in parallelPlot package to build interactive parallel coordinates plot.
 
 ### 15.5.1 The basic plot
 
@@ -916,7 +917,7 @@ parallelPlot(wh,
              height = 250)
 ```
 
-Notice that some of the axis labels are too long. You will learn how to overcome this problem in the next step.
+Notice that some of the axis labels are too long. We will learn how to overcome this problem in the next step.
 
 ### 15.5.2 Rotate axis label
 
@@ -960,11 +961,11 @@ parallelPlot(wh,
 
 ## 16.1 Overview
 
-In this hands-on exercise, you will gain hands-on experiences on designing treemap using appropriate R packages. The hands-on exercise consists of three main section. First, you will learn how to manipulate transaction data into a treemap strcuture by using selected functions provided in **dplyr** package. Then, you will learn how to plot static treemap by using **treemap** package. In the third section, you will learn how to design interactive treemap by using **d3treeR** package.
+In this hands-on exercise, we will gain hands-on experiences on designing treemap using appropriate R packages. The hands-on exercise consists of three main section. First, we will learn how to manipulate transaction data into a treemap strcuture by using selected functions provided in **dplyr** package. Then, we will learn how to plot static treemap by using **treemap** package. In the third section, we will learn how to design interactive treemap by using **d3treeR** package.
 
 ## 16.2 Installing and Launching R Packages
 
-Before we get started, you are required to check if **treemap** and **tidyverse** pacakges have been installed in you R.
+Before we get started, we are required to check if **treemap** and **tidyverse** pacakges have been installed in you R.
 
 ```{r}
 pacman::p_load(treemap, treemapify, tidyverse) 
@@ -993,7 +994,7 @@ The data.frame *realis2018* is in trasaction record form, which is highly disagg
 
 Two key verbs of **dplyr** package, namely: *group_by()* and *summarize()* will be used to perform these steps.
 
-*group_by()* breaks down a data.frame into specified groups of rows. When you then apply the verbs above on the resulting object they’ll be automatically applied “by group”.
+*group_by()* breaks down a data.frame into specified groups of rows. When we then apply the verbs above on the resulting object, they’ll be automatically applied “by group”.
 
 Grouping affects the verbs as follows:
 
@@ -1006,7 +1007,7 @@ Grouping affects the verbs as follows:
 In our case, *group_by()* will used together with summarise() to derive the summarised data.frame.
 
 ::: {.callout-note title="Recommendation"}
-Students who are new to **dplyr** methods should consult [Introduction to dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html) before moving on to the next section.
+Those who are new to **dplyr** methods should consult [Introduction to dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html) before moving on to the next section.
 :::
 
 ### 16.3.3 Grouped summaries without the Pipe
@@ -1216,7 +1217,7 @@ treemap(realis2018_selected,
 
 ## 16.5 Designing Treemap using treemapify Package
 
-**treemapify** is a R package specially developed to draw treemaps in **ggplot2**. In this section, you will learn how to designing treemps closely resemble treemaps designing in previous section by using **treemapify**. Before you getting started, you should read [Introduction to “treemapify”](https://cran.r-project.org/web/packages/treemapify/vignettes/introduction-to-treemapify.html) its [user guide](https://cran.r-project.org/web/packages/treemapify/treemapify.pdf).
+**treemapify** is a R package specially developed to draw treemaps in **ggplot2**. In this section, we will learn how to designing treemps closely resemble treemaps designing in previous section by using **treemapify**. Before getting started, we should read [Introduction to “treemapify”](https://cran.r-project.org/web/packages/treemapify/vignettes/introduction-to-treemapify.html) its [user guide](https://cran.r-project.org/web/packages/treemapify/treemapify.pdf).
 
 ### 16.5.1 Designing a basic treemap
 
@@ -1272,22 +1273,24 @@ ggplot(data=realis2018_selected,
 
 ### 16.6.1 Installing d3treeR package
 
-This slide shows you how to install a R package which is not available in cran.
+This slide shows us how to install a R package which is not available in cran.
 
-  [1. If this is the first time you install a package from github, you should install devtools package by using the code below or else you can skip this step.]{style="color:red;"}
+  [1. If this is the first time we are installing a package from github, install devtools package by using the code below or else we can skip this step.]{style="color:red;"}
+  
+- Un-comment the code chunk required.
 
 ```{r}
 #install.packages("devtools")
 ```
 
-  2. Next, you will load the devtools library and install the package found in github by using the codes below.
+  2. Next, we will load the devtools library and install the package found in github by using the codes below.
 
 ```{r}
 library(devtools)
 install_github("timelyportfolio/d3treeR", force = TRUE)
 ```
 
-  3. Now you are ready to launch d3treeR package
+  3. Now we are ready to launch d3treeR package
   
 ```{r}
 library(d3treeR)
