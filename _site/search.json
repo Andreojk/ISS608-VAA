@@ -1192,9 +1192,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Pleased to meet you!",
+    "title": "Introduction Page",
     "section": "",
-    "text": "Welcome to Andre’s Master of IT in Business (Data Science & Analytics) coursework website where I will be documenting my works done using programming languages such as R/Python and also visualisations such as Shiny App/Tableau.\nYou will find the links to my exercises, assignments and projects that I have done either from ISSS608 Visual Analytics and Applications or other Courses.\nDo feel free to connect with me to discuss questions and any analytics insights!"
+    "text": "Welcome to my MITB coursework website where I will be documenting my projects and exercises done using programming languages such as R/Python and also visualisation tools such as Shiny App/Tableau.\nYou will find the links to my exercises, assignments and projects that I have done either from ISSS608 Visual Analytics and Applications or other Courses.\nDo feel free to connect with me to discuss questions and any analytics insights!"
   },
   {
     "objectID": "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01_Part2.html",
