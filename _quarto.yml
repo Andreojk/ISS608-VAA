@@ -3,11 +3,11 @@ project:
 
 website:
   favicon: "images/Chibi-guy.png"
-  title: "ISS608-VAA"
+  title: "ANDRE ONG"
   navbar:
     logo: "images/Chibi-guy.png"
     left:
-    - text: "Hands-on Exercise"
+    - text: "Visual Analytics Learnings"
       menu:
         - text: "Hands-on Ex 1 (Introduction to Visual Analytics)"
           href: "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html"
@@ -27,7 +27,7 @@ website:
           href: "Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09.html"
         - text: "Hands-on Ex 10 (Information Dashboard Design)"
           href: "Hands-on_Ex/Hands-on_Ex10/Hands-on_Ex10.html"
-    - text: "Take-Home Exercises"
+    - text: "Visual Analytics Assignments"
       menu:
         - text: "Take-Home Ex 1 (Singapore's population distribution by subzones"
           href: "Take-Home_Ex/Take-Home_Ex01/Take-Home_Ex01.html"
@@ -37,7 +37,7 @@ website:
           href: "Take-Home_Ex/Take-Home_Ex02/Take-Home_Ex02.html"
         - text: "Take-Home Ex 3 (Shiny App dashboard planning for Vast Challenge)"
           href: "Take-Home_Ex/Take-Home_Ex03/Take-Home_Ex03.html"
-    - text: "In-Class Exercises"
+    - text: "Visual Analytics In-Class"
       menu:
         - text: "In-Class Ex 5 (Vast Challenge MC1 initial prep)"
           href: "In-class_Ex/In-class_Ex05/MC1_In-class_Ex05.html"
